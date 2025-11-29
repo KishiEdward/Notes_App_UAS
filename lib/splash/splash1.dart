@@ -43,7 +43,7 @@ class Splash1 extends StatelessWidget {
 
             SizedBox(height: 20),
 
-          // row untuk indikator titik titik
+            // row untuk indikator titik titik
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -74,6 +74,31 @@ class Splash1 extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+
+            SizedBox(height: 20),
+
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 40),
+              child: SizedBox(
+                height: 50,
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // aksi saat tombol ditekan
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueAccent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  child: Text(
+                    "Mulai",
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
