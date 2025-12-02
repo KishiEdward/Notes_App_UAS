@@ -88,9 +88,7 @@ class Splash1 extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const Splash2(),
-                      ),
+                      MaterialPageRoute(builder: (context) => const Splash2()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
