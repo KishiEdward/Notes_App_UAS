@@ -11,18 +11,18 @@ class Splash2 extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Icon untuk notes/writing
+            // GIF animasi writing
             Container(
               width: 200,
               height: 200,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.blueAccent.withValues(alpha: 0.1),
               ),
-              child: Icon(
-                Icons.edit_note_rounded,
-                size: 120,
-                color: Colors.blueAccent,
+              child: ClipOval(
+                child: Image.asset(
+                  "assets/images/writing.gif",
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
 
