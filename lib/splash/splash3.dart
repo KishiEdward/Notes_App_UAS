@@ -10,7 +10,16 @@ class Splash3 extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [SizedBox(width: 200, height: 200, child: ClipRRect())],
+          children: [
+            Container(
+              width: 200,
+              height: 200,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.blueAccent,
+              ),
+            ),
+          ],
         ),
       ),
     );
