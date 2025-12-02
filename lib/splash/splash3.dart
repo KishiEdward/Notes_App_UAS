@@ -69,6 +69,32 @@ class Splash3 extends StatelessWidget {
                 ),
               ],
             ),
+            SizedBox(height: 30.0),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 40),
+              child: SizedBox(
+                height: 50,
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => const login()),
+                    // );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueAccent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  child: Text(
+                    "Login",
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
