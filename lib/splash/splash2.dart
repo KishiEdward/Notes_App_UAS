@@ -11,7 +11,6 @@ class Splash2 extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-
             SizedBox(
               width: 200,
               height: 200,
@@ -52,7 +51,6 @@ class Splash2 extends StatelessWidget {
 
             SizedBox(height: 30),
 
- 
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -93,9 +91,7 @@ class Splash2 extends StatelessWidget {
                 height: 50,
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
-                  
-                  },
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blueAccent,
                     shape: RoundedRectangleBorder(
@@ -112,17 +108,11 @@ class Splash2 extends StatelessWidget {
 
             SizedBox(height: 15),
 
-
             TextButton(
-              onPressed: () {
-               
-              },
+              onPressed: () {},
               child: Text(
                 "Lewati",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[600],
-                ),
+                style: TextStyle(fontSize: 16, color: Colors.grey[600]),
               ),
             ),
           ],
