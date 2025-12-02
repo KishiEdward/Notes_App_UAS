@@ -12,28 +12,15 @@ class Splash2 extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
 
-            Container(
+            SizedBox(
               width: 200,
               height: 200,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: LinearGradient(
-                  colors: [Colors.blue.shade300, Colors.blueAccent],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Image.asset(
+                  "assets/images/writing.gif",
+                  fit: BoxFit.cover,
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.blueAccent.withValues(alpha: 0.3),
-                    blurRadius: 20,
-                    spreadRadius: 5,
-                  ),
-                ],
-              ),
-              child: Icon(
-                Icons.create_rounded,
-                size: 100,
-                color: Colors.white,
               ),
             ),
 
