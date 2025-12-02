@@ -11,18 +11,29 @@ class Splash2 extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // GIF animasi writing
+
             Container(
               width: 200,
               height: 200,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-              ),
-              child: ClipOval(
-                child: Image.asset(
-                  "assets/images/writing.gif",
-                  fit: BoxFit.cover,
+                gradient: LinearGradient(
+                  colors: [Colors.blue.shade300, Colors.blueAccent],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.blueAccent.withValues(alpha: 0.3),
+                    blurRadius: 20,
+                    spreadRadius: 5,
+                  ),
+                ],
+              ),
+              child: Icon(
+                Icons.create_rounded,
+                size: 100,
+                color: Colors.white,
               ),
             ),
 
@@ -54,7 +65,7 @@ class Splash2 extends StatelessWidget {
 
             SizedBox(height: 30),
 
-            // row untuk indikator titik titik
+ 
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -96,7 +107,7 @@ class Splash2 extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    // aksi saat tombol ditekan - akan diupdate nanti
+                  
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blueAccent,
@@ -114,10 +125,10 @@ class Splash2 extends StatelessWidget {
 
             SizedBox(height: 15),
 
-            // tombol skip
+
             TextButton(
               onPressed: () {
-                // aksi untuk skip
+               
               },
               child: Text(
                 "Lewati",
