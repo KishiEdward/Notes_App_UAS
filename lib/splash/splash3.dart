@@ -32,6 +32,11 @@ class Splash3 extends StatelessWidget {
                 color: Colors.black,
               ),
             ),
+            SizedBox(height: 10.0),
+            Text(
+              "Login/Register dan mulai jurnal anda",
+              style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+            ),
           ],
         ),
       ),
