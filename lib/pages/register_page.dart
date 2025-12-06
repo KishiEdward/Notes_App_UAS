@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:notesapp/pages/register_page.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class Register extends StatefulWidget {
+  const Register({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _LoginState extends State<Login> {
-  // controller tetap ada agar textfield bisa diisi
+class _RegisterState extends State<Register> {
+  // controller
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -18,6 +18,7 @@ class _LoginState extends State<Login> {
 
   @override
   void dispose() {
+    nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -35,10 +36,15 @@ class _LoginState extends State<Login> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 10),
-                const Icon(Icons.lock, size: 100, color: Colors.blueAccent),
+                // ganti icon jadi person_add biar lebih cocok sama register
+                const Icon(
+                  Icons.person_add,
+                  size: 100,
+                  color: Colors.blueAccent,
+                ),
                 const SizedBox(height: 20),
                 const Text(
-                  "Halaman login",
+                  "Halaman Registrasi",
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -46,10 +52,33 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 const Text(
-                  "Silakan masukkan email Anda untuk melanjutkan.",
+                  "Isi data diri Anda untuk mendaftar.",
                   style: TextStyle(
                     fontSize: 20,
                     color: Color.fromARGB(255, 0, 0, 0),
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // input nama lengkap
+                TextField(
+                  controller: nameController,
+                  keyboardType: TextInputType.name,
+                  decoration: const InputDecoration(
+                    labelText: 'Nama Lengkap',
+                    hintText: 'Masukkan nama lengkap Anda',
+                    prefixIcon: Icon(Icons.person_outline),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blueAccent),
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -83,7 +112,7 @@ class _LoginState extends State<Login> {
                   obscureText: _isObscure,
                   decoration: InputDecoration(
                     labelText: 'Password',
-                    hintText: 'Masukkan password Anda',
+                    hintText: 'Buat password Anda',
                     prefixIcon: const Icon(Icons.lock_outline),
                     suffixIcon: IconButton(
                       icon: Icon(
@@ -111,21 +140,12 @@ class _LoginState extends State<Login> {
                   ),
                 ),
 
-                const SizedBox(height: 10),
-
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: const Text(
-                    "Lupa password?",
-                    style: TextStyle(color: Colors.blueAccent),
-                  ),
-                ),
-                const SizedBox(height: 20),
-
-                // tombol login di sini tanpa logic
+                const SizedBox(height: 30),
+                // tombol regis
                 ElevatedButton(
                   onPressed: () {
-                    // Logic kosong, hanya print
+                    // logic kosong, nanti tulis di sini logic nya
+                    debugPrint("Nama: ${nameController.text}");
                     debugPrint("Email: ${emailController.text}");
                     debugPrint("Password: ${passwordController.text}");
                   },
@@ -139,7 +159,7 @@ class _LoginState extends State<Login> {
                     ),
                     elevation: 5,
                   ),
-                  child: const Text("Login", style: TextStyle(fontSize: 16)),
+                  child: const Text("Daftar", style: TextStyle(fontSize: 16)),
                 ),
 
                 const SizedBox(height: 20),
@@ -167,7 +187,7 @@ class _LoginState extends State<Login> {
                     size: 24,
                   ),
                   label: const Text(
-                    'Login dengan Google',
+                    'Daftar dengan Google',
                     style: TextStyle(color: Colors.grey, fontSize: 16),
                   ),
                   style: OutlinedButton.styleFrom(
@@ -181,22 +201,24 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
+
                 const SizedBox(height: 20),
+
+                // button balik ke login
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Belum punya akun? "),
+                    const Text("Sudah punya akun? "),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
+                        // nanti diisi navigasi ke halaman Login
+                        debugPrint("Pindah ke halaman login");
+                        Navigator.pop(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => const Register(),
-                          ),
-                        );
+                        ); // biasanya regis ngepush, pop buat balik ke halaman sebelumnya
                       },
                       child: const Text(
-                        "Daftar",
+                        "Login",
                         style: TextStyle(
                           color: Colors.blueAccent,
                           fontWeight: FontWeight.bold,
