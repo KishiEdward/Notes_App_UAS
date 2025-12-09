@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:notesapp/splash/splash3.dart';
+import 'package:notesapp/pages/login_page.dart';
 
-class Splash2 extends StatelessWidget {
-  const Splash2({super.key});
+class Splash3 extends StatelessWidget {
+  const Splash3({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,46 +12,33 @@ class Splash2 extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
+            Container(
               width: 200,
               height: 200,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: Image.asset(
-                  "assets/images/writing.gif",
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.blueAccent,
+                image: DecorationImage(
+                  image: AssetImage("../assets/images/splash3.jpeg"),
                   fit: BoxFit.cover,
                 ),
               ),
             ),
-
-            SizedBox(height: 30),
-
+            SizedBox(height: 30.0),
             Text(
-              "Organisir Ide Anda",
+              "Ayo mulai!",
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 24.0,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
             ),
-
-            SizedBox(height: 10),
-
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 40),
-              child: Text(
-                "Tulis, edit, dan atur catatan Anda dengan mudah. Semua dalam satu tempat.",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[700],
-                  height: 1.5,
-                ),
-              ),
+            SizedBox(height: 10.0),
+            Text(
+              "Login/Register dan mulai jurnal anda",
+              style: TextStyle(fontSize: 16, color: Colors.grey[700]),
             ),
-
-            SizedBox(height: 30),
-
+            SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -69,7 +56,7 @@ class Splash2 extends StatelessWidget {
                   height: 10,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.blueAccent,
+                    color: Colors.grey,
                   ),
                 ),
                 SizedBox(width: 8),
@@ -78,14 +65,12 @@ class Splash2 extends StatelessWidget {
                   height: 10,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.grey,
+                    color: Colors.blueAccent,
                   ),
                 ),
               ],
             ),
-
-            SizedBox(height: 40),
-
+            SizedBox(height: 30.0),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: SizedBox(
@@ -95,7 +80,7 @@ class Splash2 extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const Splash3()),
+                      MaterialPageRoute(builder: (context) => const Login()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -105,20 +90,10 @@ class Splash2 extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    "Lanjutkan",
+                    "Login",
                     style: TextStyle(fontSize: 18, color: Colors.white),
                   ),
                 ),
-              ),
-            ),
-
-            SizedBox(height: 15),
-
-            TextButton(
-              onPressed: () {},
-              child: Text(
-                "Lewati",
-                style: TextStyle(fontSize: 16, color: Colors.grey[600]),
               ),
             ),
           ],
