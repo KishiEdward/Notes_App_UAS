@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:notesapp/pages/register_page.dart';
+import 'package:notesapp/services/auth_service.dart';
+import 'package:notesapp/pages/home_page.dart';
+
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -12,6 +15,7 @@ class _LoginState extends State<Login> {
   // controller tetap ada agar textfield bisa diisi
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool _isLoading = false;
 
   // variable untuk liat pw
   bool _isObscure = true;
@@ -124,10 +128,43 @@ class _LoginState extends State<Login> {
 
                 // tombol login di sini tanpa logic
                 ElevatedButton(
-                  onPressed: () {
-                    // Logic kosong, hanya print
-                    debugPrint("Email: ${emailController.text}");
-                    debugPrint("Password: ${passwordController.text}");
+                  onPressed: _isLoading ? null : () async {
+                    setState(() => _isLoading = true);
+                    
+                    final email = emailController.text.trim();
+                    final password = passwordController.text.trim();
+
+                    if (email.isEmpty || password.isEmpty) {
+                      setState(() => _isLoading = false);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Mohon isi email dan password'),
+                          backgroundColor: Colors.orange,
+                        ),
+                      );
+                      return;
+                    }
+
+                    try {
+                      final user = await AuthService().signInWithEmail(email, password);
+                      if (user != null && context.mounted) {
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => const HomePage()),
+                          (route) => false,
+                        );
+                      }
+                    } catch (e) {
+                      setState(() => _isLoading = false);
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Login gagal: ${e.toString().replaceAll('Exception: ', '')}'),
+                            backgroundColor: Colors.red,
+                            duration: const Duration(seconds: 5),
+                          ),
+                        );
+                      }
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blueAccent,
@@ -139,7 +176,16 @@ class _LoginState extends State<Login> {
                     ),
                     elevation: 5,
                   ),
-                  child: const Text("Login", style: TextStyle(fontSize: 16)),
+                  child: _isLoading 
+                    ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                        ),
+                      )
+                    : const Text("Login", style: TextStyle(fontSize: 16)),
                 ),
 
                 const SizedBox(height: 20),
@@ -160,7 +206,37 @@ class _LoginState extends State<Login> {
                 const SizedBox(height: 20),
 
                 OutlinedButton.icon(
-                  onPressed: () {},
+                  onPressed: () async {
+                    try {
+                      final user = await AuthService().signInWithGoogle();
+                      if (user != null) {
+                        if (context.mounted) {
+                          Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (context) => const HomePage()),
+                            (route) => false,
+                          );
+                        }
+                      } else {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Login dibatalkan oleh user'),
+                              backgroundColor: Colors.orange,
+                            ),
+                          );
+                        }
+                      }
+                    } catch (e) {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Login error: $e'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
+                    }
+                  },
                   icon: const Icon(
                     Icons.g_mobiledata_rounded,
                     color: Colors.grey,
