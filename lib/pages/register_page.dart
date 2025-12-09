@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notesapp/services/auth_service.dart';
+import 'package:notesapp/pages/home_page.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -13,6 +14,7 @@ class _RegisterState extends State<Register> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool _isLoading = false;
 
   // variable untuk liat pw
   bool _isObscure = true;
@@ -144,11 +146,55 @@ class _RegisterState extends State<Register> {
                 const SizedBox(height: 30),
                 // tombol regis
                 ElevatedButton(
-                  onPressed: () {
-                    // logic kosong, nanti tulis di sini logic nya
-                    debugPrint("Nama: ${nameController.text}");
-                    debugPrint("Email: ${emailController.text}");
-                    debugPrint("Password: ${passwordController.text}");
+                  onPressed: _isLoading ? null : () async {
+                    setState(() => _isLoading = true);
+                    
+                    final name = nameController.text.trim();
+                    final email = emailController.text.trim();
+                    final password = passwordController.text.trim();
+
+                    if (name.isEmpty || email.isEmpty || password.isEmpty) {
+                      setState(() => _isLoading = false);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Mohon isi semua field'),
+                          backgroundColor: Colors.orange,
+                        ),
+                      );
+                      return;
+                    }
+
+                    if (password.length < 6) {
+                      setState(() => _isLoading = false);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Password minimal 6 karakter'),
+                          backgroundColor: Colors.orange,
+                        ),
+                      );
+                      return;
+                    }
+
+                    try {
+                      final user = await AuthService().registerWithEmail(email, password);
+                      if (user != null && context.mounted) {
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => const HomePage()),
+                          (route) => false,
+                        );
+                      }
+                    } catch (e) {
+                      setState(() => _isLoading = false);
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Registrasi gagal: ${e.toString().replaceAll('Exception: ', '')}'),
+                            backgroundColor: Colors.red,
+                            duration: const Duration(seconds: 5),
+                          ),
+                        );
+                      }
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blueAccent,
@@ -160,7 +206,16 @@ class _RegisterState extends State<Register> {
                     ),
                     elevation: 5,
                   ),
-                  child: const Text("Daftar", style: TextStyle(fontSize: 16)),
+                  child: _isLoading
+                    ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                        ),
+                      )
+                    : const Text("Daftar", style: TextStyle(fontSize: 16)),
                 ),
 
                 const SizedBox(height: 20),
@@ -186,14 +241,10 @@ class _RegisterState extends State<Register> {
                       final user = await AuthService().signInWithGoogle();
                       if (user != null) {
                         if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Registrasi/Login berhasil: ${user.user?.displayName}'),
-                              backgroundColor: Colors.green,
-                            ),
+                          Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (context) => const HomePage()),
+                            (route) => false,
                           );
-                          // Navigasi ke halaman utama atau login jika diperlukan
-                          // Navigator.pop(context); // Opsi: kembalikan ke login setelah sukses
                         }
                       } else {
                         if (context.mounted) {
