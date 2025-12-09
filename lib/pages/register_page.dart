@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notesapp/services/auth_service.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -180,7 +181,41 @@ class _RegisterState extends State<Register> {
                 const SizedBox(height: 20),
 
                 OutlinedButton.icon(
-                  onPressed: () {},
+                  onPressed: () async {
+                    try {
+                      final user = await AuthService().signInWithGoogle();
+                      if (user != null) {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Registrasi/Login berhasil: ${user.user?.displayName}'),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                          // Navigasi ke halaman utama atau login jika diperlukan
+                          // Navigator.pop(context); // Opsi: kembalikan ke login setelah sukses
+                        }
+                      } else {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Registrasi batal'),
+                              backgroundColor: Colors.orange,
+                            ),
+                          );
+                        }
+                      }
+                    } catch (e) {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Error: $e'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
+                    }
+                  },
                   icon: const Icon(
                     Icons.g_mobiledata_rounded,
                     color: Colors.grey,

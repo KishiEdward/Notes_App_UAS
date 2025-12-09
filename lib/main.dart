@@ -1,7 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:notesapp/splash/splash1.dart';
 
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+import 'package:notesapp/firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    debugPrint("Firebase initialization failed: $e");
+    
+    runApp(MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Text("Firebase Init Failed: $e", textAlign: TextAlign.center),
+        ),
+      ),
+    ));
+    return;
+  }
   runApp(MyApp());
 }
 

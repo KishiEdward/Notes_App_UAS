@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notesapp/pages/register_page.dart';
+import 'package:notesapp/services/auth_service.dart';
+
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -160,7 +162,40 @@ class _LoginState extends State<Login> {
                 const SizedBox(height: 20),
 
                 OutlinedButton.icon(
-                  onPressed: () {},
+                  onPressed: () async {
+                    try {
+                      final user = await AuthService().signInWithGoogle();
+                      if (user != null) {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Login berhasil: ${user.user?.displayName}'),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                          // Navigate to next page if needed
+                        }
+                      } else {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Login dibatalkan oleh user'),
+                              backgroundColor: Colors.orange,
+                            ),
+                          );
+                        }
+                      }
+                    } catch (e) {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Login error: $e'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
+                    }
+                  },
                   icon: const Icon(
                     Icons.g_mobiledata_rounded,
                     color: Colors.grey,
