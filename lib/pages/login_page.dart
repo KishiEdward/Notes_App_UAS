@@ -148,6 +148,15 @@ class _LoginState extends State<Login> {
                     try {
                       final user = await AuthService().signInWithEmail(email, password);
                       if (user != null && context.mounted) {
+                        // Tampilkan notifikasi sukses login
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Login berhasil! Selamat datang.'),
+                            backgroundColor: Colors.green,
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                        
                         Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(builder: (context) => const HomePage()),
                           (route) => false,
@@ -211,6 +220,15 @@ class _LoginState extends State<Login> {
                       final user = await AuthService().signInWithGoogle();
                       if (user != null) {
                         if (context.mounted) {
+                          // Tampilkan notifikasi sukses login
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Login berhasil! Selamat datang.'),
+                              backgroundColor: Colors.green,
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                          
                           Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(builder: (context) => const HomePage()),
                             (route) => false,
