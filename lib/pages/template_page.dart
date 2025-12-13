@@ -14,17 +14,17 @@ class TemplatePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header
+              
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: Row(
                     children: [
-                      // Logo placeholder or similar (optional based on image, looks like App Icon)
+      
                       Container(
                         width: 24,
                         height: 24,
                         decoration: const BoxDecoration(
-                            // color: Colors.orange, // Placeholder for logo
+                      
                             ),
                           child: Image.asset('assets/images/logo.png', width: 24, height: 24, errorBuilder: (c,e,s) => const Icon(Icons.description, color: Colors.orange)),
                       ),
@@ -53,7 +53,7 @@ class TemplatePage extends StatelessWidget {
                   ),
                 ),
 
-                // Search Bar
+          
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
@@ -80,15 +80,15 @@ class TemplatePage extends StatelessWidget {
 
                 const SizedBox(height: 24),
 
-                // Categories Row
+        
                 Row(
                   children: [
                     Expanded(
                       child: _buildMainCategoryCard(
                         'Kehidupan',
-                        Icons.local_florist, // Plant icon
-                        const Color(0xFFFFF9E6), // Light yellow
-                        const Color(0xFFFFA000), // Orange/Yellow accent
+                        Icons.local_florist, 
+                        const Color(0xFFFFF9E6), 
+                        const Color(0xFFFFA000),
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -96,8 +96,8 @@ class TemplatePage extends StatelessWidget {
                       child: _buildMainCategoryCard(
                         'Pekerjaan',
                         Icons.show_chart,
-                        const Color(0xFFF0F7FF), // Light blue
-                        const Color(0xFF2196F3), // Blue accent
+                        const Color(0xFFF0F7FF), 
+                        const Color(0xFF2196F3), 
                       ),
                     ),
                   ],
@@ -105,7 +105,7 @@ class TemplatePage extends StatelessWidget {
 
                 const SizedBox(height: 24),
 
-                // "Templat ramah seluler"
+
                 Row(
                   children: [
                     Icon(Icons.phone_android, size: 20, color: Colors.grey[600]),
@@ -123,7 +123,7 @@ class TemplatePage extends StatelessWidget {
                 
                 const SizedBox(height: 16),
 
-                // Templates List
+
                 _buildTemplateItem(
                   'Catatan Cepat',
                   '4,8',
@@ -157,7 +157,7 @@ class TemplatePage extends StatelessWidget {
 
                 const SizedBox(height: 24),
 
-                // "Kategori teratas"
+
                 Row(
                   children: [
                     Icon(Icons.trending_up, size: 20, color: Colors.grey[600]),
@@ -240,7 +240,7 @@ class TemplatePage extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Placeholder for Template Preview Image
+
           Container(
             width: 100,
             height: 140,
@@ -248,22 +248,22 @@ class TemplatePage extends StatelessWidget {
               color: const Color(0xFFFAFAFA),
               borderRadius: BorderRadius.circular(12),
             ),
-              // Simulating the UI in screenshot
+
             child: Padding(
                 padding: const EdgeInsets.all(12),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                         Container(width: 20, height: 20, color: placeholderColor), // Icon placeholder
+                         Container(width: 20, height: 20, color: placeholderColor),
                          const SizedBox(height: 8),
-                         Container(height: 4, width: 40, color: Colors.grey[300]), // Line
+                         Container(height: 4, width: 40, color: Colors.grey[300]),
                          const SizedBox(height: 4),
-                         Container(height: 4, width: 60, color: Colors.grey[300]), // Line
+                         Container(height: 4, width: 60, color: Colors.grey[300]),
                          const SizedBox(height: 4),
-                         Container(height: 4, width: 30, color: Colors.grey[300]), // Line
+                         Container(height: 4, width: 30, color: Colors.grey[300]),
                          
                          const Padding(padding: EdgeInsets.only(top: 20)),
-                         // Checklist simulation
+
                          Row(children: [Icon(Icons.check_box_outline_blank, size: 8, color: Colors.grey), SizedBox(width: 4), Container(height: 3, width: 40, color: Colors.grey[300])]),
                          SizedBox(height: 4),
                          Row(children: [Icon(Icons.check_box_outline_blank, size: 8, color: Colors.grey), SizedBox(width: 4), Container(height: 3, width: 30, color: Colors.grey[300])]),
@@ -278,7 +278,7 @@ class TemplatePage extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Icon(Icons.description_outlined, size: 16, color: Colors.grey[800]), // Notion like icon
+                    Icon(Icons.description_outlined, size: 16, color: Colors.grey[800]),
                      const SizedBox(width: 6),
                     Expanded(
                       child: Text(
@@ -307,7 +307,7 @@ class TemplatePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 70), // Spacer to push "Gratis" down
+                const SizedBox(height: 70),
                 const Text(
                   'Gratis',
                   style: TextStyle(
