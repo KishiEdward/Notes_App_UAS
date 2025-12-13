@@ -178,10 +178,17 @@ class _RegisterState extends State<Register> {
                     try {
                       final user = await AuthService().registerWithEmail(email, password);
                       if (user != null && context.mounted) {
-                        Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) => const HomePage()),
-                          (route) => false,
+                        // Tampilkan notifikasi sukses
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Akun berhasil dibuat! Silakan login.'),
+                            backgroundColor: Colors.green,
+                            duration: Duration(seconds: 3),
+                          ),
                         );
+                        
+                        // Kembali ke halaman login
+                        Navigator.pop(context);
                       }
                     } catch (e) {
                       setState(() => _isLoading = false);
