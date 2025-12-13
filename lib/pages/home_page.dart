@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notesapp/services/auth_service.dart';
 import 'package:notesapp/pages/login_page.dart';
 import 'package:notesapp/pages/profile_page.dart';
+import 'package:notesapp/pages/template_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -262,41 +263,49 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildTemplateCard() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: const Color(0xFFEEEEEE),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(6),
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const TemplatePage()),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: const Color(0xFFEEEEEE),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: const Icon(
+                Icons.grid_view_outlined,
+                color: Color(0xFF999999),
+                size: 20,
+              ),
             ),
-            child: const Icon(
-              Icons.grid_view_outlined,
+            const SizedBox(width: 12),
+            const Text(
+              'Jelajahi templat',
+              style: TextStyle(
+                fontSize: 15,
+                color: Color(0xFF666666),
+              ),
+            ),
+            const Spacer(),
+            const Icon(
+              Icons.arrow_forward_ios,
+              size: 14,
               color: Color(0xFF999999),
-              size: 20,
             ),
-          ),
-          const SizedBox(width: 12),
-          const Text(
-            'Jelajahi templat',
-            style: TextStyle(
-              fontSize: 15,
-              color: Color(0xFF666666),
-            ),
-          ),
-          const Spacer(),
-          const Icon(
-            Icons.arrow_forward_ios,
-            size: 14,
-            color: Color(0xFF999999),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
