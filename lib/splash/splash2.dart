@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notesapp/splash/splash3.dart';
+import 'package:notesapp/pages/login_page.dart';
 
 class Splash2 extends StatelessWidget {
   const Splash2({super.key});
@@ -115,7 +116,12 @@ class Splash2 extends StatelessWidget {
             SizedBox(height: 15),
 
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Login()),
+                );
+              },
               child: Text(
                 "Lewati",
                 style: TextStyle(fontSize: 16, color: Colors.grey[600]),
