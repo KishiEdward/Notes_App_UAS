@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:notesapp/models/note_model.dart';
 import 'package:notesapp/pages/login_page.dart';
 import 'package:notesapp/pages/note_editor_page.dart';
@@ -18,8 +19,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   int _selectedIndex = 0;
   String _selectedCategory = 'Semua';
+  bool _isGridView = false;
   final FirestoreService _firestoreService = FirestoreService();
   final List<String> _categories = ['Semua', 'Pribadi', 'Pekerjaan', 'Ide', 'Penting'];
 
@@ -91,22 +94,46 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.grey.shade200),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.settings_outlined,
-                        color: Colors.grey.shade700,
-                        size: 24,
+                  Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.grey.shade200),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: IconButton(
+                          icon: Icon(
+                            _isGridView ? Icons.view_agenda_outlined : Icons.grid_view_rounded,
+                            color: Colors.grey.shade700,
+                            size: 24,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _isGridView = !_isGridView;
+                            });
+                          },
+                        ),
                       ),
-                      onPressed: () {
-                        _showOptionsMenu(context);
-                      },
-                    ),
+                      const SizedBox(width: 8),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.grey.shade200),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.settings_outlined,
+                            color: Colors.grey.shade700,
+                            size: 24,
+                          ),
+                          onPressed: () {
+                            _showOptionsMenu(context);
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -200,7 +227,21 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       const SizedBox(height: 12),
-                      ...filteredNotes.map((note) => _buildNoteItem(note)),
+                      
+                      if (_isGridView)
+                        MasonryGridView.count(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 12,
+                          crossAxisSpacing: 12,
+                          itemCount: filteredNotes.length,
+                          itemBuilder: (context, index) => _buildNoteItem(filteredNotes[index]),
+                        )
+                      else
+                        Column(
+                          children: filteredNotes.map((note) => _buildNoteItem(note)).toList(),
+                        ),
                       
                       const SizedBox(height: 24),
                        Divider(
@@ -242,7 +283,7 @@ class _HomePageState extends State<HomePage> {
                _buildNavItem(Icons.home_rounded, 0),
                _buildNavItem(Icons.search_rounded, 1),
                const SizedBox(width: 40), 
-               _buildNavItem(Icons.grid_view_rounded, 2), 
+               _buildNavItem(Icons.notifications_none_rounded, 2), 
                _buildNavItem(Icons.person_outline_rounded, 3), 
             ],
           ),
@@ -325,7 +366,7 @@ class _HomePageState extends State<HomePage> {
                           overflow: TextOverflow.ellipsis,
                         ),
                       const SizedBox(height: 8),
-                      // Mock Category Label if category is not 'All' or 'General'
+                  
                       if (note.category != 'All' && note.category != 'General')
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
