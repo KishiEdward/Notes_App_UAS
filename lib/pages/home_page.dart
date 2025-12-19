@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:notesapp/services/auth_service.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:notesapp/models/note_model.dart';
 import 'package:notesapp/pages/login_page.dart';
+import 'package:notesapp/pages/note_editor_page.dart';
 import 'package:notesapp/pages/profile_page.dart';
+import 'package:notesapp/pages/search_page.dart';
 import 'package:notesapp/pages/template_page.dart';
+import 'package:notesapp/services/auth_service.dart';
+import 'package:notesapp/services/firestore_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,9 +19,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-
-  // Sample notes data (empty for now)
-  final List<Map<String, String>> _notes = [];
+  String _selectedCategory = 'Semua';
+  final FirestoreService _firestoreService = FirestoreService();
+  final List<String> _categories = ['Semua', 'Pribadi', 'Pekerjaan', 'Ide', 'Penting'];
 
   @override
   Widget build(BuildContext context) {
@@ -25,164 +30,334 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
       body: SafeArea(
-        child: Column(
+        child: _selectedIndex == 1 
+            ? const SearchPage()
+            : Column(
           children: [
-            // Header with user profile
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
               child: Row(
                 children: [
-                  // User avatar
                   CircleAvatar(
-                    radius: 20,
-                    backgroundColor: const Color(0xFFE0E0E0),
+                    radius: 22,
+                    backgroundColor: Colors.grey.shade200,
                     child: Text(
-                      user?.displayName?.substring(0, 1).toUpperCase() ?? 'R',
-                      style: const TextStyle(
-                        color: Color(0xFF666666),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
+                      user?.displayName?.substring(0, 1).toUpperCase() ?? 'U',
+                      style: GoogleFonts.poppins(
+                        color: Colors.grey.shade700,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18,
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  // User name with dropdown
+                  const SizedBox(width: 16),
                   Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        // Show user menu
-                        _showUserMenu(context);
-                      },
-                      child: Row(
-                        children: [
-                          Text(
-                            user?.displayName ?? user?.email?.split('@')[0] ?? 'User',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFF333333),
-                            ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Halo,',
+                          style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            color: Colors.grey.shade500,
                           ),
-                          const SizedBox(width: 4),
-                          const Icon(
-                            Icons.keyboard_arrow_down,
-                            color: Color(0xFF666666),
-                            size: 20,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            _showUserMenu(context);
+                          },
+                          child: Row(
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  user?.displayName ?? 'User',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black87,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                              Icon(
+                                Icons.keyboard_arrow_down,
+                                color: Colors.grey.shade600,
+                                size: 20,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                  // Menu button
-                  IconButton(
-                    icon: const Icon(
-                      Icons.more_horiz,
-                      color: Color(0xFF666666),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.grey.shade200),
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    onPressed: () {
-                      _showOptionsMenu(context);
-                    },
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.settings_outlined,
+                        color: Colors.grey.shade700,
+                        size: 24,
+                      ),
+                      onPressed: () {
+                        _showOptionsMenu(context);
+                      },
+                    ),
                   ),
                 ],
               ),
             ),
 
-            // Content
-            Expanded(
-              child: ListView(
+            SizedBox(
+              height: 50,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                children: [
-                  // Section header: Privat
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Row(
-                      children: [
-                        const Text(
-                          'Privat',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Color(0xFF999999),
-                            fontWeight: FontWeight.w500,
-                          ),
+                itemCount: _categories.length,
+                itemBuilder: (context, index) {
+                  final category = _categories[index];
+                  final isSelected = _selectedCategory == category;
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: FilterChip(
+                      label: Text(category),
+                      labelStyle: GoogleFonts.poppins(
+                        color: isSelected ? Colors.white : Colors.grey.shade700,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 13,
+                      ),
+                      selected: isSelected,
+                      onSelected: (bool selected) {
+                        setState(() {
+                          _selectedCategory = category;
+                        });
+                      },
+                      backgroundColor: Colors.white,
+                      selectedColor: Colors.black87,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        side: BorderSide(
+                          color: isSelected ? Colors.transparent : Colors.grey.shade300,
                         ),
-                        const Spacer(),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.more_horiz,
-                            size: 20,
-                            color: Color(0xFF999999),
-                          ),
-                          onPressed: () {},
-                          padding: EdgeInsets.zero,
-                          constraints: const BoxConstraints(),
-                        ),
-                        const SizedBox(width: 8),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.add,
-                            size: 20,
-                            color: Color(0xFF999999),
-                          ),
-                          onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Add new note'),
-                                duration: Duration(seconds: 1),
-                              ),
-                            );
-                          },
-                          padding: EdgeInsets.zero,
-                          constraints: const BoxConstraints(),
-                        ),
-                      ],
+                      ),
+                      elevation: 0,
+                      pressElevation: 0,
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     ),
-                  ),
+                  );
+                },
+              ),
+            ),
 
-                  // Note items
-                  ..._notes.map((note) => _buildNoteItem(note)),
+            Expanded(
+              child: StreamBuilder<List<Note>>(
+                stream: _firestoreService.getNotesStream(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
 
-                  const SizedBox(height: 16),
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  }
 
-                  // Divider
-                  Divider(
-                    color: Colors.grey[300],
-                    thickness: 0.5,
-                    height: 32,
-                  ),
+                  final allNotes = snapshot.data ?? [];
+                  
+                  final filteredNotes = _selectedCategory == 'Semua'
+                      ? allNotes
+                      : allNotes.where((note) => note.category == _selectedCategory).toList();
 
-                  // Template card
-                  _buildTemplateCard(),
+                  if (filteredNotes.isEmpty) {
+                     return Center(
+                       child: Column(
+                         mainAxisAlignment: MainAxisAlignment.center,
+                         children: [
+                           Icon(Icons.notes_rounded, size: 64, color: Colors.grey.shade300),
+                           const SizedBox(height: 16),
+                           Text(
+                             "Tidak ada catatan di '$_selectedCategory'", 
+                             style: GoogleFonts.poppins(color: Colors.grey),
+                           ),
+                         ],
+                       ),
+                     );
+                  }
 
-                  const SizedBox(height: 100),
-                ],
+                  return ListView(
+                    padding: const EdgeInsets.all(20),
+                    children: [
+                      Text(
+                        'Daftar Catatan',
+                        style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          color: Colors.grey.shade500,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      ...filteredNotes.map((note) => _buildNoteItem(note)),
+                      
+                      const SizedBox(height: 24),
+                       Divider(
+                        color: Colors.grey.shade200,
+                        thickness: 1,
+                        height: 32,
+                      ),
+                      _buildTemplateCard(),
+                      const SizedBox(height: 100),
+                    ],
+                  );
+                },
               ),
             ),
           ],
         ),
       ),
-
-      // Bottom navigation
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 10,
-              offset: const Offset(0, -2),
-            ),
-          ],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+            Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const NoteEditorPage()),
+          );
+        },
+        backgroundColor: Colors.black87,
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 8.0,
+        color: Colors.white,
+        child: SizedBox(
+          height: 60,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+               _buildNavItem(Icons.home_rounded, 0),
+               _buildNavItem(Icons.search_rounded, 1),
+               const SizedBox(width: 40), 
+               _buildNavItem(Icons.grid_view_rounded, 2), 
+               _buildNavItem(Icons.person_outline_rounded, 3), 
+            ],
+          ),
         ),
-        child: SafeArea(
+      ),
+    );
+  }
+
+  Widget _buildNoteItem(Note note) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(16),
+        child: InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NoteEditorPage(note: note),
+              ),
+            );
+          },
+          borderRadius: BorderRadius.circular(16),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
+            padding: const EdgeInsets.all(16),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildNavItem(Icons.home, 0),
-                _buildNavItem(Icons.search, 1),
-                _buildNavItem(Icons.inbox_outlined, 2),
-                _buildNavItem(Icons.edit_outlined, 3),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              note.title.isNotEmpty ? note.title : 'Tanpa Judul',
+                              style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: const Color(0xFF2D3436),
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          if (note.isPinned)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: Icon(
+                                Icons.push_pin,
+                                size: 16,
+                                color: Colors.black87,
+                              ),
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: 6),
+                      if (note.content.isNotEmpty)
+                        Text(
+                          note.content.replaceAll('\n', ' '),
+                          style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            color: Colors.grey.shade600,
+                            height: 1.4,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      const SizedBox(height: 8),
+                      // Mock Category Label if category is not 'All' or 'General'
+                      if (note.category != 'All' && note.category != 'General')
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                         decoration: BoxDecoration(
+                          color: Colors.blueAccent.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          note.category,
+                          style: GoogleFonts.poppins(
+                            fontSize: 10,
+                            color: Colors.blueAccent,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                 IconButton(
+                  icon: Icon(
+                    Icons.more_vert_rounded,
+                    size: 20,
+                    color: Colors.grey.shade400,
+                  ),
+                  onPressed: () {
+                     _showNoteOptions(context, note);
+                  },
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  splashRadius: 20,
+                ),
               ],
             ),
           ),
@@ -191,69 +366,38 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildNoteItem(Map<String, String> note) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 4),
-      child: InkWell(
-        onTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Opening: ${note['title']}'),
-              duration: const Duration(seconds: 1),
-            ),
-          );
-        },
+  void _showNoteOptions(BuildContext context, Note note) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-          child: Row(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              // Chevron
-              const Icon(
-                Icons.chevron_right,
-                size: 20,
-                color: Color(0xFFCCCCCC),
-              ),
-              const SizedBox(width: 8),
-              // Emoji
-              Text(
-                note['emoji'] ?? '📝',
-                style: const TextStyle(fontSize: 20),
-              ),
-              const SizedBox(width: 12),
-              // Title
-              Expanded(
-                child: Text(
-                  note['title'] ?? 'Untitled',
-                  style: const TextStyle(
-                    fontSize: 15,
-                    color: Color(0xFF333333),
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+              ListTile(
+                leading: const Icon(Icons.delete_outline, color: Colors.redAccent),
+                title: Text(
+                  'Hapus Catatan', 
+                  style: GoogleFonts.poppins(color: Colors.redAccent, fontWeight: FontWeight.w500)
                 ),
-              ),
-              // Menu
-              IconButton(
-                icon: const Icon(
-                  Icons.more_horiz,
-                  size: 18,
-                  color: Color(0xFF999999),
-                ),
-                onPressed: () {},
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-              ),
-              const SizedBox(width: 8),
-              // Add button
-              IconButton(
-                icon: const Icon(
-                  Icons.add,
-                  size: 18,
-                  color: Color(0xFF999999),
-                ),
-                onPressed: () {},
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
+                onTap: () async {
+                  Navigator.pop(context);
+                   await _firestoreService.deleteNote(note.id);
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Catatan dihapus", style: GoogleFonts.poppins()),
+                           backgroundColor: Colors.black87,
+                           behavior: SnackBarBehavior.floating,
+                        ),
+                      );
+                    }
+                },
               ),
             ],
           ),
@@ -273,8 +417,9 @@ class _HomePageState extends State<HomePage> {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: const Color(0xFFEEEEEE),
-          borderRadius: BorderRadius.circular(8),
+          color: const Color(0xFFF1F2F6),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey.shade200),
         ),
         child: Row(
           children: [
@@ -282,27 +427,34 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(6),
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                   BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 4,
+                  ),
+                ]
               ),
               child: const Icon(
-                Icons.grid_view_outlined,
-                color: Color(0xFF999999),
+                Icons.grid_view_rounded,
+                color: Colors.black87,
                 size: 20,
               ),
             ),
-            const SizedBox(width: 12),
-            const Text(
+            const SizedBox(width: 14),
+            Text(
               'Jelajahi templat',
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 fontSize: 15,
-                color: Color(0xFF666666),
+                fontWeight: FontWeight.w500,
+                color: Colors.black87,
               ),
             ),
             const Spacer(),
-            const Icon(
-              Icons.arrow_forward_ios,
-              size: 14,
-              color: Color(0xFF999999),
+            Icon(
+              Icons.chevron_right_rounded,
+              size: 20,
+              color: Colors.grey.shade400,
             ),
           ],
         ),
@@ -317,21 +469,14 @@ class _HomePageState extends State<HomePage> {
         setState(() {
           _selectedIndex = index;
         });
-        if (index == 3) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('New note'),
-              duration: Duration(seconds: 1),
-            ),
-          );
-        }
       },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+      borderRadius: BorderRadius.circular(30),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
         child: Icon(
           icon,
-          color: isSelected ? const Color(0xFF333333) : const Color(0xFF999999),
-          size: 26,
+          color: isSelected ? Colors.black87 : Colors.grey.shade400,
+          size: 28,
         ),
       ),
     );
@@ -340,30 +485,47 @@ class _HomePageState extends State<HomePage> {
   void _showUserMenu(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
       builder: (context) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+        child: Wrap(
           children: [
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Center(
+                 child: Container(
+                   width: 40,
+                   height: 4,
+                   decoration: BoxDecoration(
+                     color: Colors.grey.shade300,
+                     borderRadius: BorderRadius.circular(10),
+                   ),
+                 ),
+              ),
+            ),
             ListTile(
-              leading: const Icon(Icons.person_outline),
-              title: const Text('Profile'),
+              leading: const Icon(Icons.person_outline_rounded),
+              title: Text('Profile', style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ProfilePage()),
+                  MaterialPageRoute(
+                      builder: (context) => const ProfilePage()),
                 );
               },
             ),
             ListTile(
               leading: const Icon(Icons.settings_outlined),
-              title: const Text('Settings'),
+              title: Text('Settings', style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
               onTap: () => Navigator.pop(context),
             ),
             const Divider(),
             ListTile(
-              leading: const Icon(Icons.logout),
-              title: const Text('Logout'),
+              leading: const Icon(Icons.logout_rounded, color: Colors.black87),
+              title: Text('Logout', style: GoogleFonts.poppins(fontWeight: FontWeight.w500, color: Colors.black87)),
               onTap: () async {
                 Navigator.pop(context);
                 await AuthService().signOut();
@@ -375,6 +537,7 @@ class _HomePageState extends State<HomePage> {
                 }
               },
             ),
+            const SizedBox(height: 20),
           ],
         ),
       ),
@@ -384,20 +547,37 @@ class _HomePageState extends State<HomePage> {
   void _showOptionsMenu(BuildContext context) {
     showModalBottomSheet(
       context: context,
+       backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
       builder: (context) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
+        child: Wrap(
+           children: [
+             Padding(
+              padding: const EdgeInsets.all(20),
+              child: Center(
+                 child: Container(
+                   width: 40,
+                   height: 4,
+                   decoration: BoxDecoration(
+                     color: Colors.grey.shade300,
+                     borderRadius: BorderRadius.circular(10),
+                   ),
+                 ),
+              ),
+            ),
             ListTile(
               leading: const Icon(Icons.settings_outlined),
-              title: const Text('Settings'),
+              title: Text('Settings', style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
               onTap: () => Navigator.pop(context),
             ),
             ListTile(
               leading: const Icon(Icons.help_outline),
-              title: const Text('Help'),
+              title: Text('Help', style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
               onTap: () => Navigator.pop(context),
             ),
+             const SizedBox(height: 20),
           ],
         ),
       ),

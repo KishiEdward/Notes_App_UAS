@@ -21,12 +21,17 @@ class FirestoreService {
         return Note.fromMap(doc.data(), doc.id);
       }).toList();
       
-      notes.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+      notes.sort((a, b) {
+        if (a.isPinned != b.isPinned) {
+          return a.isPinned ? -1 : 1; 
+        }
+        return b.updatedAt.compareTo(a.updatedAt);
+      });
       return notes;
     });
   }
 
-  Future<void> addNote(String title, String content) async {
+  Future<void> addNote(String title, String content, String category, bool isPinned) async {
     final user = _auth.currentUser;
     if (user == null) return;
 
@@ -34,15 +39,26 @@ class FirestoreService {
       'userId': user.uid,
       'title': title,
       'content': content,
+      'category': category,
+      'isPinned': isPinned,
       'createdAt': FieldValue.serverTimestamp(),
       'updatedAt': FieldValue.serverTimestamp(),
     });
   }
 
-  Future<void> updateNote(String id, String title, String content) async {
+  Future<void> updateNote(String id, String title, String content, String category, bool isPinned) async {
     await _db.collection('notes').doc(id).update({
       'title': title,
       'content': content,
+      'category': category,
+      'isPinned': isPinned,
+      'updatedAt': FieldValue.serverTimestamp(),
+    });
+  }
+
+  Future<void> togglePin(String id, bool currentStatus) async {
+    await _db.collection('notes').doc(id).update({
+      'isPinned': !currentStatus,
       'updatedAt': FieldValue.serverTimestamp(),
     });
   }
