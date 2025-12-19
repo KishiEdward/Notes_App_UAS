@@ -14,6 +14,9 @@ class NoteEditorPage extends StatefulWidget {
 class _NoteEditorPageState extends State<NoteEditorPage> {
   late TextEditingController _titleController;
   late TextEditingController _contentController;
+  String _selectedCategory = 'Pribadi';
+  bool _isPinned = false;
+  final List<String> _categories = ['Pribadi', 'Pekerjaan', 'Ide', 'Penting'];
   final FirestoreService _firestoreService = FirestoreService();
 
   @override
@@ -21,6 +24,11 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
     super.initState();
     _titleController = TextEditingController(text: widget.note?.title ?? '');
     _contentController = TextEditingController(text: widget.note?.content ?? '');
+    _selectedCategory = widget.note?.category ?? 'Pribadi';
+    _isPinned = widget.note?.isPinned ?? false;
+    if (!_categories.contains(_selectedCategory)) {
+      _selectedCategory = 'Pribadi';
+    }
   }
 
   @override
@@ -42,9 +50,9 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
     }
 
     if (widget.note == null) {
-      await _firestoreService.addNote(title, content);
+      await _firestoreService.addNote(title, content, _selectedCategory, _isPinned);
     } else {
-      await _firestoreService.updateNote(widget.note!.id, title, content);
+      await _firestoreService.updateNote(widget.note!.id, title, content, _selectedCategory, _isPinned);
     }
   }
 
@@ -70,6 +78,17 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
             onPressed: _handleBack,
           ),
           actions: [
+            IconButton(
+              icon: Icon(
+                _isPinned ? Icons.push_pin : Icons.push_pin_outlined,
+                color: _isPinned ? Colors.black87 : Colors.grey,
+              ),
+              onPressed: () {
+                setState(() {
+                  _isPinned = !_isPinned;
+                });
+              },
+            ),
             IconButton(
               icon: const Icon(Icons.check, color: Colors.blueAccent),
               onPressed: () async {
@@ -121,6 +140,37 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
                   hintStyle: TextStyle(color: Colors.black38),
                 ),
                 maxLines: 1,
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: _categories.map((category) {
+                    final isSelected = _selectedCategory == category;
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 8.0, bottom: 8.0),
+                      child: ChoiceChip(
+                        label: Text(category),
+                        labelStyle: TextStyle(
+                          color: isSelected ? Colors.white : Colors.black87,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        selected: isSelected,
+                        onSelected: (selected) {
+                          setState(() {
+                            _selectedCategory = category;
+                          });
+                        },
+                        selectedColor: Colors.black87,
+                        backgroundColor: Colors.grey.shade100,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          side: BorderSide.none,
+                        ),
+                        showCheckmark: false,
+                      ),
+                    );
+                  }).toList(),
+                ),
               ),
               Expanded(
                 child: TextField(
