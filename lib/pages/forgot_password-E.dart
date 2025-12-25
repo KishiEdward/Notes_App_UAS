@@ -3,16 +3,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:notesapp/pages/register_page.dart';
 import 'package:notesapp/services/auth_service.dart';
 import 'package:notesapp/pages/home_page.dart';
-import 'package:notesapp/pages/forgot_password-E.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class Forgot extends StatefulWidget {
+  const Forgot({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Forgot> createState() => _ForgotState();
 }
 
-class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
+class _ForgotState extends State<Forgot> with SingleTickerProviderStateMixin {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool _isLoading = false;
@@ -239,14 +238,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const Forgot(),
-                              ),
-                            );
-                          },
+                          onPressed: () {},
                           child: Text(
                             "Lupa password?",
                             style: GoogleFonts.poppins(
