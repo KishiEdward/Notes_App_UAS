@@ -71,5 +71,10 @@ class AuthService {
     await _auth.signOut();
   }
 
-  Future<void> resetPassword(String email) async {}
+  Future<void> resetPassword(String email) async {
+    if (email.isEmpty) {
+      throw Exception("Email tidak boleh kosong");
+    }
+    await _auth.sendPasswordResetEmail(email: email);
+  }
 }

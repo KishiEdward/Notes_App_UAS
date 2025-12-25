@@ -63,53 +63,24 @@ class _ForgotState extends State<Forgot> with SingleTickerProviderStateMixin {
     try {
       await AuthService().resetPassword(email);
 
-      if (!mounted) return;
-      setState(() => _isLoading = false);
-
-      // NOTIFICATION BOX (SUCCESS)
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Link reset password telah dikirim ke email Anda"),
+            backgroundColor: Colors.green,
           ),
-          title: const Text("Berhasil"),
-          content: const Text(
-            "Link reset password telah dikirim ke email Anda.\n\n"
-            "Silakan cek inbox atau folder spam.",
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
-              child: const Text("OK"),
-            ),
-          ],
-        ),
-      );
+        );
+        Navigator.pop(context);
+      }
     } catch (e) {
-      if (!mounted) return;
-      setState(() => _isLoading = false);
-
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          title: const Text("Gagal"),
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
           content: Text(e.toString().replaceAll('Exception: ', '')),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("Tutup"),
-            ),
-          ],
+          backgroundColor: Colors.red,
         ),
       );
+    } finally {
+      setState(() => _isLoading = false);
     }
   }
 
@@ -195,6 +166,7 @@ class _ForgotState extends State<Forgot> with SingleTickerProviderStateMixin {
 
                   const SizedBox(height: 40),
 
+                  /// SUBMIT BUTTON
                   SizedBox(
                     width: double.infinity,
                     height: 55,
