@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:notesapp/models/note_model.dart';
 import 'package:notesapp/services/firestore_service.dart';
+import 'package:notesapp/utils/notification_helper.dart';
 
 class TrashPage extends StatefulWidget {
   const TrashPage({super.key});
@@ -13,9 +14,7 @@ class TrashPage extends StatefulWidget {
 
 class _TrashPageState extends State<TrashPage> {
   final FirestoreService _firestoreService = FirestoreService();
-  
   final Set<String> _selectedNoteIds = {};
-  
   bool _isSelectionMode = false;
 
   void _toggleSelection(String id) {
@@ -43,25 +42,36 @@ class _TrashPageState extends State<TrashPage> {
   }
 
   Future<void> _restoreSelected() async {
+    final count = _selectedNoteIds.length;
+    
+    if (mounted) {
+      showTopNotification(
+        context, 
+        "$count catatan dipulihkan", 
+        color: Colors.green.shade600
+      );
+    }
+
     for (var id in _selectedNoteIds) {
       await _firestoreService.restoreFromTrash(id);
     }
+    
     _exitSelectionMode();
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("${_selectedNoteIds.length} catatan dipulihkan")),
-      );
-    }
   }
 
   Future<void> _deleteSelectedPermanently() async {
+    final count = _selectedNoteIds.length;
+    
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Hapus Permanen?'),
-        content: Text('Anda akan menghapus ${_selectedNoteIds.length} catatan selamanya.'),
+        content: Text('Anda akan menghapus $count catatan selamanya.'),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Batal')),
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Batal'),
+          ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
             child: const Text('Hapus', style: TextStyle(color: Colors.red)),
@@ -71,18 +81,29 @@ class _TrashPageState extends State<TrashPage> {
     );
 
     if (confirm == true) {
+      if (mounted) {
+        showTopNotification(
+          context, 
+          "$count catatan dihapus permanen", 
+          color: Colors.red.shade600
+        );
+      }
+
       for (var id in _selectedNoteIds) {
         await _firestoreService.deleteNote(id);
       }
+      
       _exitSelectionMode();
     }
   }
 
   void _exitSelectionMode() {
-    setState(() {
-      _selectedNoteIds.clear();
-      _isSelectionMode = false;
-    });
+    if (mounted) {
+      setState(() {
+        _selectedNoteIds.clear();
+        _isSelectionMode = false;
+      });
+    }
   }
 
   @override
@@ -141,7 +162,11 @@ class _TrashPageState extends State<TrashPage> {
                       ),
                       child: Row(
                         children: [
-                          Icon(Icons.delete_outline_rounded, size: 16, color: Colors.red.shade400),
+                          Icon(
+                            Icons.delete_outline_rounded, 
+                            size: 16, 
+                            color: Colors.red.shade400
+                          ),
                           const SizedBox(width: 4),
                           Text(
                             "Deleted",
@@ -157,7 +182,7 @@ class _TrashPageState extends State<TrashPage> {
                   ],
                 ],
               );
-            }
+            },
           ),
         ),
 
@@ -175,14 +200,20 @@ class _TrashPageState extends State<TrashPage> {
 
               if (trashNotes.isEmpty) {
                 if (_isSelectionMode) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) => _exitSelectionMode());
+                  Future.delayed(Duration.zero, () {
+                    if (mounted) _exitSelectionMode();
+                  });
                 }
 
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.delete_sweep_outlined, size: 64, color: Colors.grey.shade300),
+                      Icon(
+                        Icons.delete_sweep_outlined, 
+                        size: 64, 
+                        color: Colors.grey.shade300
+                      ),
                       const SizedBox(height: 16),
                       Text(
                         "Tong sampah kosong",
@@ -196,14 +227,19 @@ class _TrashPageState extends State<TrashPage> {
               return Stack(
                 children: [
                   MasonryGridView.count(
-                    padding: EdgeInsets.fromLTRB(20, 20, 20, _isSelectionMode ? 100 : 20),
+                    padding: EdgeInsets.fromLTRB(
+                      20, 
+                      20, 
+                      20, 
+                      _isSelectionMode ? 100 : 20
+                    ),
                     crossAxisCount: 2,
                     mainAxisSpacing: 12,
                     crossAxisSpacing: 12,
                     itemCount: trashNotes.length,
                     itemBuilder: (context, index) {
                       final note = trashNotes[index];
-                      return _buildTrashItem(context, note);
+                      return _buildTrashItem(note);
                     },
                   ),
                   
@@ -221,7 +257,7 @@ class _TrashPageState extends State<TrashPage> {
                               color: Colors.black.withOpacity(0.1),
                               blurRadius: 10,
                               offset: const Offset(0, -5),
-                            )
+                            ),
                           ],
                         ),
                         child: SafeArea(
@@ -233,7 +269,10 @@ class _TrashPageState extends State<TrashPage> {
                                 icon: const Icon(Icons.restore, color: Colors.green),
                                 label: Text(
                                   "Pulihkan (${_selectedNoteIds.length})",
-                                  style: GoogleFonts.poppins(color: Colors.green, fontWeight: FontWeight.w600),
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.green, 
+                                    fontWeight: FontWeight.w600
+                                  ),
                                 ),
                               ),
                               TextButton.icon(
@@ -241,7 +280,10 @@ class _TrashPageState extends State<TrashPage> {
                                 icon: const Icon(Icons.delete_forever, color: Colors.red),
                                 label: Text(
                                   "Hapus (${_selectedNoteIds.length})",
-                                  style: GoogleFonts.poppins(color: Colors.red, fontWeight: FontWeight.w600),
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.red, 
+                                    fontWeight: FontWeight.w600
+                                  ),
                                 ),
                               ),
                             ],
@@ -258,7 +300,7 @@ class _TrashPageState extends State<TrashPage> {
     );
   }
 
-  Widget _buildTrashItem(BuildContext context, Note note) {
+  Widget _buildTrashItem(Note note) {
     final isSelected = _selectedNoteIds.contains(note.id);
 
     return InkWell(
@@ -302,9 +344,9 @@ class _TrashPageState extends State<TrashPage> {
                   child: Text(
                     note.title.isNotEmpty ? note.title : 'Tanpa Judul',
                     style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      color: Colors.grey.shade800,
+                      fontWeight: FontWeight.w600, 
+                      fontSize: 16, 
+                      color: Colors.grey.shade800
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -332,57 +374,92 @@ class _TrashPageState extends State<TrashPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap: () => _firestoreService.restoreFromTrash(note.id),
+                    onTap: () async {
+                      if (mounted) {
+                        showTopNotification(
+                          context, 
+                          "Catatan dipulihkan", 
+                          color: Colors.green.shade600
+                        );
+                      }
+                      await _firestoreService.restoreFromTrash(note.id);
+                    },
                     borderRadius: BorderRadius.circular(20),
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: Tooltip(
                         message: "Kembalikan",
-                        child: Icon(Icons.restore_rounded, color: Colors.green.shade600, size: 22),
+                        child: Icon(
+                          Icons.restore_rounded, 
+                          color: Colors.green.shade600, 
+                          size: 22
+                        ),
                       ),
                     ),
                   ),
                   InkWell(
-                    onTap: () => _showDeleteOneConfirmDialog(context, note.id),
+                    onTap: () => _showDeleteOneConfirmDialog(note.id),
                     borderRadius: BorderRadius.circular(20),
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: Tooltip(
                         message: "Hapus Permanen",
-                        child: Icon(Icons.delete_forever_rounded, color: Colors.red.shade400, size: 22),
+                        child: Icon(
+                          Icons.delete_forever_rounded, 
+                          color: Colors.red.shade400, 
+                          size: 22
+                        ),
                       ),
                     ),
                   ),
                 ],
-              )
-            ]
+              ),
+            ],
           ],
         ),
       ),
     );
   }
 
-  void _showDeleteOneConfirmDialog(BuildContext context, String id) {
+  void _showDeleteOneConfirmDialog(String id) {
     showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
+      context: context, 
+      builder: (dialogContext) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text('Hapus Permanen?', style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+        title: Text(
+          'Hapus Permanen?', 
+          style: GoogleFonts.poppins(fontWeight: FontWeight.w600)
+        ),
         content: Text(
-          'Catatan ini akan hilang selamanya.',
-          style: GoogleFonts.poppins(fontSize: 14),
+          'Catatan ini akan hilang selamanya.', 
+          style: GoogleFonts.poppins(fontSize: 14)
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pop(dialogContext),
             child: Text('Batal', style: GoogleFonts.poppins(color: Colors.grey)),
           ),
           TextButton(
-            onPressed: () {
-              _firestoreService.deleteNote(id);
-              Navigator.pop(context);
+            onPressed: () async {
+              Navigator.pop(dialogContext);
+              
+              if (mounted) {
+                showTopNotification(
+                  context, 
+                  "Catatan dihapus permanen", 
+                  color: Colors.red.shade600
+                );
+              }
+              
+              await _firestoreService.deleteNote(id);
             },
-            child: Text('Hapus', style: GoogleFonts.poppins(color: Colors.red, fontWeight: FontWeight.w600)),
+            child: Text(
+              'Hapus', 
+              style: GoogleFonts.poppins(
+                color: Colors.red, 
+                fontWeight: FontWeight.w600
+              )
+            ),
           ),
         ],
       ),

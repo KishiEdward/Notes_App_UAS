@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notesapp/models/note_model.dart';
 import 'package:notesapp/services/firestore_service.dart';
+import 'package:notesapp/utils/notification_helper.dart';
 
 class NoteEditorPage extends StatefulWidget {
   final Note? note;
@@ -23,7 +24,9 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
   void initState() {
     super.initState();
     _titleController = TextEditingController(text: widget.note?.title ?? '');
-    _contentController = TextEditingController(text: widget.note?.content ?? '');
+    _contentController = TextEditingController(
+      text: widget.note?.content ?? '',
+    );
     _selectedCategory = widget.note?.category ?? 'Pribadi';
     _isPinned = widget.note?.isPinned ?? false;
     if (!_categories.contains(_selectedCategory)) {
@@ -50,9 +53,20 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
     }
 
     if (widget.note == null) {
-      await _firestoreService.addNote(title, content, _selectedCategory, _isPinned);
+      await _firestoreService.addNote(
+        title,
+        content,
+        _selectedCategory,
+        _isPinned,
+      );
     } else {
-      await _firestoreService.updateNote(widget.note!.id, title, content, _selectedCategory, _isPinned);
+      await _firestoreService.updateNote(
+        widget.note!.id,
+        title,
+        content,
+        _selectedCategory,
+        _isPinned,
+      );
     }
   }
 
@@ -97,7 +111,7 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
                 if (mounted) Navigator.pop(context);
               },
             ),
-            
+
             if (widget.note != null)
               IconButton(
                 icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
@@ -106,15 +120,23 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
                     context: context,
                     builder: (context) => AlertDialog(
                       title: const Text('Pindahkan ke Sampah?'),
-                      content: const Text('Catatan ini bisa dikembalikan lagi nanti.'),
+                      content: const Text(
+                        'Catatan ini bisa dikembalikan lagi nanti.',
+                      ),
                       actions: [
                         TextButton(
-                          onPressed: () => Navigator.pop(context, false), 
-                          child: const Text('Batal', style: TextStyle(color: Colors.grey)),
+                          onPressed: () => Navigator.pop(context, false),
+                          child: const Text(
+                            'Batal',
+                            style: TextStyle(color: Colors.grey),
+                          ),
                         ),
                         TextButton(
-                          onPressed: () => Navigator.pop(context, true), 
-                          child: const Text('Pindahkan', style: TextStyle(color: Colors.red)),
+                          onPressed: () => Navigator.pop(context, true),
+                          child: const Text(
+                            'Pindahkan',
+                            style: TextStyle(color: Colors.red),
+                          ),
                         ),
                       ],
                     ),
@@ -123,6 +145,11 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
                   if (confirm == true) {
                     await _firestoreService.moveToTrash(widget.note!.id);
                     if (mounted) Navigator.pop(context);
+                    showTopNotification(
+                      context,
+                      "Catatan ini dipindahkan ke sampah",
+                      color: Colors.red.shade600,
+                    );
                   }
                 },
               ),

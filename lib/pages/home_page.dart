@@ -11,6 +11,7 @@ import 'package:notesapp/pages/template_page.dart';
 import 'package:notesapp/pages/trash_page.dart';
 import 'package:notesapp/services/auth_service.dart';
 import 'package:notesapp/services/firestore_service.dart';
+import 'package:notesapp/utils/notification_helper.dart'; 
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -38,25 +39,22 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
-      
-      body: SafeArea(
-        child: _buildBodyContent(user), 
-      ),
-
-      floatingActionButton: _selectedIndex == 3 
-          ? null 
+      body: SafeArea(child: _buildBodyContent(user)),
+      floatingActionButton: _selectedIndex == 3
+          ? null
           : FloatingActionButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const NoteEditorPage()),
+                  MaterialPageRoute(
+                    builder: (context) => const NoteEditorPage(),
+                  ),
                 );
               },
               backgroundColor: Colors.black87,
               child: const Icon(Icons.add, color: Colors.white),
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         notchMargin: 8.0,
@@ -70,7 +68,7 @@ class _HomePageState extends State<HomePage> {
               _buildNavItem(Icons.search_rounded, 1),
               const SizedBox(width: 40),
               _buildNavItem(Icons.notifications_none_rounded, 2),
-              _buildNavItem(Icons.delete_outline_rounded, 3), 
+              _buildNavItem(Icons.delete_outline_rounded, 3),
             ],
           ),
         ),
@@ -81,19 +79,18 @@ class _HomePageState extends State<HomePage> {
   Widget _buildBodyContent(User? user) {
     switch (_selectedIndex) {
       case 0:
-        return _buildHomeContent(user); 
+        return _buildHomeContent(user);
       case 1:
-        return const SearchPage(); 
+        return const SearchPage();
       case 2:
-        return const Center(child: Text("Halaman Notifikasi")); 
+        return const Center(child: Text("Halaman Notifikasi"));
       case 3:
-        return const TrashPage(); 
+        return const TrashPage();
       default:
         return _buildHomeContent(user);
     }
   }
 
-  
   Widget _buildHomeContent(User? user) {
     return Column(
       children: [
@@ -200,7 +197,6 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-
         SizedBox(
           height: 50,
           child: ListView.builder(
@@ -246,7 +242,6 @@ class _HomePageState extends State<HomePage> {
             },
           ),
         ),
-
         Expanded(
           child: StreamBuilder<List<Note>>(
             stream: _firestoreService.getNotesStream(),
@@ -263,11 +258,10 @@ class _HomePageState extends State<HomePage> {
 
               final filteredNotes = allNotes.where((note) {
                 final isNotTrash = note.isTrashed == false;
-                
                 final isCategoryMatch = _selectedCategory == 'Semua'
                     ? true
                     : note.category == _selectedCategory;
-                
+
                 return isNotTrash && isCategoryMatch;
               }).toList();
 
@@ -283,12 +277,10 @@ class _HomePageState extends State<HomePage> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        _selectedCategory == 'Semua' 
+                        _selectedCategory == 'Semua'
                             ? "Belum ada catatan"
                             : "Tidak ada catatan di '$_selectedCategory'",
-                        style: GoogleFonts.poppins(
-                          color: Colors.grey,
-                        ),
+                        style: GoogleFonts.poppins(color: Colors.grey),
                       ),
                     ],
                   ),
@@ -308,7 +300,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   const SizedBox(height: 12),
-
                   if (_isGridView)
                     MasonryGridView.count(
                       shrinkWrap: true,
@@ -326,7 +317,6 @@ class _HomePageState extends State<HomePage> {
                           .map((note) => _buildNoteItem(note))
                           .toList(),
                     ),
-
                   const SizedBox(height: 24),
                   Divider(
                     color: Colors.grey.shade200,
@@ -420,7 +410,6 @@ class _HomePageState extends State<HomePage> {
                           overflow: TextOverflow.ellipsis,
                         ),
                       const SizedBox(height: 8),
-
                       if (note.category != 'All' && note.category != 'General')
                         Container(
                           padding: const EdgeInsets.symmetric(
@@ -465,57 +454,56 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _showNoteOptions(BuildContext context, Note note) {
+    final parentContext = context;
+
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                leading: const Icon(
-                  Icons.delete_outline,
-                  color: Colors.redAccent,
-                ),
-                title: Text(
-                  'Pindahkan ke Sampah', 
-                  style: GoogleFonts.poppins(
+      builder: (BuildContext sheetContext) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  leading: const Icon(
+                    Icons.delete_outline,
                     color: Colors.redAccent,
-                    fontWeight: FontWeight.w500,
                   ),
+                  title: Text(
+                    'Pindahkan ke Sampah',
+                    style: GoogleFonts.poppins(
+                      color: Colors.redAccent,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  onTap: () async {
+                    Navigator.pop(sheetContext);
+
+                    if (parentContext.mounted) {
+                      showTopNotification(
+                        parentContext,
+                        "Catatan dipindahkan ke sampah",
+                        color: Colors.red.shade600,
+                      );
+                    }
+
+                    await _firestoreService.moveToTrash(note.id);
+                  },
                 ),
-                onTap: () async {
-                  Navigator.pop(context);
-                  await _firestoreService.moveToTrash(note.id);
-                  
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          "Catatan dipindahkan ke sampah",
-                          style: GoogleFonts.poppins(),
-                        ),
-                        backgroundColor: Colors.black87,
-                        behavior: SnackBarBehavior.floating,
-                      ),
-                    );
-                  }
-                },
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
   Widget _buildTemplateCard() {
-
     return InkWell(
       onTap: () {
         Navigator.push(
