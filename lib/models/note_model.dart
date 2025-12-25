@@ -7,6 +7,7 @@ class Note {
   final String content;
   final String category;
   final bool isPinned;
+  final bool isTrashed;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -17,6 +18,7 @@ class Note {
     required this.content,
     this.category = 'All',
     this.isPinned = false,
+    this.isTrashed = false,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -38,6 +40,7 @@ class Note {
       content: data['content']?.toString() ?? '',
       category: data['category']?.toString() ?? 'All',
       isPinned: data['isPinned'] ?? false,
+      isTrashed: data['isTrashed'] ?? false,
       createdAt: toDateTime(data['createdAt']),
       updatedAt: toDateTime(data['updatedAt']),
     );
@@ -50,6 +53,7 @@ class Note {
       'content': content,
       'category': category,
       'isPinned': isPinned,
+      'isTrashed': isTrashed,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
     };

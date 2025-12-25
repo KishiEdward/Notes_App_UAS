@@ -41,6 +41,7 @@ class FirestoreService {
       'content': content,
       'category': category,
       'isPinned': isPinned,
+      'isTrashed': false, 
       'createdAt': FieldValue.serverTimestamp(),
       'updatedAt': FieldValue.serverTimestamp(),
     });
@@ -59,6 +60,21 @@ class FirestoreService {
   Future<void> togglePin(String id, bool currentStatus) async {
     await _db.collection('notes').doc(id).update({
       'isPinned': !currentStatus,
+      'updatedAt': FieldValue.serverTimestamp(),
+    });
+  }
+
+  Future<void> moveToTrash(String id) async {
+    await _db.collection('notes').doc(id).update({
+      'isTrashed': true,
+      'isPinned': false,
+      'updatedAt': FieldValue.serverTimestamp(),
+    });
+  }
+
+  Future<void> restoreFromTrash(String id) async {
+    await _db.collection('notes').doc(id).update({
+      'isTrashed': false,
       'updatedAt': FieldValue.serverTimestamp(),
     });
   }

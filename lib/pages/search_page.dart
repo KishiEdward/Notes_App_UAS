@@ -29,7 +29,6 @@ class _SearchPageState extends State<SearchPage> {
       body: SafeArea(
         child: Column(
           children: [
-            // Search Bar Header
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextField(
@@ -67,7 +66,6 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
 
-            // Results List
             Expanded(
               child: StreamBuilder<List<Note>>(
                 stream: _firestoreService.getNotesStream(),
@@ -81,9 +79,9 @@ class _SearchPageState extends State<SearchPage> {
                   }
 
                   final allNotes = snapshot.data ?? [];
-                  
-                  // Client-side filtering
                   final filteredNotes = allNotes.where((note) {
+                    if (note.isTrashed == true) return false;
+
                     final title = note.title.toLowerCase();
                     final content = note.content.toLowerCase();
                     return title.contains(_searchQuery) || 
