@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:notesapp/pages/register_page.dart';
 import 'package:notesapp/services/auth_service.dart';
 import 'package:notesapp/pages/home_page.dart';
+import 'package:notesapp/pages/forgot_password-e.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -35,13 +36,13 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
       curve: const Interval(0.0, 0.5, curve: Curves.elasticOut),
     );
 
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.5),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: const Interval(0.3, 0.8, curve: Curves.easeOutQuart),
-    ));
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.5), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: _animationController,
+            curve: const Interval(0.3, 0.8, curve: Curves.easeOutQuart),
+          ),
+        );
 
     _fadeAnimation = CurvedAnimation(
       parent: _animationController,
@@ -238,7 +239,14 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Forgot(),
+                              ),
+                            );
+                          },
                           child: Text(
                             "Lupa password?",
                             style: GoogleFonts.poppins(
@@ -260,15 +268,16 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                                   setState(() => _isLoading = true);
 
                                   final email = emailController.text.trim();
-                                  final password =
-                                      passwordController.text.trim();
+                                  final password = passwordController.text
+                                      .trim();
 
                                   if (email.isEmpty || password.isEmpty) {
                                     setState(() => _isLoading = false);
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                         content: Text(
-                                            'Mohon isi email dan password'),
+                                          'Mohon isi email dan password',
+                                        ),
                                         backgroundColor: Colors.orange,
                                       ),
                                     );
@@ -279,11 +288,13 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                                     final user = await AuthService()
                                         .signInWithEmail(email, password);
                                     if (user != null && context.mounted) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
                                         const SnackBar(
                                           content: Text(
-                                              'Login berhasil! Selamat datang.'),
+                                            'Login berhasil! Selamat datang.',
+                                          ),
                                           backgroundColor: Colors.green,
                                           duration: Duration(seconds: 2),
                                         ),
@@ -300,11 +311,13 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                                   } catch (e) {
                                     setState(() => _isLoading = false);
                                     if (context.mounted) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
                                         SnackBar(
                                           content: Text(
-                                              'Login gagal: ${e.toString().replaceAll('Exception: ', '')}'),
+                                            'Login gagal: ${e.toString().replaceAll('Exception: ', '')}',
+                                          ),
                                           backgroundColor: Colors.red,
                                           duration: const Duration(seconds: 5),
                                         ),
@@ -319,8 +332,9 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                               borderRadius: BorderRadius.circular(15),
                             ),
                             elevation: 5,
-                            shadowColor:
-                                Colors.blueAccent.shade700.withOpacity(0.4),
+                            shadowColor: Colors.blueAccent.shade700.withOpacity(
+                              0.4,
+                            ),
                           ),
                           child: _isLoading
                               ? const SizedBox(
@@ -328,9 +342,9 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                                   height: 24,
                                   child: CircularProgressIndicator(
                                     strokeWidth: 2.5,
-                                    valueColor:
-                                        AlwaysStoppedAnimation<Color>(
-                                            Colors.white),
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white,
+                                    ),
                                   ),
                                 )
                               : Text(
@@ -353,8 +367,9 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                             ),
                           ),
                           Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                            ),
                             child: Text(
                               'Atau masuk dengan',
                               style: GoogleFonts.poppins(
@@ -378,13 +393,14 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                         child: OutlinedButton(
                           onPressed: () async {
                             try {
-                              final user =
-                                  await AuthService().signInWithGoogle();
+                              final user = await AuthService()
+                                  .signInWithGoogle();
                               if (user != null && context.mounted) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text(
-                                        'Login berhasil! Selamat datang.'),
+                                      'Login berhasil! Selamat datang.',
+                                    ),
                                     backgroundColor: Colors.green,
                                     duration: Duration(seconds: 2),
                                   ),
