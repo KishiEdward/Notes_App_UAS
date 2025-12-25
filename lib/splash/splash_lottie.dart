@@ -17,7 +17,7 @@ class _MyLottieState extends State<MyLottie> {
 }
 
 Future<void> navigateToHome() async {
-  await Future.delayed(const Duration(seconds: 3));
+  await Future.delayed(const Duration(seconds: 2));
   if (!mounted) return;
 
   Navigator.pushAndRemoveUntil(
@@ -44,7 +44,6 @@ Future<void> navigateToHome() async {
               fit: BoxFit.contain,
             ),
             const SizedBox(height: 24),
-            const CircularProgressIndicator(),
           ],
         ),
       ),
