@@ -6,12 +6,13 @@ import 'package:notesapp/models/note_model.dart';
 import 'package:notesapp/pages/login_page.dart';
 import 'package:notesapp/pages/note_editor_page.dart';
 import 'package:notesapp/pages/profile_page.dart';
+import 'package:notesapp/pages/profile_team_page.dart';
 import 'package:notesapp/pages/search_page.dart';
 import 'package:notesapp/pages/template_page.dart';
 import 'package:notesapp/pages/trash_page.dart';
 import 'package:notesapp/services/auth_service.dart';
 import 'package:notesapp/services/firestore_service.dart';
-import 'package:notesapp/utils/notification_helper.dart'; 
+import 'package:notesapp/utils/notification_helper.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -98,15 +99,20 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
           child: Row(
             children: [
-              CircleAvatar(
-                radius: 22,
-                backgroundColor: Colors.grey.shade200,
-                child: Text(
-                  user?.displayName?.substring(0, 1).toUpperCase() ?? 'U',
-                  style: GoogleFonts.poppins(
-                    color: Colors.grey.shade700,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18,
+              GestureDetector(
+                onTap: () {
+                  _showUserMenu(context);
+                },
+                child: CircleAvatar(
+                  radius: 22,
+                  backgroundColor: Colors.grey.shade200,
+                  child: Text(
+                    user?.displayName?.substring(0, 1).toUpperCase() ?? 'U',
+                    style: GoogleFonts.poppins(
+                      color: Colors.grey.shade700,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                    ),
                   ),
                 ),
               ),
@@ -151,6 +157,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
+
               Row(
                 children: [
                   Container(
@@ -175,6 +182,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   const SizedBox(width: 8),
+
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -183,12 +191,17 @@ class _HomePageState extends State<HomePage> {
                     ),
                     child: IconButton(
                       icon: Icon(
-                        Icons.settings_outlined,
+                        Icons.group_rounded,
                         color: Colors.grey.shade700,
                         size: 24,
                       ),
                       onPressed: () {
-                        _showOptionsMenu(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ProfileTeamPage(),
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -644,52 +657,6 @@ class _HomePageState extends State<HomePage> {
                   );
                 }
               },
-            ),
-            const SizedBox(height: 20),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _showOptionsMenu(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) => SafeArea(
-        child: Wrap(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Center(
-                child: Container(
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings_outlined),
-              title: Text(
-                'Settings',
-                style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
-              ),
-              onTap: () => Navigator.pop(context),
-            ),
-            ListTile(
-              leading: const Icon(Icons.help_outline),
-              title: Text(
-                'Help',
-                style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
-              ),
-              onTap: () => Navigator.pop(context),
             ),
             const SizedBox(height: 20),
           ],
