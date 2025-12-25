@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:notesapp/pages/register_page.dart';
 import 'package:notesapp/services/auth_service.dart';
 import 'package:notesapp/pages/home_page.dart';
-import 'package:notesapp/pages/forgot_password-E.dart';
+import 'package:notesapp/pages/forgot_password-e.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
