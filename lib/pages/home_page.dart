@@ -8,6 +8,7 @@ import 'package:notesapp/pages/note_editor_page.dart';
 import 'package:notesapp/pages/profile_page.dart';
 import 'package:notesapp/pages/search_page.dart';
 import 'package:notesapp/pages/template_page.dart';
+import 'package:notesapp/pages/trash_page.dart';
 import 'package:notesapp/services/auth_service.dart';
 import 'package:notesapp/services/firestore_service.dart';
 
@@ -19,12 +20,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   int _selectedIndex = 0;
   String _selectedCategory = 'Semua';
   bool _isGridView = false;
   final FirestoreService _firestoreService = FirestoreService();
-  final List<String> _categories = ['Semua', 'Pribadi', 'Pekerjaan', 'Ide', 'Penting'];
+  final List<String> _categories = [
+    'Semua',
+    'Pribadi',
+    'Pekerjaan',
+    'Ide',
+    'Penting',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -32,245 +38,25 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
+      
       body: SafeArea(
-        child: _selectedIndex == 1 
-            ? const SearchPage()
-            : Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 22,
-                    backgroundColor: Colors.grey.shade200,
-                    child: Text(
-                      user?.displayName?.substring(0, 1).toUpperCase() ?? 'U',
-                      style: GoogleFonts.poppins(
-                        color: Colors.grey.shade700,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Halo,',
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            color: Colors.grey.shade500,
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            _showUserMenu(context);
-                          },
-                          child: Row(
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  user?.displayName ?? 'User',
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black87,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              const SizedBox(width: 4),
-                              Icon(
-                                Icons.keyboard_arrow_down,
-                                color: Colors.grey.shade600,
-                                size: 20,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(color: Colors.grey.shade200),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: IconButton(
-                          icon: Icon(
-                            _isGridView ? Icons.view_agenda_outlined : Icons.grid_view_rounded,
-                            color: Colors.grey.shade700,
-                            size: 24,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _isGridView = !_isGridView;
-                            });
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(color: Colors.grey.shade200),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.settings_outlined,
-                            color: Colors.grey.shade700,
-                            size: 24,
-                          ),
-                          onPressed: () {
-                            _showOptionsMenu(context);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
-            SizedBox(
-              height: 50,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                itemCount: _categories.length,
-                itemBuilder: (context, index) {
-                  final category = _categories[index];
-                  final isSelected = _selectedCategory == category;
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: FilterChip(
-                      label: Text(category),
-                      labelStyle: GoogleFonts.poppins(
-                        color: isSelected ? Colors.white : Colors.grey.shade700,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 13,
-                      ),
-                      selected: isSelected,
-                      onSelected: (bool selected) {
-                        setState(() {
-                          _selectedCategory = category;
-                        });
-                      },
-                      backgroundColor: Colors.white,
-                      selectedColor: Colors.black87,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        side: BorderSide(
-                          color: isSelected ? Colors.transparent : Colors.grey.shade300,
-                        ),
-                      ),
-                      elevation: 0,
-                      pressElevation: 0,
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    ),
-                  );
-                },
-              ),
-            ),
-
-            Expanded(
-              child: StreamBuilder<List<Note>>(
-                stream: _firestoreService.getNotesStream(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-
-                  if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  }
-
-                  final allNotes = snapshot.data ?? [];
-                  
-                  final filteredNotes = _selectedCategory == 'Semua'
-                      ? allNotes
-                      : allNotes.where((note) => note.category == _selectedCategory).toList();
-
-                  if (filteredNotes.isEmpty) {
-                     return Center(
-                       child: Column(
-                         mainAxisAlignment: MainAxisAlignment.center,
-                         children: [
-                           Icon(Icons.notes_rounded, size: 64, color: Colors.grey.shade300),
-                           const SizedBox(height: 16),
-                           Text(
-                             "Tidak ada catatan di '$_selectedCategory'", 
-                             style: GoogleFonts.poppins(color: Colors.grey),
-                           ),
-                         ],
-                       ),
-                     );
-                  }
-
-                  return ListView(
-                    padding: const EdgeInsets.all(20),
-                    children: [
-                      Text(
-                        'Daftar Catatan',
-                        style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          color: Colors.grey.shade500,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 0.5,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      
-                      if (_isGridView)
-                        MasonryGridView.count(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 12,
-                          crossAxisSpacing: 12,
-                          itemCount: filteredNotes.length,
-                          itemBuilder: (context, index) => _buildNoteItem(filteredNotes[index]),
-                        )
-                      else
-                        Column(
-                          children: filteredNotes.map((note) => _buildNoteItem(note)).toList(),
-                        ),
-                      
-                      const SizedBox(height: 24),
-                       Divider(
-                        color: Colors.grey.shade200,
-                        thickness: 1,
-                        height: 32,
-                      ),
-                      _buildTemplateCard(),
-                      const SizedBox(height: 100),
-                    ],
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
+        child: _buildBodyContent(user), 
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-            Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const NoteEditorPage()),
-          );
-        },
-        backgroundColor: Colors.black87,
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
+
+      floatingActionButton: _selectedIndex == 3 
+          ? null 
+          : FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const NoteEditorPage()),
+                );
+              },
+              backgroundColor: Colors.black87,
+              child: const Icon(Icons.add, color: Colors.white),
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         notchMargin: 8.0,
@@ -280,15 +66,281 @@ class _HomePageState extends State<HomePage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-               _buildNavItem(Icons.home_rounded, 0),
-               _buildNavItem(Icons.search_rounded, 1),
-               const SizedBox(width: 40), 
-               _buildNavItem(Icons.notifications_none_rounded, 2), 
-               _buildNavItem(Icons.person_outline_rounded, 3), 
+              _buildNavItem(Icons.home_rounded, 0),
+              _buildNavItem(Icons.search_rounded, 1),
+              const SizedBox(width: 40),
+              _buildNavItem(Icons.notifications_none_rounded, 2),
+              _buildNavItem(Icons.delete_outline_rounded, 3), 
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildBodyContent(User? user) {
+    switch (_selectedIndex) {
+      case 0:
+        return _buildHomeContent(user); 
+      case 1:
+        return const SearchPage(); 
+      case 2:
+        return const Center(child: Text("Halaman Notifikasi")); 
+      case 3:
+        return const TrashPage(); 
+      default:
+        return _buildHomeContent(user);
+    }
+  }
+
+  
+  Widget _buildHomeContent(User? user) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 22,
+                backgroundColor: Colors.grey.shade200,
+                child: Text(
+                  user?.displayName?.substring(0, 1).toUpperCase() ?? 'U',
+                  style: GoogleFonts.poppins(
+                    color: Colors.grey.shade700,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Halo,',
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        color: Colors.grey.shade500,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        _showUserMenu(context);
+                      },
+                      child: Row(
+                        children: [
+                          Flexible(
+                            child: Text(
+                              user?.displayName ?? 'User',
+                              style: GoogleFonts.poppins(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black87,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Icon(
+                            Icons.keyboard_arrow_down,
+                            color: Colors.grey.shade600,
+                            size: 20,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.grey.shade200),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: IconButton(
+                      icon: Icon(
+                        _isGridView
+                            ? Icons.view_agenda_outlined
+                            : Icons.grid_view_rounded,
+                        color: Colors.grey.shade700,
+                        size: 24,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isGridView = !_isGridView;
+                        });
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.grey.shade200),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.settings_outlined,
+                        color: Colors.grey.shade700,
+                        size: 24,
+                      ),
+                      onPressed: () {
+                        _showOptionsMenu(context);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+
+        SizedBox(
+          height: 50,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            itemCount: _categories.length,
+            itemBuilder: (context, index) {
+              final category = _categories[index];
+              final isSelected = _selectedCategory == category;
+              return Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: FilterChip(
+                  label: Text(category),
+                  labelStyle: GoogleFonts.poppins(
+                    color: isSelected ? Colors.white : Colors.grey.shade700,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13,
+                  ),
+                  selected: isSelected,
+                  onSelected: (bool selected) {
+                    setState(() {
+                      _selectedCategory = category;
+                    });
+                  },
+                  backgroundColor: Colors.white,
+                  selectedColor: Colors.black87,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    side: BorderSide(
+                      color: isSelected
+                          ? Colors.transparent
+                          : Colors.grey.shade300,
+                    ),
+                  ),
+                  elevation: 0,
+                  pressElevation: 0,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+
+        Expanded(
+          child: StreamBuilder<List<Note>>(
+            stream: _firestoreService.getNotesStream(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              }
+
+              final allNotes = snapshot.data ?? [];
+
+              final filteredNotes = allNotes.where((note) {
+                final isNotTrash = note.isTrashed == false;
+                
+                final isCategoryMatch = _selectedCategory == 'Semua'
+                    ? true
+                    : note.category == _selectedCategory;
+                
+                return isNotTrash && isCategoryMatch;
+              }).toList();
+
+              if (filteredNotes.isEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.notes_rounded,
+                        size: 64,
+                        color: Colors.grey.shade300,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        _selectedCategory == 'Semua' 
+                            ? "Belum ada catatan"
+                            : "Tidak ada catatan di '$_selectedCategory'",
+                        style: GoogleFonts.poppins(
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              return ListView(
+                padding: const EdgeInsets.all(20),
+                children: [
+                  Text(
+                    'Daftar Catatan',
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      color: Colors.grey.shade500,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  if (_isGridView)
+                    MasonryGridView.count(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 12,
+                      crossAxisSpacing: 12,
+                      itemCount: filteredNotes.length,
+                      itemBuilder: (context, index) =>
+                          _buildNoteItem(filteredNotes[index]),
+                    )
+                  else
+                    Column(
+                      children: filteredNotes
+                          .map((note) => _buildNoteItem(note))
+                          .toList(),
+                    ),
+
+                  const SizedBox(height: 24),
+                  Divider(
+                    color: Colors.grey.shade200,
+                    thickness: 1,
+                    height: 32,
+                  ),
+                  _buildTemplateCard(),
+                  const SizedBox(height: 100),
+                ],
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 
@@ -332,7 +384,9 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Expanded(
                             child: Text(
-                              note.title.isNotEmpty ? note.title : 'Tanpa Judul',
+                              note.title.isNotEmpty
+                                  ? note.title
+                                  : 'Tanpa Judul',
                               style: GoogleFonts.poppins(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -366,34 +420,37 @@ class _HomePageState extends State<HomePage> {
                           overflow: TextOverflow.ellipsis,
                         ),
                       const SizedBox(height: 8),
-                  
+
                       if (note.category != 'All' && note.category != 'General')
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                         decoration: BoxDecoration(
-                          color: Colors.blueAccent.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Text(
-                          note.category,
-                          style: GoogleFonts.poppins(
-                            fontSize: 10,
-                            color: Colors.blueAccent,
-                            fontWeight: FontWeight.w500,
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.blueAccent.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Text(
+                            note.category,
+                            style: GoogleFonts.poppins(
+                              fontSize: 10,
+                              color: Colors.blueAccent,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
-                      )
                     ],
                   ),
                 ),
-                 IconButton(
+                IconButton(
                   icon: Icon(
                     Icons.more_vert_rounded,
                     size: 20,
                     color: Colors.grey.shade400,
                   ),
                   onPressed: () {
-                     _showNoteOptions(context, note);
+                    _showNoteOptions(context, note);
                   },
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
@@ -421,23 +478,33 @@ class _HomePageState extends State<HomePage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                leading: const Icon(Icons.delete_outline, color: Colors.redAccent),
+                leading: const Icon(
+                  Icons.delete_outline,
+                  color: Colors.redAccent,
+                ),
                 title: Text(
-                  'Hapus Catatan', 
-                  style: GoogleFonts.poppins(color: Colors.redAccent, fontWeight: FontWeight.w500)
+                  'Pindahkan ke Sampah', 
+                  style: GoogleFonts.poppins(
+                    color: Colors.redAccent,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
                 onTap: () async {
                   Navigator.pop(context);
-                   await _firestoreService.deleteNote(note.id);
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Catatan dihapus", style: GoogleFonts.poppins()),
-                           backgroundColor: Colors.black87,
-                           behavior: SnackBarBehavior.floating,
+                  await _firestoreService.moveToTrash(note.id);
+                  
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          "Catatan dipindahkan ke sampah",
+                          style: GoogleFonts.poppins(),
                         ),
-                      );
-                    }
+                        backgroundColor: Colors.black87,
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
+                  }
                 },
               ),
             ],
@@ -448,6 +515,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildTemplateCard() {
+
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -470,11 +538,11 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(8),
                 boxShadow: [
-                   BoxShadow(
+                  BoxShadow(
                     color: Colors.black.withOpacity(0.05),
                     blurRadius: 4,
                   ),
-                ]
+                ],
               ),
               child: const Icon(
                 Icons.grid_view_rounded,
@@ -536,37 +604,48 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.all(20),
               child: Center(
-                 child: Container(
-                   width: 40,
-                   height: 4,
-                   decoration: BoxDecoration(
-                     color: Colors.grey.shade300,
-                     borderRadius: BorderRadius.circular(10),
-                   ),
-                 ),
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
               ),
             ),
             ListTile(
               leading: const Icon(Icons.person_outline_rounded),
-              title: Text('Profile', style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+              title: Text(
+                'Profile',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+              ),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const ProfilePage()),
+                  MaterialPageRoute(builder: (context) => const ProfilePage()),
                 );
               },
             ),
             ListTile(
               leading: const Icon(Icons.settings_outlined),
-              title: Text('Settings', style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+              title: Text(
+                'Settings',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+              ),
               onTap: () => Navigator.pop(context),
             ),
             const Divider(),
             ListTile(
               leading: const Icon(Icons.logout_rounded, color: Colors.black87),
-              title: Text('Logout', style: GoogleFonts.poppins(fontWeight: FontWeight.w500, color: Colors.black87)),
+              title: Text(
+                'Logout',
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black87,
+                ),
+              ),
               onTap: () async {
                 Navigator.pop(context);
                 await AuthService().signOut();
@@ -588,37 +667,43 @@ class _HomePageState extends State<HomePage> {
   void _showOptionsMenu(BuildContext context) {
     showModalBottomSheet(
       context: context,
-       backgroundColor: Colors.white,
+      backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) => SafeArea(
         child: Wrap(
-           children: [
-             Padding(
+          children: [
+            Padding(
               padding: const EdgeInsets.all(20),
               child: Center(
-                 child: Container(
-                   width: 40,
-                   height: 4,
-                   decoration: BoxDecoration(
-                     color: Colors.grey.shade300,
-                     borderRadius: BorderRadius.circular(10),
-                   ),
-                 ),
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
               ),
             ),
             ListTile(
               leading: const Icon(Icons.settings_outlined),
-              title: Text('Settings', style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+              title: Text(
+                'Settings',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+              ),
               onTap: () => Navigator.pop(context),
             ),
             ListTile(
               leading: const Icon(Icons.help_outline),
-              title: Text('Help', style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+              title: Text(
+                'Help',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+              ),
               onTap: () => Navigator.pop(context),
             ),
-             const SizedBox(height: 20),
+            const SizedBox(height: 20),
           ],
         ),
       ),

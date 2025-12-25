@@ -57,8 +57,8 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
   }
 
   Future<void> _handleBack() async {
-     await _saveNote();
-     if (mounted) Navigator.pop(context);
+    await _saveNote();
+    if (mounted) Navigator.pop(context);
   }
 
   @override
@@ -97,102 +97,109 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
                 if (mounted) Navigator.pop(context);
               },
             ),
+            
             if (widget.note != null)
-               IconButton(
-              icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
-               onPressed: () async {
+              IconButton(
+                icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
+                onPressed: () async {
                   final confirm = await showDialog<bool>(
                     context: context,
                     builder: (context) => AlertDialog(
-                      title: const Text('Hapus Catatan?'),
-                      content: const Text('Catatan ini akan dihapus permanen.'),
+                      title: const Text('Pindahkan ke Sampah?'),
+                      content: const Text('Catatan ini bisa dikembalikan lagi nanti.'),
                       actions: [
-                        TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Batal')),
-                        TextButton(onPressed: () => Navigator.pop(context, true), child: const Text('Hapus', style: TextStyle(color: Colors.red))),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, false), 
+                          child: const Text('Batal', style: TextStyle(color: Colors.grey)),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, true), 
+                          child: const Text('Pindahkan', style: TextStyle(color: Colors.red)),
+                        ),
                       ],
                     ),
                   );
 
                   if (confirm == true) {
-                     await _firestoreService.deleteNote(widget.note!.id);
-                     if (mounted) Navigator.pop(context);
+                    await _firestoreService.moveToTrash(widget.note!.id);
+                    if (mounted) Navigator.pop(context);
                   }
-               },
-            ),
+                },
+              ),
             const SizedBox(width: 8),
           ],
         ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            children: [
-              TextField(
-                controller: _titleController,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-                decoration: const InputDecoration(
-                  hintText: 'Judul',
-                  border: InputBorder.none,
-                  hintStyle: TextStyle(color: Colors.black38),
-                ),
-                maxLines: 1,
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: _categories.map((category) {
-                    final isSelected = _selectedCategory == category;
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 8.0, bottom: 8.0),
-                      child: ChoiceChip(
-                        label: Text(category),
-                        labelStyle: TextStyle(
-                          color: isSelected ? Colors.white : Colors.black87,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        selected: isSelected,
-                        onSelected: (selected) {
-                          setState(() {
-                            _selectedCategory = category;
-                          });
-                        },
-                        selectedColor: Colors.black87,
-                        backgroundColor: Colors.grey.shade100,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          side: BorderSide.none,
-                        ),
-                        showCheckmark: false,
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-              Expanded(
-                child: TextField(
-                  controller: _contentController,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              children: [
+                TextField(
+                  controller: _titleController,
                   style: const TextStyle(
-                    fontSize: 16,
-                    height: 1.5,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                     color: Colors.black87,
                   ),
                   decoration: const InputDecoration(
-                    hintText: 'Mulai mengetik...',
+                    hintText: 'Judul',
                     border: InputBorder.none,
                     hintStyle: TextStyle(color: Colors.black38),
                   ),
-                  maxLines: null, 
-                  textCapitalization: TextCapitalization.sentences,
+                  maxLines: 1,
                 ),
-              ),
-            ],
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: _categories.map((category) {
+                      final isSelected = _selectedCategory == category;
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 8.0, bottom: 8.0),
+                        child: ChoiceChip(
+                          label: Text(category),
+                          labelStyle: TextStyle(
+                            color: isSelected ? Colors.white : Colors.black87,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          selected: isSelected,
+                          onSelected: (selected) {
+                            setState(() {
+                              _selectedCategory = category;
+                            });
+                          },
+                          selectedColor: Colors.black87,
+                          backgroundColor: Colors.grey.shade100,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            side: BorderSide.none,
+                          ),
+                          showCheckmark: false,
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                Expanded(
+                  child: TextField(
+                    controller: _contentController,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      height: 1.5,
+                      color: Colors.black87,
+                    ),
+                    decoration: const InputDecoration(
+                      hintText: 'Mulai mengetik...',
+                      border: InputBorder.none,
+                      hintStyle: TextStyle(color: Colors.black38),
+                    ),
+                    maxLines: null,
+                    textCapitalization: TextCapitalization.sentences,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
       ),
     );
   }
