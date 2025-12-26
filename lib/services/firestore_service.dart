@@ -82,4 +82,19 @@ class FirestoreService {
   Future<void> deleteNote(String id) async {
     await _db.collection('notes').doc(id).delete();
   }
+
+  Future<List<Note>> getAllNotes() async {
+    final user = _auth.currentUser;
+    if (user == null) return [];
+
+    final snapshot = await _db
+        .collection('notes')
+        .where('userId', isEqualTo: user.uid)
+        .where('isTrashed', isEqualTo: false)
+        .get();
+
+    return snapshot.docs.map((doc) {
+      return Note.fromMap(doc.data(), doc.id);
+    }).toList();
+  }
 }
