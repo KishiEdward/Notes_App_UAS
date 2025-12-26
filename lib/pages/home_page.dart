@@ -14,6 +14,7 @@ import 'package:notesapp/services/auth_service.dart';
 import 'package:notesapp/services/firestore_service.dart';
 import 'package:notesapp/utils/notification_helper.dart';
 import 'package:notesapp/utils/markdown_helper.dart';
+import 'package:notesapp/pages/settings_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -69,7 +70,7 @@ class _HomePageState extends State<HomePage> {
               _buildNavItem(Icons.home_rounded, 0),
               _buildNavItem(Icons.search_rounded, 1),
               const SizedBox(width: 40),
-              _buildNavItem(Icons.notifications_none_rounded, 2),
+              _buildNavItem(Icons.settings_outlined, 2),
               _buildNavItem(Icons.delete_outline_rounded, 3),
             ],
           ),
@@ -85,7 +86,26 @@ class _HomePageState extends State<HomePage> {
       case 1:
         return const SearchPage();
       case 2:
-        return const Center(child: Text("Halaman Notifikasi"));
+        return SettingsPage(
+          onThemeChanged: (darkMode) async {
+            await Future.delayed(const Duration(milliseconds: 100));
+            if (mounted) {
+              final newRoute = MaterialPageRoute(
+                builder: (context) => const HomePage(),
+              );
+              Navigator.pushReplacement(context, newRoute);
+            }
+          },
+          onFontSizeChanged: (fontSize) async {
+            await Future.delayed(const Duration(milliseconds: 100));
+            if (mounted) {
+              final newRoute = MaterialPageRoute(
+                builder: (context) => const HomePage(),
+              );
+              Navigator.pushReplacement(context, newRoute);
+            }
+          },
+        );
       case 3:
         return const TrashPage();
       default:
