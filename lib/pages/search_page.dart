@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:notesapp/models/note_model.dart';
 import 'package:notesapp/pages/note_editor_page.dart';
 import 'package:notesapp/services/firestore_service.dart';
+import 'package:notesapp/utils/markdown_helper.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -164,15 +165,7 @@ class _SearchPageState extends State<SearchPage> {
               ),
               if (note.content.isNotEmpty) ...[
                 const SizedBox(height: 4),
-                Text(
-                  note.content.replaceAll('\n', ' '),
-                  style: GoogleFonts.poppins(
-                    fontSize: 14,
-                    color: const Color(0xFF666666),
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                MarkdownHelper.buildPreview(note.content, maxLines: 2),
               ],
             ],
           ),

@@ -13,6 +13,7 @@ import 'package:notesapp/pages/trash_page.dart';
 import 'package:notesapp/services/auth_service.dart';
 import 'package:notesapp/services/firestore_service.dart';
 import 'package:notesapp/utils/notification_helper.dart';
+import 'package:notesapp/utils/markdown_helper.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -411,17 +412,10 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                       const SizedBox(height: 6),
-                      if (note.content.isNotEmpty)
-                        Text(
-                          note.content.replaceAll('\n', ' '),
-                          style: GoogleFonts.poppins(
-                            fontSize: 13,
-                            color: Colors.grey.shade600,
-                            height: 1.4,
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                      if (note.content.isNotEmpty) ...[
+                        const SizedBox(height: 4),
+                        MarkdownHelper.buildPreview(note.content, maxLines: 2),
+                      ],
                       const SizedBox(height: 8),
                       if (note.category != 'All' && note.category != 'General')
                         Container(

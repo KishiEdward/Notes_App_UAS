@@ -4,6 +4,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:notesapp/models/note_model.dart';
 import 'package:notesapp/services/firestore_service.dart';
 import 'package:notesapp/utils/notification_helper.dart';
+import 'package:notesapp/utils/markdown_helper.dart';
 import 'package:notesapp/pages/trash_note_view_page.dart';
 
 class TrashPage extends StatefulWidget {
@@ -383,16 +384,10 @@ class _TrashPageState extends State<TrashPage> {
                   ),
               ],
             ),
-            const SizedBox(height: 8),
-            Text(
-              note.content,
-              style: GoogleFonts.poppins(
-                fontSize: 12,
-                color: Colors.grey.shade500,
-              ),
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-            ),
+            if (note.content.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              MarkdownHelper.buildPreview(note.content, maxLines: 3),
+            ],
 
             if (!_isSelectionMode) ...[
               const SizedBox(height: 16),
