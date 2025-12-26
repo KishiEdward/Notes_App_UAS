@@ -6,7 +6,17 @@ import 'package:notesapp/utils/notification_helper.dart';
 class NoteEditorPage extends StatefulWidget {
   final Note? note;
 
-  const NoteEditorPage({super.key, this.note});
+  final String? initialTitle;
+  final String? initialContent;
+  final String? initialCategory;
+
+  const NoteEditorPage({
+    super.key,
+    this.note,
+    this.initialTitle,
+    this.initialContent,
+    this.initialCategory,
+  });
 
   @override
   State<NoteEditorPage> createState() => _NoteEditorPageState();
@@ -23,11 +33,13 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
   @override
   void initState() {
     super.initState();
-    _titleController = TextEditingController(text: widget.note?.title ?? '');
-    _contentController = TextEditingController(
-      text: widget.note?.content ?? '',
+    _titleController = TextEditingController(
+      text: widget.note?.title ?? widget.initialTitle ?? '',
     );
-    _selectedCategory = widget.note?.category ?? 'Pribadi';
+    _contentController = TextEditingController(
+      text: widget.note?.content ?? widget.initialContent ?? '',
+    );
+    _selectedCategory = widget.note?.category ?? widget.initialCategory ?? 'Pribadi';
     _isPinned = widget.note?.isPinned ?? false;
     if (!_categories.contains(_selectedCategory)) {
       _selectedCategory = 'Pribadi';
