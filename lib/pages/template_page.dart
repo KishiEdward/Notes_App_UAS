@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:notesapp/models/template_model.dart';
 import 'package:notesapp/pages/note_editor_page.dart';
 
@@ -8,39 +10,39 @@ class TemplatePage extends StatelessWidget {
   static final List<NoteTemplate> _templates = [
     NoteTemplate(
       title: 'Catatan Cepat',
-      content: '', 
+      content: '📝 **Catatan Cepat**\n\n💡 Ide utama:\n- \n\n✨ Detail penting:\n- \n- \n\n🔗 Referensi/Link:\n- ', 
       category: 'Pribadi',
       icon: Icons.edit_note,
       color: Colors.pink[50]!,
       rating: '4.8',
     ),
     NoteTemplate(
-      title: 'Daftar To-do sederhana',
-      content: '- [ ] \n- [ ] \n- [ ] ',
+      title: 'Daftar To-do',
+      content: '✅ **Target Hari Ini**\n\n🔴 Prioritas Tinggi\n- [ ] \n- [ ] \n\n🟡 Rutinitas\n- [ ] \n- [ ] \n\n🟢 Nanti Saja\n- [ ] ',
       category: 'Pekerjaan',
       icon: Icons.check_circle_outline,
       color: Colors.blue[50]!,
       rating: '4.9',
     ),
     NoteTemplate(
-      title: 'Jurnal sederhana',
-      content: 'Tanggal: \n\nHal yang saya syukuri hari ini:\n1. \n2. \n3. \n\nCerita hari ini:\n',
+      title: 'Jurnal Harian',
+      content: '📅 **Jurnal Harian**\n\nmood hari ini: 😐 / 🙂 / 🤩 / 😔\n\n🙏 **Moment Bersyukur**\n1. \n2. \n3. \n\n🌟 **Highlight Hari Ini**\nApa satu hal menarik yang terjadi?\n\n🧠 **Refleksi**\nApa yang saya pelajari hari ini?',
       category: 'Pribadi',
       icon: Icons.book,
       color: Colors.purple[50]!,
       rating: '5.0',
     ),
     NoteTemplate(
-      title: '1:1 Catatan',
-      content: 'Agenda:\n1. \n2. \n\nCatatan Diskusi:\n- \n\nTindak Lanjut:\n- [ ] ',
+      title: '1:1 Meeting',
+      content: '🤝 **1:1 Meeting**\n👤 Dengan: \n\n📋 **Agenda**\n1. \n2. \n3. \n\n💬 **Catatan Diskusi**\n- \n- \n\n🚀 **Action Items**\n- [ ] \n- [ ] ',
       category: 'Pekerjaan',
       icon: Icons.people_outline,
       color: Colors.indigo[50]!,
       rating: '5.0',
     ),
     NoteTemplate(
-      title: 'Daftar tugas mingguan sederhana',
-      content: '# Senin\n- [ ] \n\n# Selasa\n- [ ] \n\n# Rabu\n- [ ] \n\n# Kamis\n- [ ] \n\n# Jumat\n- [ ] ',
+      title: 'Planner Mingguan',
+      content: '🗓️ **Minggu Ini**\n🎯 Fokus Utama: \n\nMonday 🌑\n- [ ] \n\nTuesday 🌒\n- [ ] \n\nWednesday 🌓\n- [ ] \n\nThursday 🌔\n- [ ] \n\nFriday 🌕\n- [ ] \n\nWeekend 🏖️\n- [ ] ',
       category: 'Pekerjaan',
       icon: Icons.list_alt,
       color: Colors.teal[50]!,
@@ -169,7 +171,17 @@ class TemplatePage extends StatelessWidget {
                 const SizedBox(height: 16),
 
 
-                 ..._templates.map((template) => _buildTemplateItem(context, template)).toList(),
+                MasonryGridView.count(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  itemCount: _templates.length,
+                  itemBuilder: (context, index) {
+                    return _buildTemplateItem(context, _templates[index]);
+                  },
+                ),
 
                 const SizedBox(height: 24),
 
@@ -253,69 +265,48 @@ class TemplatePage extends StatelessWidget {
       },
       borderRadius: BorderRadius.circular(16),
       child: Container(
-        margin: const EdgeInsets.only(bottom: 16),
-        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.grey[100]!),
+          border: Border.all(color: Colors.grey.shade200),
           boxShadow: [
-             BoxShadow(
-              color: Colors.black.withOpacity(0.03),
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
           ],
         ),
-        child: Row(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-  
             Container(
-              width: 100,
-              height: 140,
+              height: 120,
               decoration: BoxDecoration(
-                color: const Color(0xFFFAFAFA),
-                borderRadius: BorderRadius.circular(12),
+                color: template.color.withOpacity(0.3),
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
               ),
-  
-              child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                           Container(width: 20, height: 20, color: template.color),
-                           const SizedBox(height: 8),
-                           Container(height: 4, width: 40, color: Colors.grey[300]),
-                           const SizedBox(height: 4),
-                           Container(height: 4, width: 60, color: Colors.grey[300]),
-                           const SizedBox(height: 4),
-                           Container(height: 4, width: 30, color: Colors.grey[300]),
-                           
-                           const Padding(padding: EdgeInsets.only(top: 20)),
-  
-                           Row(children: [Icon(Icons.check_box_outline_blank, size: 8, color: Colors.grey), SizedBox(width: 4), Container(height: 3, width: 40, color: Colors.grey[300])]),
-                           SizedBox(height: 4),
-                           Row(children: [Icon(Icons.check_box_outline_blank, size: 8, color: Colors.grey), SizedBox(width: 4), Container(height: 3, width: 30, color: Colors.grey[300])]),
-                      ],
-                  )
+              child: Center(
+                child: _buildVisualPreview(template),
               ),
             ),
-            const SizedBox(width: 16),
-            Expanded(
+            
+            Padding(
+              padding: const EdgeInsets.all(12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                   Row(
                     children: [
-                      Icon(Icons.description_outlined, size: 16, color: Colors.grey[800]),
+                      Icon(template.icon, size: 16, color: Colors.grey[800]),
                        const SizedBox(width: 6),
                       Expanded(
                         child: Text(
                           template.title,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                            color: Colors.black87,
                           ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -323,28 +314,35 @@ class TemplatePage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 8),
                   Row(
                     children: [
-                      const Icon(Icons.star, size: 14, color: Colors.grey),
-                      const SizedBox(width: 4),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade100,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          template.category,
+                          style: GoogleFonts.poppins(
+                            fontSize: 10,
+                            color: Colors.grey.shade600,
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                      const Icon(Icons.star, size: 12, color: Colors.amber),
+                      const SizedBox(width: 2),
                       Text(
                         template.rating,
-                        style: const TextStyle(
-                          color: Colors.grey,
+                        style: GoogleFonts.poppins(
+                          color: Colors.grey.shade600,
+                          fontSize: 10,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     ],
-                  ),
-                  const SizedBox(height: 70),
-                  const Text(
-                    'Gratis',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                      color: Colors.black87,
-                    ),
                   ),
                 ],
               ),
@@ -352,6 +350,115 @@ class TemplatePage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildVisualPreview(NoteTemplate template) {
+    if (template.title.contains('To-do')) {
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _buildCheckRow(),
+            const SizedBox(height: 8),
+            _buildCheckRow(),
+            const SizedBox(height: 8),
+            _buildCheckRow(),
+          ],
+        ),
+      );
+    } else if (template.title.contains('Jurnal')) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Text('😐', style: TextStyle(fontSize: 14)),
+              SizedBox(width: 4),
+              Text('🙂', style: TextStyle(fontSize: 14)),
+              SizedBox(width: 4),
+              Text('🤩', style: TextStyle(fontSize: 14)),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Container(height: 4, width: 60, color: Colors.black12),
+          const SizedBox(height: 4),
+          Container(height: 4, width: 40, color: Colors.black12),
+        ],
+      );
+    } else if (template.title.contains('Meeting')) {
+       return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+               CircleAvatar(radius: 8, backgroundColor: Colors.indigo[100]),
+               const SizedBox(width: 8),
+               CircleAvatar(radius: 8, backgroundColor: Colors.orange[100]),
+            ],
+          ),
+          const SizedBox(height: 12),
+           Container(height: 4, width: 50, color: Colors.black12),
+           const SizedBox(height: 4),
+           Container(height: 4, width: 50, color: Colors.black12),
+        ],
+      );
+    } else if (template.title.contains('Planner')) {
+      return Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Wrap(
+          spacing: 4,
+          runSpacing: 4,
+          children: List.generate(6, (index) => Container(
+            width: 20,
+            height: 20,
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.6),
+              borderRadius: BorderRadius.circular(4),
+            ),
+          )),
+        ),
+      );
+    }
+    
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(height: 6, width: 60, decoration: BoxDecoration(color: Colors.black12, borderRadius: BorderRadius.circular(2))),
+        const SizedBox(height: 6),
+        Container(height: 4, width: 80, decoration: BoxDecoration(color: Colors.black12, borderRadius: BorderRadius.circular(2))),
+        const SizedBox(height: 6),
+        Container(height: 4, width: 50, decoration: BoxDecoration(color: Colors.black12, borderRadius: BorderRadius.circular(2))),
+      ],
+    );
+  }
+
+  Widget _buildCheckRow() {
+    return Row(
+      children: [
+        Container(
+          width: 12,
+          height: 12,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black26),
+            borderRadius: BorderRadius.circular(3),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Container(
+            height: 4,
+            decoration: BoxDecoration(
+              color: Colors.black12,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
