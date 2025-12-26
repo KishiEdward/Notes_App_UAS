@@ -22,7 +22,38 @@ void main() async {
     ));
     return;
   }
-  runApp(const MyApp());
+  runApp(const RestartWidget(child: MyApp()));
+}
+
+class RestartWidget extends StatefulWidget {
+  final Widget child;
+
+  const RestartWidget({super.key, required this.child});
+
+  static void restartApp(BuildContext context) {
+    context.findAncestorStateOfType<_RestartWidgetState>()?.restartApp();
+  }
+
+  @override
+  State<RestartWidget> createState() => _RestartWidgetState();
+}
+
+class _RestartWidgetState extends State<RestartWidget> {
+  Key key = UniqueKey();
+
+  void restartApp() {
+    setState(() {
+      key = UniqueKey();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return KeyedSubtree(
+      key: key,
+      child: widget.child,
+    );
+  }
 }
 
 class MyApp extends StatefulWidget {
@@ -48,18 +79,6 @@ class _MyAppState extends State<MyApp> {
     final fontSize = await _settingsService.getFontSize();
     setState(() {
       _darkMode = darkMode;
-      _fontScale = _settingsService.getFontSizeValue(fontSize);
-    });
-  }
-
-  void _updateTheme(bool darkMode) {
-    setState(() {
-      _darkMode = darkMode;
-    });
-  }
-
-  void _updateFontSize(String fontSize) {
-    setState(() {
       _fontScale = _settingsService.getFontSizeValue(fontSize);
     });
   }

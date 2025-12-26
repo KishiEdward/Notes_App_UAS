@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notesapp/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -639,19 +640,15 @@ class _HomePageState extends State<HomePage> {
                     onThemeChanged: (darkMode) async {
                       await Future.delayed(const Duration(milliseconds: 100));
                       if (context.mounted) {
-                        final newRoute = MaterialPageRoute(
-                          builder: (context) => const HomePage(),
-                        );
-                        Navigator.pushReplacement(context, newRoute);
+                        Navigator.pop(context);
+                        RestartWidget.restartApp(context);
                       }
                     },
                     onFontSizeChanged: (fontSize) async {
                       await Future.delayed(const Duration(milliseconds: 100));
                       if (context.mounted) {
-                        final newRoute = MaterialPageRoute(
-                          builder: (context) => const HomePage(),
-                        );
-                        Navigator.pushReplacement(context, newRoute);
+                        Navigator.pop(context);
+                        RestartWidget.restartApp(context);
                       }
                     },
                   ),
