@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
               _buildNavItem(Icons.home_rounded, 0),
               _buildNavItem(Icons.search_rounded, 1),
               const SizedBox(width: 40),
-              _buildNavItem(Icons.settings_outlined, 2),
+              _buildNavItem(Icons.notifications_none_rounded, 2),
               _buildNavItem(Icons.delete_outline_rounded, 3),
             ],
           ),
@@ -86,26 +86,7 @@ class _HomePageState extends State<HomePage> {
       case 1:
         return const SearchPage();
       case 2:
-        return SettingsPage(
-          onThemeChanged: (darkMode) async {
-            await Future.delayed(const Duration(milliseconds: 100));
-            if (mounted) {
-              final newRoute = MaterialPageRoute(
-                builder: (context) => const HomePage(),
-              );
-              Navigator.pushReplacement(context, newRoute);
-            }
-          },
-          onFontSizeChanged: (fontSize) async {
-            await Future.delayed(const Duration(milliseconds: 100));
-            if (mounted) {
-              final newRoute = MaterialPageRoute(
-                builder: (context) => const HomePage(),
-              );
-              Navigator.pushReplacement(context, newRoute);
-            }
-          },
-        );
+        return const Center(child: Text("Halaman Notifikasi"));
       case 3:
         return const TrashPage();
       default:
@@ -644,13 +625,40 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.settings_outlined),
-              title: Text(
-                'Settings',
-                style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
-              ),
-              onTap: () => Navigator.pop(context),
+            leading: const Icon(Icons.settings_outlined),
+            title: Text(
+              'Settings',
+              style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
             ),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SettingsPage(
+                    onThemeChanged: (darkMode) async {
+                      await Future.delayed(const Duration(milliseconds: 100));
+                      if (context.mounted) {
+                        final newRoute = MaterialPageRoute(
+                          builder: (context) => const HomePage(),
+                        );
+                        Navigator.pushReplacement(context, newRoute);
+                      }
+                    },
+                    onFontSizeChanged: (fontSize) async {
+                      await Future.delayed(const Duration(milliseconds: 100));
+                      if (context.mounted) {
+                        final newRoute = MaterialPageRoute(
+                          builder: (context) => const HomePage(),
+                        );
+                        Navigator.pushReplacement(context, newRoute);
+                      }
+                    },
+                  ),
+                ),
+              );
+            },
+          ),
             const Divider(),
             ListTile(
               leading: const Icon(Icons.logout_rounded, color: Colors.black87),
