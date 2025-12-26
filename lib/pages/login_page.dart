@@ -409,7 +409,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
 
                                 Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(
-                                    builder: (context) => const HomePage(),
+                                    builder: (context) => const MyLottie(),
                                   ),
                                   (route) => false,
                                 );
