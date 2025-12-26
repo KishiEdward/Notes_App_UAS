@@ -1,7 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:notesapp/models/template_model.dart';
+import 'package:notesapp/pages/note_editor_page.dart';
 
 class TemplatePage extends StatelessWidget {
   const TemplatePage({super.key});
+
+  static final List<NoteTemplate> _templates = [
+    NoteTemplate(
+      title: 'Catatan Cepat',
+      content: '', 
+      category: 'Pribadi',
+      icon: Icons.edit_note,
+      color: Colors.pink[50]!,
+      rating: '4.8',
+    ),
+    NoteTemplate(
+      title: 'Daftar To-do sederhana',
+      content: '- [ ] \n- [ ] \n- [ ] ',
+      category: 'Pekerjaan',
+      icon: Icons.check_circle_outline,
+      color: Colors.blue[50]!,
+      rating: '4.9',
+    ),
+    NoteTemplate(
+      title: 'Jurnal sederhana',
+      content: 'Tanggal: \n\nHal yang saya syukuri hari ini:\n1. \n2. \n3. \n\nCerita hari ini:\n',
+      category: 'Pribadi',
+      icon: Icons.book,
+      color: Colors.purple[50]!,
+      rating: '5.0',
+    ),
+    NoteTemplate(
+      title: '1:1 Catatan',
+      content: 'Agenda:\n1. \n2. \n\nCatatan Diskusi:\n- \n\nTindak Lanjut:\n- [ ] ',
+      category: 'Pekerjaan',
+      icon: Icons.people_outline,
+      color: Colors.indigo[50]!,
+      rating: '5.0',
+    ),
+    NoteTemplate(
+      title: 'Daftar tugas mingguan sederhana',
+      content: '# Senin\n- [ ] \n\n# Selasa\n- [ ] \n\n# Rabu\n- [ ] \n\n# Kamis\n- [ ] \n\n# Jumat\n- [ ] ',
+      category: 'Pekerjaan',
+      icon: Icons.list_alt,
+      color: Colors.teal[50]!,
+      rating: '5.0',
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -124,36 +169,7 @@ class TemplatePage extends StatelessWidget {
                 const SizedBox(height: 16),
 
 
-                _buildTemplateItem(
-                  'Catatan Cepat',
-                  '4,8',
-                  Icons.edit_note,
-                  Colors.pink[50]!,
-                ),
-                _buildTemplateItem(
-                  'Daftar To-do sederhana',
-                  '4,9',
-                  Icons.check_circle_outline,
-                   Colors.blue[50]!,
-                ),
-                _buildTemplateItem(
-                  'Jurnal sederhana',
-                  '5,0',
-                  Icons.book,
-                   Colors.purple[50]!,
-                ),
-                 _buildTemplateItem(
-                  '1:1 Catatan',
-                  '5,0',
-                  Icons.people_outline,
-                   Colors.indigo[50]!,
-                ),
-                 _buildTemplateItem(
-                  'Daftar tugas mingguan sederhana',
-                  '5,0',
-                  Icons.list_alt,
-                   Colors.teal[50]!,
-                ),
+                 ..._templates.map((template) => _buildTemplateItem(context, template)).toList(),
 
                 const SizedBox(height: 24),
 
@@ -221,105 +237,120 @@ class TemplatePage extends StatelessWidget {
     );
   }
 
-  Widget _buildTemplateItem(String title, String rating, IconData icon, Color placeholderColor) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey[100]!),
-        boxShadow: [
-           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-
-          Container(
-            width: 100,
-            height: 140,
-            decoration: BoxDecoration(
-              color: const Color(0xFFFAFAFA),
-              borderRadius: BorderRadius.circular(12),
+  Widget _buildTemplateItem(BuildContext context, NoteTemplate template) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NoteEditorPage(
+              initialTitle: template.title,
+              initialContent: template.content,
+              initialCategory: template.category,
             ),
-
-            child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          ),
+        );
+      },
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.grey[100]!),
+          boxShadow: [
+             BoxShadow(
+              color: Colors.black.withOpacity(0.03),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+  
+            Container(
+              width: 100,
+              height: 140,
+              decoration: BoxDecoration(
+                color: const Color(0xFFFAFAFA),
+                borderRadius: BorderRadius.circular(12),
+              ),
+  
+              child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                           Container(width: 20, height: 20, color: template.color),
+                           const SizedBox(height: 8),
+                           Container(height: 4, width: 40, color: Colors.grey[300]),
+                           const SizedBox(height: 4),
+                           Container(height: 4, width: 60, color: Colors.grey[300]),
+                           const SizedBox(height: 4),
+                           Container(height: 4, width: 30, color: Colors.grey[300]),
+                           
+                           const Padding(padding: EdgeInsets.only(top: 20)),
+  
+                           Row(children: [Icon(Icons.check_box_outline_blank, size: 8, color: Colors.grey), SizedBox(width: 4), Container(height: 3, width: 40, color: Colors.grey[300])]),
+                           SizedBox(height: 4),
+                           Row(children: [Icon(Icons.check_box_outline_blank, size: 8, color: Colors.grey), SizedBox(width: 4), Container(height: 3, width: 30, color: Colors.grey[300])]),
+                      ],
+                  )
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
                     children: [
-                         Container(width: 20, height: 20, color: placeholderColor),
-                         const SizedBox(height: 8),
-                         Container(height: 4, width: 40, color: Colors.grey[300]),
-                         const SizedBox(height: 4),
-                         Container(height: 4, width: 60, color: Colors.grey[300]),
-                         const SizedBox(height: 4),
-                         Container(height: 4, width: 30, color: Colors.grey[300]),
-                         
-                         const Padding(padding: EdgeInsets.only(top: 20)),
-
-                         Row(children: [Icon(Icons.check_box_outline_blank, size: 8, color: Colors.grey), SizedBox(width: 4), Container(height: 3, width: 40, color: Colors.grey[300])]),
-                         SizedBox(height: 4),
-                         Row(children: [Icon(Icons.check_box_outline_blank, size: 8, color: Colors.grey), SizedBox(width: 4), Container(height: 3, width: 30, color: Colors.grey[300])]),
-                    ],
-                )
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Icon(Icons.description_outlined, size: 16, color: Colors.grey[800]),
-                     const SizedBox(width: 6),
-                    Expanded(
-                      child: Text(
-                        title,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                      Icon(Icons.description_outlined, size: 16, color: Colors.grey[800]),
+                       const SizedBox(width: 6),
+                      Expanded(
+                        child: Text(
+                          template.title,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 6),
-                Row(
-                  children: [
-                    const Icon(Icons.star, size: 14, color: Colors.grey),
-                    const SizedBox(width: 4),
-                    Text(
-                      rating,
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 70),
-                const Text(
-                  'Gratis',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                    color: Colors.black87,
+                    ],
                   ),
-                ),
-              ],
+                  const SizedBox(height: 6),
+                  Row(
+                    children: [
+                      const Icon(Icons.star, size: 14, color: Colors.grey),
+                      const SizedBox(width: 4),
+                      Text(
+                        template.rating,
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 70),
+                  const Text(
+                    'Gratis',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
