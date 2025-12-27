@@ -8,29 +8,34 @@ class HelpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Map<String, String>> faqs = [
       {
-        "question": "Bagaimana cara memulihkan catatan?",
+        "question": "Apa fungsi tombol kategori di atas?",
         "answer":
-            "Jika Anda tidak sengaja menghapus catatan, pergi ke menu 'Sampah' di halaman utama (ikon tempat sampah). Cari catatan Anda, lalu tekan tombol 'Pulihkan' untuk mengembalikannya ke daftar utama.",
+            "Tombol seperti 'Pribadi', 'Pekerjaan', atau 'Ide' berfungsi untuk memfilter catatan. Klik salah satu tombol untuk hanya menampilkan catatan dari kategori tersebut.",
       },
       {
-        "question": "Apakah catatan saya aman?",
+        "question": "Bagaimana cara mengubah tampilan?",
         "answer":
-            "Ya! Semua catatan Anda disimpan secara aman di Cloud (Google Firebase). Selama Anda ingat email dan password login, Anda bisa mengakses catatan dari perangkat manapun.",
+            "Anda bisa mengubah tampilan daftar catatan menjadi kotak-kotak (Grid) atau daftar memanjang (List) dengan menekan ikon kotak di pojok kanan atas layar utama.",
       },
       {
-        "question": "Bagaimana cara mengganti Password?",
+        "question": "Apa itu ikon paku (Pin)?",
         "answer":
-            "Pergi ke menu Profil > Edit Profil. Di bagian paling bawah, tekan tombol 'Ganti Password via Email'. Link reset akan dikirim ke email Anda.",
+            "Ikon paku digunakan untuk menyematkan catatan penting agar selalu muncul di urutan paling atas, sehingga tidak tertimbun oleh catatan baru.",
       },
       {
-        "question": "Apa fungsi fitur Pin?",
+        "question": "Cara mencari catatan lama?",
         "answer":
-            "Fitur Pin (ikon paku) digunakan untuk menempelkan catatan penting agar selalu muncul di urutan paling atas daftar, sehingga mudah ditemukan.",
+            "Gunakan ikon kaca pembesar (Search) di menu bawah. Ketik kata kunci judul atau isi catatan untuk menemukannya dengan cepat.",
       },
       {
-        "question": "Saya menemukan Bug, harus lapor ke mana?",
+        "question": "Bagaimana jika catatan terhapus?",
         "answer":
-            "Silakan hubungi tim pengembang kami melalui email di: notesapp@gmail.co.id. Kami sangat menghargai masukan Anda untuk meningkatkan aplikasi ini.",
+            "Jangan panik. Catatan yang dihapus akan masuk ke menu 'Sampah' (ikon tong sampah di menu bawah). Anda bisa memulihkannya kembali dari sana.",
+      },
+      {
+        "question": "Bagaimana cara mengaktifkan mode gelap?",
+        "answer":
+            "Mode gelap atau dark mode dapat diaktifkan di menu settings. Cari opsi 'Dark Mode' lalu tap sekali dan anda akan mengaktifkan mode gelap.",
       },
     ];
 
@@ -63,12 +68,15 @@ class HelpPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.grey.shade200),
             ),
-            clipBehavior: Clip.antiAlias, 
+            clipBehavior: Clip.antiAlias,
             child: ExpansionTile(
-              shape: const Border(), 
+              shape: const Border(),
               collapsedShape: const Border(),
-              
-              tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+
+              tilePadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
+              ),
               title: Text(
                 item['question']!,
                 style: GoogleFonts.poppins(
