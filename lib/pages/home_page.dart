@@ -15,6 +15,8 @@ import 'package:notesapp/services/firestore_service.dart';
 import 'package:notesapp/utils/notification_helper.dart';
 import 'package:notesapp/utils/markdown_helper.dart';
 import 'package:notesapp/pages/settings_page.dart';
+import 'package:notesapp/pages/notification_page.dart';
+import 'package:notesapp/services/notification_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -86,7 +88,7 @@ class _HomePageState extends State<HomePage> {
       case 1:
         return const SearchPage();
       case 2:
-        return const Center(child: Text("Halaman Notifikasi"));
+        return const NotificationPage();
       case 3:
         return const TrashPage();
       default:
@@ -578,11 +580,54 @@ class _HomePageState extends State<HomePage> {
       borderRadius: BorderRadius.circular(30),
       child: Padding(
         padding: const EdgeInsets.all(12),
-        child: Icon(
-          icon,
-          color: isSelected ? Colors.black87 : Colors.grey.shade400,
-          size: 28,
-        ),
+        child: index == 2
+            ? FutureBuilder<int>(
+                future: NotificationService().getNotificationCount(),
+                builder: (context, snapshot) {
+                  final count = snapshot.data ?? 0;
+                  return Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Icon(
+                        icon,
+                        color: isSelected ? Colors.black87 : Colors.grey.shade400,
+                        size: 28,
+                      ),
+                      if (count > 0)
+                        Positioned(
+                          right: -4,
+                          top: -4,
+                          child: Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
+                            constraints: const BoxConstraints(
+                              minWidth: 18,
+                              minHeight: 18,
+                            ),
+                            child: Center(
+                              child: Text(
+                                count > 9 ? '9+' : count.toString(),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  );
+                },
+              )
+            : Icon(
+                icon,
+                color: isSelected ? Colors.black87 : Colors.grey.shade400,
+                size: 28,
+              ),
       ),
     );
   }
