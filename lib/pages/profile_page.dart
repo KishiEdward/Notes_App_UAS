@@ -6,6 +6,7 @@ import 'package:notesapp/pages/login_page.dart';
 import 'package:notesapp/services/auth_service.dart';
 import 'package:notesapp/services/firestore_service.dart';
 import 'package:notesapp/pages/profile_edit_page.dart';
+import 'package:notesapp/pages/help_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -163,19 +164,14 @@ class ProfilePage extends StatelessWidget {
                 },
               ),
               _buildMenuOption(
-                icon: Icons.notifications_none_rounded,
-                title: 'Notifikasi',
-                onTap: () {},
-              ),
-              _buildMenuOption(
-                icon: Icons.security_outlined,
-                title: 'Keamanan',
-                onTap: () {},
-              ),
-              _buildMenuOption(
                 icon: Icons.help_outline_rounded,
-                title: 'Bantuan',
-                onTap: () {},
+                title: 'Bantuan & FaQ',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HelpPage()),
+                  );
+                },
               ),
 
               const SizedBox(height: 32),
