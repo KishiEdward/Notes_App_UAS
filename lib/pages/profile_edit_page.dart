@@ -15,7 +15,7 @@ class ProfileEditPage extends StatefulWidget {
 class _ProfileEditPageState extends State<ProfileEditPage> {
   final User? user = FirebaseAuth.instance.currentUser;
   final TextEditingController _nameController = TextEditingController();
-  final AuthService _authService = AuthService(); 
+  final AuthService _authService = AuthService();
   bool _isLoading = false;
 
   @override
@@ -32,7 +32,11 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
   Future<void> _saveProfile() async {
     if (_nameController.text.trim().isEmpty) {
-      showTopNotification(context, "Nama tidak boleh kosong", color: Colors.red);
+      showTopNotification(
+        context,
+        "Nama tidak boleh kosong",
+        color: Colors.red,
+      );
       return;
     }
 
@@ -43,7 +47,11 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
       await user?.reload();
 
       if (mounted) {
-        showTopNotification(context, "Profil berhasil diperbarui", color: Colors.green);
+        showTopNotification(
+          context,
+          "Profil berhasil diperbarui",
+          color: Colors.green,
+        );
         Navigator.pop(context, true);
       }
     } catch (e) {
@@ -71,12 +79,17 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Batal', style: GoogleFonts.poppins(color: Colors.grey)),
+            child: Text(
+              'Batal',
+              style: GoogleFonts.poppins(color: Colors.grey),
+            ),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.redAccent,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
             onPressed: () async {
               Navigator.pop(context);
@@ -84,7 +97,10 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
             },
             child: Text(
               'Ya, Kirim Link',
-              style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w600),
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ],
@@ -94,29 +110,33 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
   Future<void> _processPasswordReset() async {
     setState(() => _isLoading = true);
-    
+
     try {
       if (user?.email != null) {
         await FirebaseAuth.instance.sendPasswordResetEmail(email: user!.email!);
-        
+
         await _authService.signOut();
 
         if (mounted) {
           showTopNotification(
-            context, 
-            "Link terkirim! Silakan cek email & login ulang.", 
-            color: Colors.green
+            context,
+            "Link terkirim! Silakan cek email & login ulang.",
+            color: Colors.green,
           );
 
           Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const Login()), 
+            MaterialPageRoute(builder: (context) => const Login()),
             (route) => false,
           );
         }
       }
     } catch (e) {
       if (mounted) {
-        showTopNotification(context, "Gagal mengirim email: $e", color: Colors.red);
+        showTopNotification(
+          context,
+          "Gagal mengirim email: $e",
+          color: Colors.red,
+        );
         setState(() => _isLoading = false);
       }
     }
@@ -133,13 +153,26 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
           icon: const Icon(Icons.arrow_back, color: Colors.black87),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text('Edit Profil', style: GoogleFonts.poppins(color: Colors.black87, fontWeight: FontWeight.w600)),
+        title: Text(
+          'Edit Profil',
+          style: GoogleFonts.poppins(
+            color: Colors.black87,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
         actions: [
-           IconButton(
+          IconButton(
             onPressed: _isLoading ? null : _saveProfile,
-            icon: _isLoading 
-              ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.black87))
-              : const Icon(Icons.check, color: Colors.black87),
+            icon: _isLoading
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.black87,
+                    ),
+                  )
+                : const Icon(Icons.check, color: Colors.black87),
           ),
           const SizedBox(width: 8),
         ],
@@ -148,16 +181,29 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
         padding: const EdgeInsets.all(24),
         child: Column(
           children: [
-             Center(
+            // Ganti bagian Stack / CircleAvatar dengan ini:
+            Center(
               child: Stack(
                 children: [
                   CircleAvatar(
                     radius: 50,
                     backgroundColor: Colors.grey.shade200,
-                    child: Text(
-                      user?.displayName?.substring(0, 1).toUpperCase() ?? 'U',
-                      style: GoogleFonts.poppins(fontSize: 40, fontWeight: FontWeight.bold, color: Colors.grey.shade400),
-                    ),
+                    // [TAMBAHAN BARU] Tampilkan foto jika ada
+                    backgroundImage: user?.photoURL != null
+                        ? NetworkImage(user!.photoURL!)
+                        : null,
+                    // Hanya tampilkan huruf jika foto TIDAK ada
+                    child: user?.photoURL == null
+                        ? Text(
+                            user?.displayName?.substring(0, 1).toUpperCase() ??
+                                'U',
+                            style: GoogleFonts.poppins(
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey.shade400,
+                            ),
+                          )
+                        : null,
                   ),
                 ],
               ),
@@ -167,24 +213,40 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Nama Lengkap", style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey.shade700)),
+                Text(
+                  "Nama Lengkap",
+                  style: GoogleFonts.poppins(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey.shade700,
+                  ),
+                ),
                 const SizedBox(height: 8),
                 TextField(
                   controller: _nameController,
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.person_outline),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                 ),
               ],
             ),
-            
+
             const SizedBox(height: 24),
 
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Email", style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey.shade700)),
+                Text(
+                  "Email",
+                  style: GoogleFonts.poppins(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey.shade700,
+                  ),
+                ),
                 const SizedBox(height: 8),
                 TextField(
                   readOnly: true,
@@ -193,12 +255,15 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                     prefixIcon: const Icon(Icons.email_outlined),
                     filled: true,
                     fillColor: Colors.grey.shade50,
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide.none,
+                    ),
                   ),
                 ),
               ],
             ),
-            
+
             const SizedBox(height: 40),
 
             SizedBox(
@@ -208,9 +273,17 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                 onPressed: _isLoading ? null : _saveProfile,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black87,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
-                child: Text("Simpan Perubahan", style: GoogleFonts.poppins(fontWeight: FontWeight.w600, color: Colors.white)),
+                child: Text(
+                  "Simpan Perubahan",
+                  style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
 
