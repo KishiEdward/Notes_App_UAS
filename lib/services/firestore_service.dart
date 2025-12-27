@@ -31,7 +31,7 @@ class FirestoreService {
     });
   }
 
-  Future<void> addNote(String title, String content, String category, bool isPinned) async {
+  Future<void> addNote(String title, String content, String category, bool isPinned, DateTime? reminderDate) async {
     final user = _auth.currentUser;
     if (user == null) return;
 
@@ -44,16 +44,18 @@ class FirestoreService {
       'isTrashed': false, 
       'createdAt': FieldValue.serverTimestamp(),
       'updatedAt': FieldValue.serverTimestamp(),
+      'reminderDate': reminderDate,
     });
   }
 
-  Future<void> updateNote(String id, String title, String content, String category, bool isPinned) async {
+  Future<void> updateNote(String id, String title, String content, String category, bool isPinned, DateTime? reminderDate) async {
     await _db.collection('notes').doc(id).update({
       'title': title,
       'content': content,
       'category': category,
       'isPinned': isPinned,
       'updatedAt': FieldValue.serverTimestamp(),
+      'reminderDate': reminderDate,
     });
   }
 

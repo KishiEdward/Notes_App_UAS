@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:notesapp/models/note_model.dart';
 import 'package:notesapp/services/firestore_service.dart';
 import 'package:notesapp/utils/notification_helper.dart';
@@ -27,6 +28,7 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
   late TextEditingController _contentController;
   String _selectedCategory = 'Pribadi';
   bool _isPinned = false;
+  DateTime? _reminderDate;
   final List<String> _categories = ['Pribadi', 'Pekerjaan', 'Ide', 'Penting'];
   final FirestoreService _firestoreService = FirestoreService();
 
@@ -41,6 +43,7 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
     );
     _selectedCategory = widget.note?.category ?? widget.initialCategory ?? 'Pribadi';
     _isPinned = widget.note?.isPinned ?? false;
+    _reminderDate = widget.note?.reminderDate;
     if (!_categories.contains(_selectedCategory)) {
       _selectedCategory = 'Pribadi';
     }
@@ -70,6 +73,7 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
         content,
         _selectedCategory,
         _isPinned,
+        _reminderDate,
       );
     } else {
       await _firestoreService.updateNote(
@@ -78,7 +82,36 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
         content,
         _selectedCategory,
         _isPinned,
+        _reminderDate,
       );
+    }
+  }
+
+  Future<void> _showReminderPicker() async {
+    final date = await showDatePicker(
+      context: context,
+      initialDate: _reminderDate ?? DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+    );
+
+    if (date != null && mounted) {
+      final time = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.fromDateTime(_reminderDate ?? DateTime.now()),
+      );
+
+      if (time != null) {
+        setState(() {
+          _reminderDate = DateTime(
+            date.year,
+            date.month,
+            date.day,
+            time.hour,
+            time.minute,
+          );
+        });
+      }
     }
   }
 
@@ -114,6 +147,13 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
                   _isPinned = !_isPinned;
                 });
               },
+            ),
+            IconButton(
+              icon: Icon(
+                _reminderDate != null ? Icons.alarm : Icons.alarm_add_outlined,
+                color: _reminderDate != null ? Colors.blueAccent : Colors.grey,
+              ),
+              onPressed: _showReminderPicker,
             ),
             IconButton(
               icon: const Icon(Icons.check, color: Colors.blueAccent),
