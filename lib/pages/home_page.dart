@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:notesapp/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -626,36 +625,19 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-            leading: const Icon(Icons.settings_outlined),
-            title: Text(
-              'Settings',
-              style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+              leading: const Icon(Icons.settings_outlined),
+              title: Text(
+                'Settings',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SettingsPage()),
+                );
+              },
             ),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SettingsPage(
-                    onThemeChanged: (darkMode) async {
-                      await Future.delayed(const Duration(milliseconds: 100));
-                      if (context.mounted) {
-                        Navigator.pop(context);
-                        RestartWidget.restartApp(context);
-                      }
-                    },
-                    onFontSizeChanged: (fontSize) async {
-                      await Future.delayed(const Duration(milliseconds: 100));
-                      if (context.mounted) {
-                        Navigator.pop(context);
-                        RestartWidget.restartApp(context);
-                      }
-                    },
-                  ),
-                ),
-              );
-            },
-          ),
             const Divider(),
             ListTile(
               leading: const Icon(Icons.logout_rounded, color: Colors.black87),
