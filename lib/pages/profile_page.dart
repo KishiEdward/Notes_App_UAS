@@ -5,6 +5,7 @@ import 'package:notesapp/models/note_model.dart';
 import 'package:notesapp/pages/login_page.dart';
 import 'package:notesapp/services/auth_service.dart';
 import 'package:notesapp/services/firestore_service.dart';
+import 'package:notesapp/pages/profile_edit_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -44,12 +45,15 @@ class ProfilePage extends StatelessWidget {
                     CircleAvatar(
                       radius: 50,
                       backgroundColor: Colors.white,
-                      backgroundImage: user?.photoURL != null 
-                          ? NetworkImage(user!.photoURL!) 
+                      backgroundImage: user?.photoURL != null
+                          ? NetworkImage(user!.photoURL!)
                           : null,
                       child: user?.photoURL == null
                           ? Text(
-                              user?.displayName?.substring(0, 1).toUpperCase() ?? 'U',
+                              user?.displayName
+                                      ?.substring(0, 1)
+                                      .toUpperCase() ??
+                                  'U',
                               style: GoogleFonts.poppins(
                                 fontSize: 36,
                                 fontWeight: FontWeight.bold,
@@ -86,46 +90,77 @@ class ProfilePage extends StatelessWidget {
                   final notes = snapshot.data ?? [];
                   final totalNotes = notes.length;
                   final pinnedNotes = notes.where((n) => n.isPinned).length;
-                  
+
                   String topCategory = '-';
                   if (notes.isNotEmpty) {
-                     final categories = notes.map((n) => n.category).toList();
-                     final categoryCounts = <String, int>{};
-                     for (var category in categories) {
-                       categoryCounts[category] = (categoryCounts[category] ?? 0) + 1;
-                     }
-                     
-                     var maxCount = 0;
-                     categoryCounts.forEach((key, value) {
-                       if (value > maxCount && key != 'All' && key != 'Semua') {
-                         maxCount = value;
-                         topCategory = key;
-                       }
-                     });
-                     
-                     if (topCategory == '-') {
-                        topCategory = 'Semua';
-                     }
+                    final categories = notes.map((n) => n.category).toList();
+                    final categoryCounts = <String, int>{};
+                    for (var category in categories) {
+                      categoryCounts[category] =
+                          (categoryCounts[category] ?? 0) + 1;
+                    }
+
+                    var maxCount = 0;
+                    categoryCounts.forEach((key, value) {
+                      if (value > maxCount && key != 'All' && key != 'Semua') {
+                        maxCount = value;
+                        topCategory = key;
+                      }
+                    });
+
+                    if (topCategory == '-') {
+                      topCategory = 'Semua';
+                    }
                   }
 
                   return Row(
                     children: [
-                      _buildStatCard('Total', totalNotes.toString(), Colors.blueAccent),
+                      _buildStatCard(
+                        'Total',
+                        totalNotes.toString(),
+                        Colors.blueAccent,
+                      ),
                       const SizedBox(width: 12),
-                      _buildStatCard('Pinned', pinnedNotes.toString(), Colors.orangeAccent),
+                      _buildStatCard(
+                        'Pinned',
+                        pinnedNotes.toString(),
+                        Colors.orangeAccent,
+                      ),
                       const SizedBox(width: 12),
-                      _buildStatCard('Kategori', topCategory, Colors.purpleAccent),
+                      _buildStatCard(
+                        'Kategori',
+                        topCategory,
+                        Colors.purpleAccent,
+                      ),
                     ],
                   );
                 },
               ),
 
               const SizedBox(height: 32),
-              
+
               _buildMenuOption(
                 icon: Icons.person_outline_rounded,
                 title: 'Edit Profil',
-                onTap: () {},
+                onTap: () async {
+                  final bool? result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ProfileEditPage(),
+                    ),
+                  );
+                  if (result == true) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Profil berhasil diperbarui',
+                          style: GoogleFonts.poppins(),
+                        ),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                  }
+                },
               ),
               _buildMenuOption(
                 icon: Icons.notifications_none_rounded,
@@ -137,7 +172,7 @@ class ProfilePage extends StatelessWidget {
                 title: 'Keamanan',
                 onTap: () {},
               ),
-               _buildMenuOption(
+              _buildMenuOption(
                 icon: Icons.help_outline_rounded,
                 title: 'Bantuan',
                 onTap: () {},
@@ -252,7 +287,11 @@ class ProfilePage extends StatelessWidget {
             color: Colors.black87,
           ),
         ),
-        trailing: Icon(Icons.chevron_right_rounded, size: 20, color: Colors.grey.shade400),
+        trailing: Icon(
+          Icons.chevron_right_rounded,
+          size: 20,
+          color: Colors.grey.shade400,
+        ),
         onTap: onTap,
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

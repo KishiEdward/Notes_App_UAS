@@ -12,7 +12,6 @@ void main() async {
     );
   } catch (e) {
     debugPrint("Firebase initialization failed: $e");
-    
     runApp(MaterialApp(
       home: Scaffold(
         body: Center(
@@ -59,6 +58,9 @@ class _RestartWidgetState extends State<RestartWidget> {
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  static _MyAppState of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>()!;
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -83,19 +85,40 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void changeTheme(bool isDark) {
+    setState(() {
+      _darkMode = isDark;
+    });
+  }
+
+  void changeFontSize(double newScale) {
+    setState(() {
+      _fontScale = newScale;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Uas Note app",
       themeMode: _darkMode ? ThemeMode.dark : ThemeMode.light,
+      
+      builder: (context, child) {
+        final mediaQueryData = MediaQuery.of(context);
+        return MediaQuery(
+          data: mediaQueryData.copyWith(
+            textScaler: TextScaler.linear(_fontScale),
+          ),
+          child: child!,
+        );
+      },
+
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
-        textTheme: Theme.of(context).textTheme.apply(
-          fontSizeFactor: _fontScale,
-        ),
       ),
+      
       darkTheme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
@@ -103,10 +126,8 @@ class _MyAppState extends State<MyApp> {
           seedColor: Colors.blueAccent,
           brightness: Brightness.dark,
         ),
-        textTheme: Theme.of(context).textTheme.apply(
-          fontSizeFactor: _fontScale,
-        ),
       ),
+      
       home: const Splash1(),
     );
   }
