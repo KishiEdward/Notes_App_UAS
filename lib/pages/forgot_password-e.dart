@@ -66,7 +66,6 @@ class _ForgotState extends State<Forgot> with SingleTickerProviderStateMixin {
       if (!mounted) return;
       setState(() => _isLoading = false);
 
-      // NOTIFICATION BOX (SUCCESS)
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -158,7 +157,6 @@ class _ForgotState extends State<Forgot> with SingleTickerProviderStateMixin {
                   ),
                   const SizedBox(height: 30),
 
-                  /// EMAIL TEXTFIELD
                   TextField(
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
