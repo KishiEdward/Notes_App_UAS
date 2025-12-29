@@ -643,7 +643,11 @@ class _HomePageState extends State<HomePage> {
               )
             : Icon(
                 icon,
-                color: isSelected ? Colors.black87 : Colors.grey.shade400,
+                color: isSelected
+                    ? (Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black87)
+                    : Colors.grey.shade400,
                 size: 28,
               ),
       ),
@@ -653,7 +657,7 @@ class _HomePageState extends State<HomePage> {
   void _showUserMenu(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).cardColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
