@@ -28,7 +28,8 @@ class ThemeToggleSwitch extends StatelessWidget {
           value
               ? 'assets/animations/Black Cat Green Eyes Peeping.json'
               : 'assets/animations/White Cat Peeping.json',
-          fit: BoxFit.cover,
+          key: ValueKey(value), // Tambahkan Key biar rebuild saat value ganti
+          fit: BoxFit.contain, // Ubah ke contain biar ga kepotong
         ),
       ),
     );
