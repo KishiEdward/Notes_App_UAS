@@ -77,8 +77,8 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                 scale: _logoScaleAnimation,
                 child: Image.asset(
                   "assets/images/logo.png",
-                  width: 160,
-                  height: 160,
+                  width: 120,
+                  height: 120,
                   fit: BoxFit.contain,
                 ),
               ),
