@@ -31,10 +31,21 @@ class _ThemeToggleSwitchState extends State<ThemeToggleSwitch> with SingleTicker
     );
 
     // Set kondisi awal tanpa animasi
+    // Coba dibalik: 0.0 = Malam, 1.0 = Siang (berdasarkan feedback user)
+    // Atau mungkin file lottie nya yang memang start from Night?
+    // Mari coba balik value nya.
     if (widget.value) {
-      _controller.value = 1.0; // Dark mode (Night)
+      _controller.value = 0.0; // Dark mode (Malam) - Asumsi frame 0
     } else {
-      _controller.value = 0.0; // Light mode (Day)
+      _controller.value = 0.5; // Light mode (Siang) - Asumsi animasi di tengah atau akhir
+      // Tapi tunggu, biasanya toggle linear.
+      // Coba set full reverse:
+      // Dark (True) -> 1.0
+      // Light (False) -> 0.0
+      
+      // Jika user bilang Light stop di Malam, berarti 0.0 = Malam.
+      // Maka Light harusnya 1.0 (Siang)?
+      _controller.value = 1.0;
     }
   }
 
@@ -43,9 +54,12 @@ class _ThemeToggleSwitchState extends State<ThemeToggleSwitch> with SingleTicker
     super.didUpdateWidget(oldWidget);
     if (oldWidget.value != widget.value) {
       if (widget.value) {
-        _controller.forward(); // Light -> Dark
+        // Light -> Dark (Siang -> Malam)
+        // Jika 1.0 = Siang, 0.0 = Malam
+        _controller.reverse(); 
       } else {
-        _controller.reverse(); // Dark -> Light
+        // Dark -> Light (Malam -> Siang)
+        _controller.forward();
       }
     }
   }
