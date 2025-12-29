@@ -82,7 +82,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                   fit: BoxFit.contain,
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5), // Reduced from 10
               FadeTransition(
                 opacity: _fadeAnimation,
                 child: Text(
@@ -95,7 +95,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                   ),
                 ),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 25), // Reduced from 40
               SlideTransition(
                 position: _slideAnimation,
                 child: FadeTransition(
@@ -149,7 +149,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 25), // Reduced from 40
                       TextField(
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
