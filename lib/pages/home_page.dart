@@ -435,7 +435,7 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(height: 6),
                       if (note.content.isNotEmpty) ...[
                         const SizedBox(height: 4),
-                        MarkdownHelper.buildPreview(note.content, maxLines: 2),
+                        MarkdownHelper.buildPreview(note.content, maxLines: 2, context: context),
                       ],
                       const SizedBox(height: 8),
                       if (note.category != 'All' && note.category != 'General')

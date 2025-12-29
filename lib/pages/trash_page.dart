@@ -386,7 +386,7 @@ class _TrashPageState extends State<TrashPage> {
             ),
             if (note.content.isNotEmpty) ...[
               const SizedBox(height: 8),
-              MarkdownHelper.buildPreview(note.content, maxLines: 3),
+              MarkdownHelper.buildPreview(note.content, maxLines: 3, context: context),
             ],
 
             if (!_isSelectionMode) ...[

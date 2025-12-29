@@ -178,7 +178,7 @@ class _SearchPageState extends State<SearchPage> {
               ),
               if (note.content.isNotEmpty) ...[
                 const SizedBox(height: 4),
-                MarkdownHelper.buildPreview(note.content, maxLines: 2),
+                MarkdownHelper.buildPreview(note.content, maxLines: 2, context: context),
               ],
             ],
           ),
