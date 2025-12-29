@@ -18,6 +18,7 @@ import 'package:notesapp/pages/settings_page.dart';
 import 'package:notesapp/pages/notification_page.dart';
 import 'package:notesapp/services/notification_service.dart';
 import 'package:notesapp/widgets/auth_wrapper.dart';
+import 'package:notesapp/services/session_manager.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -696,6 +697,7 @@ class _HomePageState extends State<HomePage> {
               ),
               onTap: () async {
                 Navigator.pop(context);
+                await SessionManager().clearSession();
                 await AuthService().signOut();
                 if (context.mounted) {
                   Navigator.of(context).pushAndRemoveUntil(
