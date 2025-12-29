@@ -10,7 +10,13 @@ class ToggleThemePage extends StatefulWidget {
   State<ToggleThemePage> createState() => _ToggleThemePageState();
 }
 
-class _ToggleThemePageState extends State<ToggleThemePage> {
+class _ToggleThemePageState extends State<ToggleThemePage> 
+  with SingleTickerProviderStateMixin {
+
+  final SettingsService _settingsService = SettingsService();
+  late AnimationController _controller;
+  bool _isDarkNow = false;
+
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
