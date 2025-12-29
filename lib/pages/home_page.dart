@@ -170,8 +170,12 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.grey.shade200),
+                      color: Theme.of(context).cardColor,
+                      border: Border.all(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.grey.shade700
+                            : Colors.grey.shade200,
+                      ),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: IconButton(
@@ -195,8 +199,12 @@ class _HomePageState extends State<HomePage> {
 
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.grey.shade200),
+                      color: Theme.of(context).cardColor,
+                      border: Border.all(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.grey.shade700
+                            : Colors.grey.shade200,
+                      ),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: IconButton(
