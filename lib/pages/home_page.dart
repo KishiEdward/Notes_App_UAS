@@ -357,11 +357,13 @@ class _HomePageState extends State<HomePage> {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.black.withOpacity(0.3)
+                : Colors.black.withOpacity(0.03),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -399,7 +401,9 @@ class _HomePageState extends State<HomePage> {
                               style: GoogleFonts.poppins(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                color: const Color(0xFF2D3436),
+                                color: Theme.of(context).brightness == Brightness.dark
+                                    ? Colors.white
+                                    : const Color(0xFF2D3436),
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -411,7 +415,9 @@ class _HomePageState extends State<HomePage> {
                               child: Icon(
                                 Icons.push_pin,
                                 size: 16,
-                                color: Colors.black87,
+                                color: Theme.of(context).brightness == Brightness.dark
+                                    ? Colors.white70
+                                    : Colors.black87,
                               ),
                             ),
                         ],
