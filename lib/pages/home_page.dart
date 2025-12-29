@@ -146,7 +146,9 @@ class _HomePageState extends State<HomePage> {
                               style: GoogleFonts.poppins(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
-                                color: Theme.of(context).brightness == Brightness.dark
+                                color:
+                                    Theme.of(context).brightness ==
+                                        Brightness.dark
                                     ? Colors.white
                                     : Colors.black87,
                               ),
@@ -247,8 +249,8 @@ class _HomePageState extends State<HomePage> {
                     color: isSelected
                         ? Colors.white
                         : (Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white70
-                            : Colors.grey.shade700),
+                              ? Colors.white70
+                              : Colors.grey.shade700),
                     fontWeight: FontWeight.w500,
                     fontSize: 13,
                   ),
@@ -266,8 +268,8 @@ class _HomePageState extends State<HomePage> {
                       color: isSelected
                           ? Colors.transparent
                           : (Theme.of(context).brightness == Brightness.dark
-                              ? Colors.grey.shade700
-                              : Colors.grey.shade300),
+                                ? Colors.grey.shade700
+                                : Colors.grey.shade300),
                     ),
                   ),
                   elevation: 0,
@@ -421,7 +423,9 @@ class _HomePageState extends State<HomePage> {
                               style: GoogleFonts.poppins(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                color: Theme.of(context).brightness == Brightness.dark
+                                color:
+                                    Theme.of(context).brightness ==
+                                        Brightness.dark
                                     ? Colors.white
                                     : const Color(0xFF2D3436),
                               ),
@@ -435,7 +439,9 @@ class _HomePageState extends State<HomePage> {
                               child: Icon(
                                 Icons.push_pin,
                                 size: 16,
-                                color: Theme.of(context).brightness == Brightness.dark
+                                color:
+                                    Theme.of(context).brightness ==
+                                        Brightness.dark
                                     ? Colors.white70
                                     : Colors.black87,
                               ),
@@ -445,7 +451,11 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(height: 6),
                       if (note.content.isNotEmpty) ...[
                         const SizedBox(height: 4),
-                        MarkdownHelper.buildPreview(note.content, maxLines: 2, context: context),
+                        MarkdownHelper.buildPreview(
+                          note.content,
+                          maxLines: 2,
+                          context: context,
+                        ),
                       ],
                       const SizedBox(height: 8),
                       if (note.category != 'All' && note.category != 'General')
@@ -618,7 +628,9 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Icon(
                         icon,
-                        color: isSelected ? Colors.black87 : Colors.grey.shade400,
+                        color: isSelected
+                            ? Colors.black87
+                            : Colors.grey.shade400,
                         size: 28,
                       ),
                       if (count > 0)
@@ -655,8 +667,8 @@ class _HomePageState extends State<HomePage> {
                 icon,
                 color: isSelected
                     ? (Theme.of(context).brightness == Brightness.dark
-                        ? Colors.white
-                        : Colors.black87)
+                          ? Colors.white
+                          : Colors.black87)
                     : Colors.grey.shade400,
                 size: 28,
               ),
@@ -731,7 +743,9 @@ class _HomePageState extends State<HomePage> {
                 await AuthService().signOut();
                 if (context.mounted) {
                   Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => const AuthWrapper()),
+                    MaterialPageRoute(
+                      builder: (context) => const AuthWrapper(),
+                    ),
                     (route) => false,
                   );
                 }
