@@ -17,6 +17,18 @@ class _ToggleThemePageState extends State<ToggleThemePage>
   late AnimationController _controller;
   bool _isDarkNow = false;
 
+   @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this);
+    _loadCurrentTheme();
+  }
+
+  Future<void> _loadCurrentTheme() async {
+    _isDarkNow = await _settingsService.getDarkMode();
+    setState(() {});
+  }
+  
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
