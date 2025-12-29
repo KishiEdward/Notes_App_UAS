@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MarkdownHelper {
-  static List<Widget> parseContent(String content, {int maxLines = 2}) {
+  static List<Widget> parseContent(
+    String content, {
+    int maxLines = 2,
+    required BuildContext context,
+  }) {
     final lines = content.split('\\n');
     final widgets = <Widget>[];
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     
     int displayedLines = 0;
     for (var line in lines) {
@@ -23,7 +28,7 @@ class MarkdownHelper {
                 Icon(
                   isChecked ? Icons.check_box : Icons.check_box_outline_blank,
                   size: 16,
-                  color: isChecked ? Colors.green : Colors.grey,
+                  color: isChecked ? Colors.green : (isDark ? Colors.grey.shade400 : Colors.grey),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
@@ -31,7 +36,7 @@ class MarkdownHelper {
                     text,
                     style: GoogleFonts.poppins(
                       fontSize: 13,
-                      color: Colors.grey.shade600,
+                      color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
                       decoration: isChecked ? TextDecoration.lineThrough : null,
                     ),
                     maxLines: 1,
@@ -51,7 +56,7 @@ class MarkdownHelper {
               line,
               style: GoogleFonts.poppins(
                 fontSize: 13,
-                color: Colors.grey.shade600,
+                color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -65,8 +70,12 @@ class MarkdownHelper {
     return widgets;
   }
   
-  static Widget buildPreview(String content, {int maxLines = 2}) {
-    final widgets = parseContent(content, maxLines: maxLines);
+  static Widget buildPreview(
+    String content, {
+    int maxLines = 2,
+    required BuildContext context,
+  }) {
+    final widgets = parseContent(content, maxLines: maxLines, context: context);
     
     if (widgets.isEmpty) {
       return const SizedBox.shrink();
