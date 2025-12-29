@@ -28,7 +28,9 @@ class _NotificationPageState extends State<NotificationPage> {
                 style: GoogleFonts.poppins(
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
-                  color: Colors.black87,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black87,
                 ),
               ),
             ],
@@ -146,7 +148,7 @@ class _NotificationPageState extends State<NotificationPage> {
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isOverdue ? Colors.red.shade200 : Colors.blue.shade200,
@@ -177,7 +179,9 @@ class _NotificationPageState extends State<NotificationPage> {
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
-                      color: Colors.black87,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black87,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
