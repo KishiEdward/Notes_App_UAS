@@ -37,29 +37,23 @@ class _ToggleThemePageState extends State<ToggleThemePage>
 
   @override
   Widget build(BuildContext context) {
+    // Tentukan target mode: Kebalikan dari sekarang
+    bool targetModeIsDark = !_isDarkNow; 
+    
     return Scaffold(
-      backgroundColor: Colors.black,
+      // Background menyesuaikan target mode
+      backgroundColor: targetModeIsDark ? Colors.black : Colors.white,
       body: Center(
         child: Lottie.asset(
-          'assets/animations/Day_and_Night_Toggle.json',
+          targetModeIsDark 
+              ? 'assets/animations/Black Cat Green Eyes Peeping.json' 
+              : 'assets/animations/White Cat Peeping.json',
           controller: _controller,
           onLoaded: (composition) {
-            // Percepat durasi animasi jadi 0.5x (2x lebih cepat)
-            _controller.duration = composition.duration * 0.5;
-
-            if (_isDarkNow) {
-              // Current is Dark, so switch to Light
-              // Animation: Night -> Day (Reverse)
-              _controller.reverse(from: 1).then((_) {
-                 _updateTheme(false);
-              });
-            } else {
-              // Current is Light, so switch to Dark
-              // Animation: Day -> Night (Forward)
-              _controller.forward(from: 0).then((_) {
-                 _updateTheme(true);
-              });
-            }
+            _controller.duration = composition.duration;
+            _controller.forward().then((_) {
+               _updateTheme(targetModeIsDark);
+            });
           },
         ),
       ),
