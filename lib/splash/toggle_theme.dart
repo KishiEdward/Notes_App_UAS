@@ -72,8 +72,4 @@ class _ToggleThemePageState extends State<ToggleThemePage>
       Navigator.pop(context);
     }
   }
-        ),
-      ),
-    );
-  }
 }
