@@ -7,6 +7,8 @@ import 'package:notesapp/services/settings_service.dart';
 import 'package:notesapp/services/firestore_service.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:notesapp/utils/notification_helper.dart';
+import 'package:notesapp/splash/toggle_theme.dart';
+
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -128,7 +130,18 @@ class _SettingsPageState extends State<SettingsPage> {
                 'Dark Mode',
                 Icons.dark_mode_outlined,
                 _darkMode,
-                _toggleDarkMode,
+  (value) async {
+  await Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => const ToggleThemePage(),
+    ),
+  );
+
+  // setelah balik dari lottie, reload setting
+  _loadSettings();
+},
+
               ),
               _buildDropdownTile(
                 'Font Size',
