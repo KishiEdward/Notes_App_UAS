@@ -108,7 +108,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Uas Note app",
+      title: "NekoMind",
       themeMode: _darkMode ? ThemeMode.dark : ThemeMode.light,
       
       builder: (context, child) {
