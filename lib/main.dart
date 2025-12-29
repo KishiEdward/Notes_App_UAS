@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:notesapp/splash/splash1.dart';
 import 'package:notesapp/services/settings_service.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notesapp/firebase_options.dart';
 import 'package:notesapp/widgets/auth_wrapper.dart';
 
@@ -11,6 +12,7 @@ void main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+    await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
   } catch (e) {
     debugPrint("Firebase initialization failed: $e");
     runApp(MaterialApp(
