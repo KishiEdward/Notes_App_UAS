@@ -31,6 +31,50 @@ class FirestoreService {
     });
   }
 
+  Stream<List<Note>> getArchivedNotesStream() {
+    final user = _auth.currentUser;
+    if (user == null) {
+      return Stream.value([]);
+    }
+
+    return _db
+        .collection('notes')
+        .where('userId', isEqualTo: user.uid)
+        .where('isArchived', isEqualTo: true)
+        .where('isTrashed', isEqualTo: false)
+        .snapshots()
+        .map((snapshot) {
+      final notes = snapshot.docs.map((doc) {
+        return Note.fromMap(doc.data(), doc.id);
+      }).toList();
+      
+      notes.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+      return notes;
+    });
+  }
+
+  Stream<List<Note>> getHeldNotesStream() {
+    final user = _auth.currentUser;
+    if (user == null) {
+      return Stream.value([]);
+    }
+
+    return _db
+        .collection('notes')
+        .where('userId', isEqualTo: user.uid)
+        .where('isHeld', isEqualTo: true)
+        .where('isTrashed', isEqualTo: false)
+        .snapshots()
+        .map((snapshot) {
+      final notes = snapshot.docs.map((doc) {
+        return Note.fromMap(doc.data(), doc.id);
+      }).toList();
+      
+      notes.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+      return notes;
+    });
+  }
+
   Future<void> addNote(String title, String content, String category, bool isPinned, DateTime? reminderDate) async {
     final user = _auth.currentUser;
     if (user == null) return;
@@ -41,7 +85,9 @@ class FirestoreService {
       'content': content,
       'category': category,
       'isPinned': isPinned,
-      'isTrashed': false, 
+      'isTrashed': false,
+      'isArchived': false,
+      'isHeld': false,
       'createdAt': FieldValue.serverTimestamp(),
       'updatedAt': FieldValue.serverTimestamp(),
       'reminderDate': reminderDate,
@@ -66,10 +112,26 @@ class FirestoreService {
     });
   }
 
+  Future<void> toggleArchive(String id, bool currentStatus) async {
+    await _db.collection('notes').doc(id).update({
+      'isArchived': !currentStatus,
+      'updatedAt': FieldValue.serverTimestamp(),
+    });
+  }
+
+  Future<void> toggleHold(String id, bool currentStatus) async {
+    await _db.collection('notes').doc(id).update({
+      'isHeld': !currentStatus,
+      'updatedAt': FieldValue.serverTimestamp(),
+    });
+  }
+
   Future<void> moveToTrash(String id) async {
     await _db.collection('notes').doc(id).update({
       'isTrashed': true,
       'isPinned': false,
+      'isArchived': false,
+      'isHeld': false,
       'updatedAt': FieldValue.serverTimestamp(),
     });
   }
