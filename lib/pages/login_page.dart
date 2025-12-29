@@ -90,7 +90,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                   style: GoogleFonts.poppins(
                     fontSize: 32,
                     fontWeight: FontWeight.w800,
-                    color: Colors.blueAccent.shade700,
+                    color: Color(0xFFF06292), // Pink Soft
                     letterSpacing: 1.5,
                   ),
                 ),
@@ -112,7 +112,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                                 style: GoogleFonts.poppins(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.blueAccent.shade700,
+                                  color: Color(0xFFF06292), // Pink Soft
                                   letterSpacing: 1.0,
                                 ),
                               ),
@@ -121,7 +121,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                                 width: 40,
                                 height: 3,
                                 decoration: BoxDecoration(
-                                  color: Colors.blueAccent.shade700,
+                                  color: Color(0xFFF06292), // Pink Soft
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
@@ -162,10 +162,10 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                           labelStyle: GoogleFonts.poppins(color: Colors.grey),
                           prefixIcon: Icon(
                             Icons.email_outlined,
-                            color: Colors.blueAccent.shade700,
+                            color: Color(0xFFF06292), // Pink Soft
                           ),
                           filled: true,
-                          fillColor: Colors.grey.shade50,
+                          fillColor: Color(0xFFFFF0F5), // Pink Cream Background
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                             borderSide: BorderSide.none,
@@ -177,7 +177,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                             borderSide: BorderSide(
-                              color: Colors.blueAccent.shade700,
+                              color: Color(0xFFF06292), // Pink Soft
                               width: 2,
                             ),
                           ),
@@ -200,7 +200,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                           labelStyle: GoogleFonts.poppins(color: Colors.grey),
                           prefixIcon: Icon(
                             Icons.lock_outline,
-                            color: Colors.blueAccent.shade700,
+                            color: Color(0xFFF06292), // Pink Soft
                           ),
                           suffixIcon: IconButton(
                             icon: Icon(
@@ -216,7 +216,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                             },
                           ),
                           filled: true,
-                          fillColor: Colors.grey.shade50,
+                          fillColor: Color(0xFFFFF0F5), // Pink Cream Background
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                             borderSide: BorderSide.none,
@@ -228,7 +228,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                             borderSide: BorderSide(
-                              color: Colors.blueAccent.shade700,
+                              color: Color(0xFFF06292), // Pink Soft
                               width: 2,
                             ),
                           ),
@@ -253,7 +253,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                           child: Text(
                             "Lupa password?",
                             style: GoogleFonts.poppins(
-                              color: Colors.blueAccent.shade700,
+                              color: Color(0xFFF06292), // Pink Soft
                               fontWeight: FontWeight.w600,
                               fontSize: 12,
                             ),
@@ -331,7 +331,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                                   }
                                 },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blueAccent.shade700,
+                            backgroundColor: Color(0xFFF06292), // Pink Soft
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
