@@ -17,6 +17,7 @@ import 'package:notesapp/utils/markdown_helper.dart';
 import 'package:notesapp/pages/settings_page.dart';
 import 'package:notesapp/pages/notification_page.dart';
 import 'package:notesapp/services/notification_service.dart';
+import 'package:notesapp/widgets/auth_wrapper.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -698,7 +699,7 @@ class _HomePageState extends State<HomePage> {
                 await AuthService().signOut();
                 if (context.mounted) {
                   Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => const Login()),
+                    MaterialPageRoute(builder: (context) => const AuthWrapper()),
                     (route) => false,
                   );
                 }
