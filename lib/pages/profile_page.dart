@@ -17,19 +17,26 @@ class ProfilePage extends StatelessWidget {
     final FirestoreService firestoreService = FirestoreService();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black87),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black87,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
         centerTitle: true,
         title: Text(
           'Profil',
           style: GoogleFonts.poppins(
-            color: Colors.black87,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black87,
             fontWeight: FontWeight.w600,
             fontSize: 18,
           ),
@@ -69,7 +76,9 @@ class ProfilePage extends StatelessWidget {
                       style: GoogleFonts.poppins(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
-                        color: Colors.black87,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black87,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -217,7 +226,7 @@ class ProfilePage extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
@@ -262,7 +271,7 @@ class ProfilePage extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.grey.shade100),
       ),
@@ -273,14 +282,22 @@ class ProfilePage extends StatelessWidget {
             color: Colors.grey.shade50,
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Icon(icon, size: 20, color: Colors.black87),
+          child: Icon(
+            icon,
+            size: 20,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black87,
+          ),
         ),
         title: Text(
           title,
           style: GoogleFonts.poppins(
             fontSize: 14,
             fontWeight: FontWeight.w500,
-            color: Colors.black87,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black87,
           ),
         ),
         trailing: Icon(
