@@ -126,18 +126,21 @@ class ProfilePage extends StatelessWidget {
                   return Row(
                     children: [
                       _buildStatCard(
+                        context,
                         'Total',
                         totalNotes.toString(),
                         Colors.blueAccent,
                       ),
                       const SizedBox(width: 12),
                       _buildStatCard(
+                        context,
                         'Pinned',
                         pinnedNotes.toString(),
                         Colors.orangeAccent,
                       ),
                       const SizedBox(width: 12),
                       _buildStatCard(
+                        context,
                         'Kategori',
                         topCategory,
                         Colors.purpleAccent,
@@ -150,6 +153,7 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(height: 32),
 
               _buildMenuOption(
+                context: context,
                 icon: Icons.person_outline_rounded,
                 title: 'Edit Profil',
                 onTap: () async {
@@ -173,6 +177,7 @@ class ProfilePage extends StatelessWidget {
                 },
               ),
               _buildMenuOption(
+                context: context,
                 icon: Icons.help_outline_rounded,
                 title: 'Bantuan & FaQ',
                 onTap: () {
@@ -221,7 +226,7 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildStatCard(String label, String value, Color color) {
+  Widget _buildStatCard(BuildContext context, String label, String value, Color color) {
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(16),
@@ -264,6 +269,7 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _buildMenuOption({
+    required BuildContext context,
     required IconData icon,
     required String title,
     required VoidCallback onTap,
