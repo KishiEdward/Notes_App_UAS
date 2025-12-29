@@ -58,14 +58,14 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               },
-              backgroundColor: Colors.black87,
+              backgroundColor: Theme.of(context).colorScheme.primary,
               child: const Icon(Icons.add, color: Colors.white),
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         notchMargin: 8.0,
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         child: SizedBox(
           height: 60,
           child: Row(
