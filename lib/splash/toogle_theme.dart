@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:notesapp/main.dart';
+import 'package:notesapp/services/settings_service.dart';
 
 class ToggleThemePage extends StatefulWidget {
   const ToggleThemePage({super.key});
