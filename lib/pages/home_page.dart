@@ -234,7 +234,11 @@ class _HomePageState extends State<HomePage> {
                 child: FilterChip(
                   label: Text(category),
                   labelStyle: GoogleFonts.poppins(
-                    color: isSelected ? Colors.white : Colors.grey.shade700,
+                    color: isSelected
+                        ? Colors.white
+                        : (Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white70
+                            : Colors.grey.shade700),
                     fontWeight: FontWeight.w500,
                     fontSize: 13,
                   ),
@@ -244,14 +248,16 @@ class _HomePageState extends State<HomePage> {
                       _selectedCategory = category;
                     });
                   },
-                  backgroundColor: Colors.white,
-                  selectedColor: Colors.black87,
+                  backgroundColor: Theme.of(context).cardColor,
+                  selectedColor: Theme.of(context).colorScheme.primary,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                     side: BorderSide(
                       color: isSelected
                           ? Colors.transparent
-                          : Colors.grey.shade300,
+                          : (Theme.of(context).brightness == Brightness.dark
+                              ? Colors.grey.shade700
+                              : Colors.grey.shade300),
                     ),
                   ),
                   elevation: 0,
