@@ -210,7 +210,9 @@ class _HomePageState extends State<HomePage> {
                     child: IconButton(
                       icon: Icon(
                         Icons.group_rounded,
-                        color: Colors.grey.shade700,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white70
+                            : Colors.grey.shade700,
                         size: 24,
                       ),
                       onPressed: () {
