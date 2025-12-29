@@ -128,12 +128,18 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
         return true;
       },
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           elevation: 0,
+          iconTheme: Theme.of(context).appBarTheme.iconTheme,
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black),
+            icon: Icon(
+              Icons.arrow_back,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : Colors.black,
+            ),
             onPressed: _handleBack,
           ),
           actions: [
