@@ -40,6 +40,7 @@ class Splash1 extends StatelessWidget {
             SizedBox(height: 10),
 
             Text(
+              "Aplikasi Catatan Pribadi Anda",
               style: TextStyle(
                 fontSize: 16,
                 color: Theme.of(context).brightness == Brightness.dark
