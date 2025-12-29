@@ -44,7 +44,8 @@ class _ToggleThemePageState extends State<ToggleThemePage>
           'assets/animations/Day_and_Night_Toggle.json',
           controller: _controller,
           onLoaded: (composition) {
-            _controller.duration = composition.duration;
+            // Percepat durasi animasi jadi 0.5x (2x lebih cepat)
+            _controller.duration = composition.duration * 0.5;
 
             if (_isDarkNow) {
               // Current is Dark, so switch to Light
