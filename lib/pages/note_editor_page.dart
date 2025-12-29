@@ -221,15 +221,21 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
               children: [
                 TextField(
                   controller: _titleController,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black87,
                   ),
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: 'Judul',
                     border: InputBorder.none,
-                    hintStyle: TextStyle(color: Colors.black38),
+                    hintStyle: TextStyle(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white38
+                          : Colors.black38,
+                    ),
                   ),
                   maxLines: 1,
                 ),
