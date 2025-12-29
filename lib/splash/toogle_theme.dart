@@ -28,12 +28,27 @@ class _ToggleThemePageState extends State<ToggleThemePage>
     _isDarkNow = await _settingsService.getDarkMode();
     setState(() {});
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      backgroundColor: Colors.black,
       body: Center(
-        child: Text('Toggle Theme'),
+        child: Lottie.asset(
+          'assets/animations/day_night_toggle.json',
+          controller: _controller,
+          onLoaded: (composition) {
+            _controller.duration = composition.duration;
+
+            if (_isDarkNow) {
+              // dark → light
+              _controller.reverse(from: 1);
+            } else {
+              // light → dark
+              _controller.forward(from: 0);
+            }
+          },
+        ),
       ),
     );
   }
