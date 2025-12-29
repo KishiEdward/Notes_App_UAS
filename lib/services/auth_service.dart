@@ -34,6 +34,31 @@ class AuthService {
     }
   }
 
+  Future<bool> isGoogleSignedIn() async {
+    return await _googleSignIn.isSignedIn();
+  }
+
+  Future<UserCredential?> silentGoogleSignIn() async {
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signInSilently();
+      
+      if (googleUser == null) {
+        return null;
+      }
+
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final OAuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      return await _auth.signInWithCredential(credential);
+    } catch (e) {
+      debugPrint("Silent sign in failed: $e");
+      return null;
+    }
+  }
+
   // Register with Email and Password
   Future<UserCredential?> registerWithEmail(
     String email,
