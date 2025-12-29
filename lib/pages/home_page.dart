@@ -146,7 +146,9 @@ class _HomePageState extends State<HomePage> {
                               style: GoogleFonts.poppins(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
-                                color: Colors.black87,
+                                color: Theme.of(context).brightness == Brightness.dark
+                                    ? Colors.white
+                                    : Colors.black87,
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -177,7 +179,9 @@ class _HomePageState extends State<HomePage> {
                         _isGridView
                             ? Icons.view_agenda_outlined
                             : Icons.grid_view_rounded,
-                        color: Colors.grey.shade700,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white70
+                            : Colors.grey.shade700,
                         size: 24,
                       ),
                       onPressed: () {
