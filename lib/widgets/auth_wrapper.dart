@@ -4,6 +4,7 @@ import 'package:notesapp/splash/splash1.dart';
 import 'package:notesapp/pages/home_page.dart';
 import 'package:notesapp/services/auth_service.dart';
 import 'package:flutter/foundation.dart';
+import 'package:notesapp/splash/splash_lottie.dart';
 
 class AuthWrapper extends StatefulWidget {
   const AuthWrapper({super.key});
@@ -77,7 +78,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
         }
 
         if (snapshot.hasData) {
-          return const HomePage();
+          return const MyLottie();
         }
 
         return const Splash1();
