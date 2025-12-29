@@ -4,7 +4,7 @@ import 'package:notesapp/pages/register_page.dart';
 import 'package:notesapp/services/auth_service.dart';
 
 import 'package:notesapp/pages/forgot_password-e.dart';
-import 'package:notesapp/splash/splash_lottie.dart';
+import 'package:notesapp/pages/home_page.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -304,7 +304,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                                       Navigator.of(context).pushAndRemoveUntil(
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              const MyLottie(),
+                                              const HomePage(),
                                         ),
                                         (route) => false,
                                       );
@@ -409,7 +409,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
 
                                 Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(
-                                    builder: (context) => const MyLottie(),
+                                    builder: (context) => const HomePage(),
                                   ),
                                   (route) => false,
                                 );
