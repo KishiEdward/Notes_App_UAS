@@ -7,7 +7,7 @@ import 'package:notesapp/services/settings_service.dart';
 import 'package:notesapp/services/firestore_service.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:notesapp/utils/notification_helper.dart';
-import 'package:notesapp/splash/toggle_theme.dart';
+import 'package:notesapp/widgets/theme_toggle_switch.dart';
 
 
 class SettingsPage extends StatefulWidget {
@@ -130,17 +130,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 'Dark Mode',
                 Icons.dark_mode_outlined,
                 _darkMode,
-  (value) async {
-  await Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (_) => const ToggleThemePage(),
-    ),
-  );
-
-  // setelah balik dari lottie, reload setting
-  _loadSettings();
-},
+                (value) => _toggleDarkMode(value),
 
               ),
               _buildDropdownTile(
@@ -227,11 +217,18 @@ class _SettingsPageState extends State<SettingsPage> {
     return ListTile(
       leading: Icon(icon, color: Colors.blue.shade600),
       title: Text(title, style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
-      trailing: Switch(
-        value: value,
-        onChanged: onChanged,
-        activeColor: Colors.blue.shade600,
-      ),
+      trailing: title == 'Dark Mode'
+          ? ThemeToggleSwitch(
+              value: value,
+              onChanged: onChanged,
+              width: 70, // Sedikit lebih lebar untuk animasi yang bagus
+              height: 45,
+            )
+          : Switch(
+              value: value,
+              onChanged: onChanged,
+              activeColor: Colors.blue.shade600,
+            ),
     );
   }
 
