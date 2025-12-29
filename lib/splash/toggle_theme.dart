@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:notesapp/main.dart';
 import 'package:notesapp/services/settings_service.dart';
 
 class ToggleThemePage extends StatefulWidget {
@@ -46,21 +47,31 @@ class _ToggleThemePageState extends State<ToggleThemePage>
             _controller.duration = composition.duration;
 
             if (_isDarkNow) {
-              // dark → light
-              _controller.reverse(from: 1);
+              // Current is Dark, so switch to Light
+              // Animation: Night -> Day (Reverse)
+              _controller.reverse(from: 1).then((_) {
+                 _updateTheme(false);
+              });
             } else {
-              // light → dark
-              _controller.forward(from: 0);
+              // Current is Light, so switch to Dark
+              // Animation: Day -> Night (Forward)
+              _controller.forward(from: 0).then((_) {
+                 _updateTheme(true);
+              });
             }
-
-            // setelah animasi selesai → balik
-            _controller.addStatusListener((status) {
-              if (status == AnimationStatus.completed ||
-                  status == AnimationStatus.dismissed) {
-                if (mounted) Navigator.pop(context);
-              }
-            });
           },
+        ),
+      ),
+    );
+  }
+
+  Future<void> _updateTheme(bool isDark) async {
+    await _settingsService.setDarkMode(isDark);
+    if (mounted) {
+      MyApp.of(context).changeTheme(isDark);
+      Navigator.pop(context);
+    }
+  }
         ),
       ),
     );
