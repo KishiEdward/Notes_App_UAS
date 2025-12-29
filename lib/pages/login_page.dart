@@ -76,7 +76,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
               ScaleTransition(
                 scale: _logoScaleAnimation,
                 child: Image.asset(
-                  "assets/images/logologin.png",
+                  "assets/images/logo.png",
                   width: 160,
                   height: 160,
                   fit: BoxFit.contain,
@@ -86,7 +86,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
               FadeTransition(
                 opacity: _fadeAnimation,
                 child: Text(
-                  "NOTES",
+                  "NEKOMIND",
                   style: GoogleFonts.poppins(
                     fontSize: 32,
                     fontWeight: FontWeight.w800,
