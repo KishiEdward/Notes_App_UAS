@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notesapp/splash/splash1.dart';
 import 'package:notesapp/pages/home_page.dart';
 import 'package:notesapp/services/auth_service.dart';
+import 'package:flutter/foundation.dart';
 
 class AuthWrapper extends StatefulWidget {
   const AuthWrapper({super.key});
@@ -21,22 +22,26 @@ class _AuthWrapperState extends State<AuthWrapper> {
   }
 
   Future<void> _checkAuth() async {
-    await Future.delayed(const Duration(milliseconds: 500));
-    
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      final authService = AuthService();
-      final isGoogleSignedIn = await authService.isGoogleSignedIn();
+    try {
+      await Future.delayed(const Duration(milliseconds: 500));
       
-      if (isGoogleSignedIn) {
-        await authService.silentGoogleSignIn();
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        final authService = AuthService();
+        final isGoogleSignedIn = await authService.isGoogleSignedIn();
+        
+        if (isGoogleSignedIn) {
+          await authService.silentGoogleSignIn();
+        }
       }
-    }
-    
-    if (mounted) {
-      setState(() {
-        _isChecking = false;
-      });
+    } catch (e) {
+      debugPrint('Auth check error: $e');
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isChecking = false;
+        });
+      }
     }
   }
 
