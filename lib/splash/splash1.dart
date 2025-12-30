@@ -17,36 +17,38 @@ class Splash1 extends StatelessWidget {
             Container(
               width: 200,
               height: 200,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.blueAccent,
-                image: DecorationImage(
+                color: Theme.of(context).primaryColor,
+                image: const DecorationImage(
                   image: AssetImage("assets/images/LOGO-GLOBAL.png"),
                   fit: BoxFit.cover,
                 ),
               ),
             ),
 
+            const SizedBox(height: 30),
+
             Text(
               "Selamat datang",
-              style: TextStyle(
-                fontSize: 24,
+              style: GoogleFonts.poppins(
+                fontSize: 26,
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).brightness == Brightness.dark
                     ? Colors.white
-                    : Colors.black,
+                    : Colors.black87,
               ),
             ),
 
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
 
             Text(
               "Aplikasi Catatan Pribadi Anda",
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 fontSize: 16,
                 color: Theme.of(context).brightness == Brightness.dark
                     ? Colors.grey[400]
-                    : Colors.grey[700],
+                    : Colors.grey[600],
               ),
             ),
 
