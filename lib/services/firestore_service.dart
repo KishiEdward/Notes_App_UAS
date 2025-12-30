@@ -8,6 +8,8 @@ class FirestoreService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final StreakService _streakService = StreakService();
 
+  CollectionReference get _notesCollection => _db.collection('notes');
+
   Stream<List<Note>> getNotesStream() {
     final user = _auth.currentUser;
     if (user == null) {
