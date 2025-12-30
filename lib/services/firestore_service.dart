@@ -108,4 +108,8 @@ class FirestoreService {
       return Note.fromMap(doc.data(), doc.id);
     }).toList();
   }
+
+  Future <int> cleanupOldTrashedNotes() async{
+    
+  }
 }
