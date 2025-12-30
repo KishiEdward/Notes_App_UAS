@@ -88,6 +88,13 @@ class _RegisterState extends State<Register> with SingleTickerProviderStateMixin
                     fontSize: 36,
                     color: Color(0xFFF06292),
                     letterSpacing: 0.5,
+                    shadows: [
+                      Shadow(
+                        color: Colors.black12,
+                        offset: Offset(2, 2),
+                        blurRadius: 4,
+                      ),
+                    ],
                   ),
                 ),
               ),
