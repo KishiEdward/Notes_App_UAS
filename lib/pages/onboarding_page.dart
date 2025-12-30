@@ -83,7 +83,14 @@ class _OnboardingPageState extends State<OnboardingPage> {
       nextFlex: 0,
       showBackButton: false,
       back: const Icon(Icons.arrow_back),
-      skip: Text('Lewati', style: TextStyle(fontWeight: FontWeight.w600, color: Theme.of(context).primaryColor)),
+      skip: Text(
+        'Lewati', 
+        style: TextStyle(
+          fontWeight: FontWeight.bold, 
+          fontSize: 16,
+          color: Theme.of(context).primaryColor,
+        ),
+      ),
       next: Icon(Icons.arrow_forward, color: Theme.of(context).primaryColor),
       done: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
