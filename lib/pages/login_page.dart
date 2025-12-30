@@ -313,13 +313,26 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
 
                                       await SessionManager().saveLoginSession('email');
 
-                                      Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const MyLottie(),
-                                        ),
-                                        (route) => false,
-                                      );
+                                      final prefs = await SharedPreferences.getInstance();
+                                      final isFirstTime = prefs.getBool('is_first_time') ?? true;
+
+                                      if (isFirstTime) {
+                                        Navigator.of(context).pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const OnboardingPage(),
+                                          ),
+                                          (route) => false,
+                                        );
+                                      } else {
+                                        Navigator.of(context).pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const MyLottie(),
+                                          ),
+                                          (route) => false,
+                                        );
+                                      }
                                     }
                                   } catch (e) {
                                     setState(() => _isLoading = false);
