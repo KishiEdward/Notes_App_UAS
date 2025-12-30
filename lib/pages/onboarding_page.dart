@@ -20,9 +20,15 @@ class _OnboardingPageState extends State<OnboardingPage> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('is_first_time', false);
 
+import 'package:notesapp/pages/home_page.dart';
+
+// ... (imports)
+
+// ...
+
     if (context.mounted) {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const Login()),
+        MaterialPageRoute(builder: (_) => const HomePage()),
       );
     }
   }
