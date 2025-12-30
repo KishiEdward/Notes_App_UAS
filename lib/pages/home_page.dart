@@ -19,6 +19,7 @@ import 'package:notesapp/pages/notification_page.dart';
 import 'package:notesapp/services/notification_service.dart';
 import 'package:notesapp/widgets/auth_wrapper.dart';
 import 'package:notesapp/services/session_manager.dart';
+import 'package:notesapp/services/streak_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
