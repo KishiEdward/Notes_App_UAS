@@ -90,12 +90,12 @@ class Splash2 extends StatelessWidget {
               ],
             ),
 
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
 
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 40),
+              margin: const EdgeInsets.symmetric(horizontal: 40),
               child: SizedBox(
-                height: 50,
+                height: 56,
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
@@ -105,20 +105,25 @@ class Splash2 extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueAccent,
+                    backgroundColor: Theme.of(context).primaryColor,
+                    foregroundColor: Colors.white,
+                    elevation: 3,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(28),
                     ),
                   ),
                   child: Text(
                     "Lanjutkan",
-                    style: TextStyle(fontSize: 18, color: Colors.white),
+                    style: GoogleFonts.poppins(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
             ),
 
-            SizedBox(height: 15),
+            const SizedBox(height: 16),
 
             TextButton(
               onPressed: () {
@@ -129,7 +134,11 @@ class Splash2 extends StatelessWidget {
               },
               child: Text(
                 "Lewati",
-                style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).primaryColor,
+                ),
               ),
             ),
           ],
