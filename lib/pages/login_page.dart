@@ -88,7 +88,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                 child: Text(
                   "NEKOMIND",
                   style: GoogleFonts.pacifico(
-                    fontSize: 32,
+                    fontSize: 36,
                     color: Color(0xFFF06292),
                     letterSpacing: 1.5,
                   ),
