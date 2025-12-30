@@ -336,6 +336,12 @@ class _TrashPageState extends State<TrashPage> {
   Widget _buildTrashItem(Note note) {
     final isSelected = _selectedNoteIds.contains(note.id);
 
+    String expirytext = "";
+    if (note.trashedAt != null) {
+      final daysInTrash = DateTime.now().difference(note.trashedAt!).inDays;
+      final daysLeft = 7 - daysInTrash;
+    }
+
     return InkWell(
       onLongPress: () {
         if (!_isSelectionMode) {
@@ -404,7 +410,11 @@ class _TrashPageState extends State<TrashPage> {
             ),
             if (note.content.isNotEmpty) ...[
               const SizedBox(height: 8),
-              MarkdownHelper.buildPreview(note.content, maxLines: 3, context: context),
+              MarkdownHelper.buildPreview(
+                note.content,
+                maxLines: 3,
+                context: context,
+              ),
             ],
 
             if (!_isSelectionMode) ...[
