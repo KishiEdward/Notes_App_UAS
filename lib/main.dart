@@ -12,8 +12,12 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:notesapp/pages/onboarding_page.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  bool isFirstTime = true;
+  
   try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -24,9 +28,13 @@ void main() async {
     if (kIsWeb) {
       await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
     }
+
+    final prefs = await SharedPreferences.getInstance();
+    isFirstTime = prefs.getBool('is_first_time') ?? true;
+    
   } catch (e) {
   }
-  runApp(const RestartWidget(child: MyApp()));
+  runApp(RestartWidget(child: MyApp(isFirstTime: isFirstTime)));
 }
 
 class RestartWidget extends StatefulWidget {
