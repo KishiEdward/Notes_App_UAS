@@ -20,6 +20,8 @@ import 'package:notesapp/services/notification_service.dart';
 import 'package:notesapp/widgets/auth_wrapper.dart';
 import 'package:notesapp/services/session_manager.dart';
 import 'package:notesapp/services/streak_service.dart';
+import 'package:showcaseview/showcaseview.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -32,7 +34,14 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   String _selectedCategory = 'Semua';
   bool _isGridView = false;
+  bool _isGridView = false;
   final FirestoreService _firestoreService = FirestoreService();
+  
+  // Keys for Showcase
+  final GlobalKey _addNoteKey = GlobalKey();
+  final GlobalKey _notificationKey = GlobalKey();
+  final GlobalKey _viewToggleKey = GlobalKey();
+
   final List<String> _categories = [
     'Semua',
     'Pribadi',
