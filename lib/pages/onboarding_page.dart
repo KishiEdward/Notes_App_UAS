@@ -118,12 +118,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
       controlsMargin: const EdgeInsets.all(16),
       controlsPadding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
       dotsDecorator: DotsDecorator(
-        size: const Size(10.0, 10.0),
-        color: Colors.grey.shade400,
+        size: const Size.square(10.0),
+        activeSize: const Size(24.0, 10.0),
         activeColor: Theme.of(context).primaryColor,
-        activeSize: const Size(22.0, 10.0),
-        activeShape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+        color: Theme.of(context).disabledColor,
+        spacing: const EdgeInsets.symmetric(horizontal: 3.0),
+        activeShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25.0),
         ),
       ),
     );
