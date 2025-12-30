@@ -86,12 +86,12 @@ class Splash1 extends StatelessWidget {
               ],
             ),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 40),
 
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 40),
+              margin: const EdgeInsets.symmetric(horizontal: 40),
               child: SizedBox(
-                height: 50,
+                height: 56,
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
@@ -101,14 +101,19 @@ class Splash1 extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueAccent,
+                    backgroundColor: Theme.of(context).primaryColor,
+                    foregroundColor: Colors.white,
+                    elevation: 3,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(28),
                     ),
                   ),
                   child: Text(
                     "Mulai",
-                    style: TextStyle(fontSize: 18, color: Colors.white),
+                    style: GoogleFonts.poppins(
+                      fontSize: 18, 
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
