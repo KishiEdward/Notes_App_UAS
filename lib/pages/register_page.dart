@@ -87,7 +87,7 @@ class _RegisterState extends State<Register> with SingleTickerProviderStateMixin
                   style: GoogleFonts.pacifico(
                     fontSize: 36,
                     color: Color(0xFFF06292),
-                    letterSpacing: 1.5,
+                    letterSpacing: 0.5,
                   ),
                 ),
               ),
