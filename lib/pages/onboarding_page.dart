@@ -44,7 +44,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       ),
       bodyPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       pageColor: Theme.of(context).scaffoldBackgroundColor,
-      imagePadding: const EdgeInsets.only(top: 40), 
+      imagePadding: const EdgeInsets.only(top: 80), 
       imageFlex: 2, 
     );
   }
