@@ -27,8 +27,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
   PageDecoration _getPageDecoration() {
     return PageDecoration(
       titleTextStyle: GoogleFonts.poppins(fontSize: 28.0, fontWeight: FontWeight.w700),
