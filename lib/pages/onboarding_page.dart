@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:notesapp/pages/login_page.dart';
+import 'package:notesapp/pages/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingPage extends StatefulWidget {
@@ -17,15 +18,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
   Future<void> _onIntroEnd(context) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('is_first_time', false);
-
-import 'package:notesapp/pages/home_page.dart';
-
-// ... (imports)
-
-// ...
-
     if (context.mounted) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (_) => const HomePage()),
