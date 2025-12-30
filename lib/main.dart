@@ -165,7 +165,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       
-      home: const AuthWrapper(),
+      home: widget.isFirstTime ? const OnboardingPage() : const AuthWrapper(),
     );
   }
 }
