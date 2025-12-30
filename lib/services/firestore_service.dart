@@ -21,21 +21,27 @@ class FirestoreService {
         .where('userId', isEqualTo: user.uid)
         .snapshots()
         .map((snapshot) {
-      final notes = snapshot.docs.map((doc) {
-        return Note.fromMap(doc.data(), doc.id);
-      }).toList();
-      
-      notes.sort((a, b) {
-        if (a.isPinned != b.isPinned) {
-          return a.isPinned ? -1 : 1; 
-        }
-        return b.updatedAt.compareTo(a.updatedAt);
-      });
-      return notes;
-    });
+          final notes = snapshot.docs.map((doc) {
+            return Note.fromMap(doc.data(), doc.id);
+          }).toList();
+
+          notes.sort((a, b) {
+            if (a.isPinned != b.isPinned) {
+              return a.isPinned ? -1 : 1;
+            }
+            return b.updatedAt.compareTo(a.updatedAt);
+          });
+          return notes;
+        });
   }
 
-  Future<void> addNote(String title, String content, String category, bool isPinned, DateTime? reminderDate) async {
+  Future<void> addNote(
+    String title,
+    String content,
+    String category,
+    bool isPinned,
+    DateTime? reminderDate,
+  ) async {
     final user = _auth.currentUser;
     if (user == null) return;
 
@@ -51,11 +57,18 @@ class FirestoreService {
       'updatedAt': FieldValue.serverTimestamp(),
       'reminderDate': reminderDate,
     });
-    
+
     await _streakService.updateStreak();
   }
 
-  Future<void> updateNote(String id, String title, String content, String category, bool isPinned, DateTime? reminderDate) async {
+  Future<void> updateNote(
+    String id,
+    String title,
+    String content,
+    String category,
+    bool isPinned,
+    DateTime? reminderDate,
+  ) async {
     await _db.collection('notes').doc(id).update({
       'title': title,
       'content': content,
@@ -109,7 +122,8 @@ class FirestoreService {
     }).toList();
   }
 
-  Future <int> cleanupOldTrashedNotes() async{
-    
+  Future<int> cleanupOldTrashedNotes() async {
+    final user = _auth.currentUser;
+    if (user == null) return 0;
   }
 }
