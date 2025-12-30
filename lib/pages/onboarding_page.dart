@@ -37,6 +37,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       ),
       bodyTextStyle: GoogleFonts.poppins(
         fontSize: 16.0,
+        height: 1.5,
         color: Theme.of(context).brightness == Brightness.dark 
             ? Colors.grey.shade300 
             : Colors.grey.shade700,
