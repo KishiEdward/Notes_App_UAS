@@ -48,9 +48,11 @@ class _Splash1State extends State<Splash1> {
                         child: VideoPlayer(_controller),
                       )
                     : Container(
-                        color: Theme.of(context).primaryColor,
-                        child: const Center(
-                          child: CircularProgressIndicator(color: Colors.white),
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/LOGO-GLOBAL.png"),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
               ),
