@@ -131,5 +131,8 @@ class FirestoreService {
         .where('userId', isEqualTo: user.uid)
         .where('isTrashed', isEqualTo: true)
         .get();
+
+    int deletedCount = 0;
+    final now = DateTime.now();
   }
 }
