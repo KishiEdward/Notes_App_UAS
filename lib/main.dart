@@ -67,7 +67,8 @@ class _RestartWidgetState extends State<RestartWidget> {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  final bool isFirstTime;
+  const MyApp({super.key, this.isFirstTime = true});
 
   static _MyAppState of(BuildContext context) =>
       context.findAncestorStateOfType<_MyAppState>()!;
