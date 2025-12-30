@@ -194,21 +194,26 @@ class _HomePageState extends State<HomePage> {
                       ),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: IconButton(
-                      icon: Icon(
-                        _isGridView
-                            ? Icons.view_agenda_outlined
-                            : Icons.grid_view_rounded,
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white70
-                            : Colors.grey.shade700,
-                        size: 24,
+                    child: Showcase(
+                      key: _viewToggleKey,
+                      title: 'Ubah Tampilan',
+                      description: 'Ganti tampilan catatanmu jadi List atau Grid.',
+                      child: IconButton(
+                        icon: Icon(
+                          _isGridView
+                              ? Icons.view_agenda_outlined
+                              : Icons.grid_view_rounded,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white70
+                              : Colors.grey.shade700,
+                          size: 24,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _isGridView = !_isGridView;
+                          });
+                        },
                       ),
-                      onPressed: () {
-                        setState(() {
-                          _isGridView = !_isGridView;
-                        });
-                      },
                     ),
                   ),
                   const SizedBox(width: 8),
