@@ -85,7 +85,20 @@ class _OnboardingPageState extends State<OnboardingPage> {
       back: const Icon(Icons.arrow_back),
       skip: Text('Lewati', style: TextStyle(fontWeight: FontWeight.w600, color: Theme.of(context).primaryColor)),
       next: Icon(Icons.arrow_forward, color: Theme.of(context).primaryColor),
-      done: Text('Mulai', style: TextStyle(fontWeight: FontWeight.w600, color: Theme.of(context).primaryColor)),
+      done: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.circular(25),
+        ),
+        child: const Text(
+          'Mulai',
+          style: TextStyle(
+            fontWeight: FontWeight.w600, 
+            color: Colors.white,
+          ),
+        ),
+      ),
       curve: Curves.fastLinearToSlowEaseIn,
       controlsMargin: const EdgeInsets.all(16),
       controlsPadding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
