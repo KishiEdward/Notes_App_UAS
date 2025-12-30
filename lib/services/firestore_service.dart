@@ -125,5 +125,11 @@ class FirestoreService {
   Future<int> cleanupOldTrashedNotes() async {
     final user = _auth.currentUser;
     if (user == null) return 0;
+
+    final snapshot = await _db
+        .collection('notes')
+        .where('userId', isEqualTo: user.uid)
+        .where('isTrashed', isEqualTo: true)
+        .get();
   }
 }
