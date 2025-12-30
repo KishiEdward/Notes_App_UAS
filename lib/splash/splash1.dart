@@ -1,9 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notesapp/splash/splash2.dart';
+import 'package:video_player/video_player.dart';
 
-class Splash1 extends StatelessWidget {
+class Splash1 extends StatefulWidget {
   const Splash1({super.key});
+
+  @override
+  State<Splash1> createState() => _Splash1State();
+}
+
+class _Splash1State extends State<Splash1> {
+  late VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.asset('assets/animations/animasi logo global.mp4')
+      ..initialize().then((_) {
+        setState(() {});
+        _controller.setLooping(true);
+        _controller.play();
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,17 +38,21 @@ class Splash1 extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // container berisi gambar
-            Container(
+            SizedBox(
               width: 200,
               height: 200,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Theme.of(context).primaryColor,
-                image: const DecorationImage(
-                  image: AssetImage("assets/images/LOGO-GLOBAL.png"),
-                  fit: BoxFit.cover,
-                ),
+              child: ClipOval(
+                child: _controller.value.isInitialized
+                    ? AspectRatio(
+                        aspectRatio: 1,
+                        child: VideoPlayer(_controller),
+                      )
+                    : Container(
+                        color: Theme.of(context).primaryColor,
+                        child: const Center(
+                          child: CircularProgressIndicator(color: Colors.white),
+                        ),
+                      ),
               ),
             ),
 
@@ -111,7 +140,7 @@ class Splash1 extends StatelessWidget {
                   child: Text(
                     "Mulai",
                     style: GoogleFonts.poppins(
-                      fontSize: 18, 
+                      fontSize: 18,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
