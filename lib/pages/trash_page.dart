@@ -31,7 +31,7 @@ class _TrashPageState extends State<TrashPage> {
     if (deletedCount > 0 && mounted) {
       showTopNotification(
         context,
-        "$deletedCount catatan sampah dihapus otomatis",
+        "$deletedCount catatan kadaluarsa dihapus otomatis",
         color: Colors.red.shade600,
       );
     }
