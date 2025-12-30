@@ -340,6 +340,12 @@ class _TrashPageState extends State<TrashPage> {
     if (note.trashedAt != null) {
       final daysInTrash = DateTime.now().difference(note.trashedAt!).inDays;
       final daysLeft = 7 - daysInTrash;
+
+      if (daysLeft > 0) {
+        expirytext = "Hapus otomatis hari ini";
+      } else {
+        expirytext = "$daysLeft hari lagi dihapus otomatis";
+      }
     }
 
     return InkWell(
@@ -408,6 +414,20 @@ class _TrashPageState extends State<TrashPage> {
                   ),
               ],
             ),
+
+            if (note.trashedAt != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Text(
+                  expirytext,
+                  style: GoogleFonts.poppins(
+                    fontSize: 12,
+                    color: Colors.red.shade400,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+
             if (note.content.isNotEmpty) ...[
               const SizedBox(height: 8),
               MarkdownHelper.buildPreview(
