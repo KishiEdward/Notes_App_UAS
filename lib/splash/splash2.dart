@@ -26,31 +26,31 @@ class Splash2 extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
 
             Text(
               "Organisir Ide Anda",
-              style: TextStyle(
-                fontSize: 24,
+              style: GoogleFonts.poppins(
+                fontSize: 26,
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).brightness == Brightness.dark
                     ? Colors.white
-                    : Colors.black,
+                    : Colors.black87,
               ),
             ),
 
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
 
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 40),
+              margin: const EdgeInsets.symmetric(horizontal: 40),
               child: Text(
                 "Tulis, edit, dan atur catatan Anda dengan mudah. Semua dalam satu tempat.",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: GoogleFonts.poppins(
                   fontSize: 16,
                   color: Theme.of(context).brightness == Brightness.dark
                       ? Colors.grey[400]
-                      : Colors.grey[700],
+                      : Colors.grey[600],
                   height: 1.5,
                 ),
               ),
