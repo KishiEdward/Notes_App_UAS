@@ -59,8 +59,7 @@ class _RestartWidgetState extends State<RestartWidget> {
 }
 
 class MyApp extends StatefulWidget {
-  final bool isFirstTime;
-  const MyApp({super.key, this.isFirstTime = true});
+  const MyApp({super.key});
 
   static _MyAppState of(BuildContext context) =>
       context.findAncestorStateOfType<_MyAppState>()!;
@@ -157,7 +156,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       
-      home: widget.isFirstTime ? const OnboardingPage() : const AuthWrapper(),
+      home: const AuthWrapper(),
     );
   }
 }
