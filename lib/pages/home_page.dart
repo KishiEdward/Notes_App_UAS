@@ -153,7 +153,9 @@ class _HomePageState extends State<HomePage> {
                   radius: 22,
                   backgroundColor: Colors.grey.shade200,
                   child: Text(
-                    user?.displayName?.substring(0, 1).toUpperCase() ?? 'U',
+                    (user?.displayName?.isNotEmpty == true) 
+                        ? user!.displayName!.substring(0, 1).toUpperCase() 
+                        : 'U',
                     style: GoogleFonts.poppins(
                       color: Colors.grey.shade700,
                       fontWeight: FontWeight.w600,
