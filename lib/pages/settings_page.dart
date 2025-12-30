@@ -8,6 +8,7 @@ import 'package:notesapp/services/firestore_service.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:notesapp/utils/notification_helper.dart';
 import 'package:notesapp/splash/toggle_theme.dart';
+import 'package:notesapp/pages/notification_settings_page.dart';
 
 
 class SettingsPage extends StatefulWidget {
@@ -160,6 +161,18 @@ class _SettingsPageState extends State<SettingsPage> {
                 _defaultCategory,
                 _categories,
                 (value) => _changeDefaultCategory(value!),
+              ),
+              _buildActionTile(
+                'Notifications',
+                Icons.notifications_outlined,
+                () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const NotificationSettingsPage(),
+                    ),
+                  );
+                },
               ),
             ],
           ),

@@ -46,6 +46,8 @@ class FirestoreService {
       'updatedAt': FieldValue.serverTimestamp(),
       'reminderDate': reminderDate,
     });
+    
+    await _streakService.updateStreak();
   }
 
   Future<void> updateNote(String id, String title, String content, String category, bool isPinned, DateTime? reminderDate) async {

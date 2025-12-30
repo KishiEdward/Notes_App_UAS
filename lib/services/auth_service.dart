@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart';
+import 'package:notesapp/services/fcm_service.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FCMService _fcmService = FCMService();
 
   // Sign in with Google
   Future<UserCredential?> signInWithGoogle() async {
@@ -20,14 +22,19 @@ class AuthService {
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
 
-      // Create a new credential
-      final OAuthCredential credential = GoogleAuthProvider.credential(
+
+      final OAuthCredential oauthCred = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      // Once signed in, return the UserCredential
-      return await _auth.signInWithCredential(credential);
+      final credential = await _auth.signInWithCredential(oauthCred);
+      
+      if (credential.user != null) {
+        await _fcmService.saveTokenToFirestore(credential.user!.uid);
+      }
+      
+      return credential;
     } catch (e) {
       debugPrint("Error signing in with Google: $e");
       rethrow; // Rethrow to let UI handle the error message
@@ -77,21 +84,26 @@ class AuthService {
   }
 
   // Sign in with Email and Password
-  Future<UserCredential?> signInWithEmail(String email, String password) async {
+  Future<User?> signInWithEmail(String email, String password) async {
     try {
       final credential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      return credential;
+      
+      if (credential.user != null) {
+        await _fcmService.saveTokenToFirestore(credential.user!.uid);
+      }
+      
+      return credential.user;
     } catch (e) {
-      debugPrint("Error signing in with email: $e");
-      rethrow;
+      throw Exception(e.toString());
     }
   }
 
   // Sign out
   Future<void> signOut() async {
+    await _fcmService.deleteToken();
     await _googleSignIn.signOut();
     await _auth.signOut();
   }
