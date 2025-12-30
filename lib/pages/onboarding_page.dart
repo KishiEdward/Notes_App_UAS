@@ -1,7 +1,10 @@
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
+import 'package:notesapp/pages/login_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -11,10 +14,78 @@ class OnboardingPage extends StatefulWidget {
 }
 
 class _OnboardingPageState extends State<OnboardingPage> {
+  final introKey = GlobalKey<IntroductionScreenState>();
+
+  Future<void> _onIntroEnd(context) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('is_first_time', false);
+
+    if (context.mounted) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const LoginPage()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text("Onboarding Page")),
+    const bodyStyle = TextStyle(fontSize: 19.0);
+
+    final pageDecoration = PageDecoration(
+      titleTextStyle: GoogleFonts.poppins(fontSize: 28.0, fontWeight: FontWeight.w700),
+      bodyTextStyle: GoogleFonts.poppins(fontSize: 19.0),
+      bodyPadding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+      pageColor: Theme.of(context).scaffoldBackgroundColor,
+      imagePadding: EdgeInsets.zero,
+    );
+
+    return IntroductionScreen(
+      key: introKey,
+      globalBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      allowImplicitScrolling: true,
+      autoScrollDuration: 3000,
+      infiniteAutoScroll: false,
+      pages: [
+        PageViewModel(
+          title: "Selamat Datang",
+          body: "Catat ide, tugas, dan hal penting lainnya dengan NekoMind.",
+          image: Lottie.asset('assets/animations/White Cat Peeping.json', height: 200),
+          decoration: pageDecoration,
+        ),
+        PageViewModel(
+          title: "Fitur Lengkap",
+          body: "Mulai dari kategori, pin, hingga pencarian yang cepat.",
+          image: Lottie.asset('assets/animations/Black Cat Green Eyes Peeping.json', height: 200),
+          decoration: pageDecoration,
+        ),
+        PageViewModel(
+          title: "Tetap Produktif",
+          body: "Jaga streak dan aktifkan reminder agar tidak lupa.",
+          image: Lottie.asset('assets/animations/Fish_Jumping.json', height: 200),
+          decoration: pageDecoration,
+        ),
+      ],
+      onDone: () => _onIntroEnd(context),
+      onSkip: () => _onIntroEnd(context), // You can override onSkip callback
+      showSkipButton: true,
+      skipOrBackFlex: 0,
+      nextFlex: 0,
+      showBackButton: false,
+      back: const Icon(Icons.arrow_back),
+      skip: const Text('Lewati', style: TextStyle(fontWeight: FontWeight.w600)),
+      next: const Icon(Icons.arrow_forward),
+      done: const Text('Mulai', style: TextStyle(fontWeight: FontWeight.w600)),
+      curve: Curves.fastLinearToSlowEaseIn,
+      controlsMargin: const EdgeInsets.all(16),
+      controlsPadding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
+      dotsDecorator: const DotsDecorator(
+        size: Size(10.0, 10.0),
+        color: Color(0xFFBDBDBD),
+        activeSize: Size(22.0, 10.0),
+        activeShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+        ),
+      ),
     );
   }
 }
