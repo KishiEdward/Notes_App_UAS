@@ -29,16 +29,18 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
-    const bodyStyle = TextStyle(fontSize: 19.0);
-
-    final pageDecoration = PageDecoration(
+  PageDecoration _getPageDecoration() {
+    return PageDecoration(
       titleTextStyle: GoogleFonts.poppins(fontSize: 28.0, fontWeight: FontWeight.w700),
       bodyTextStyle: GoogleFonts.poppins(fontSize: 19.0),
       bodyPadding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
       pageColor: Theme.of(context).scaffoldBackgroundColor,
       imagePadding: EdgeInsets.zero,
     );
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return IntroductionScreen(
       key: introKey,
       globalBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -50,19 +52,19 @@ class _OnboardingPageState extends State<OnboardingPage> {
           title: "Selamat Datang",
           body: "Catat ide, tugas, dan hal penting lainnya dengan NekoMind.",
           image: Lottie.asset('assets/animations/White Cat Peeping.json', height: 200),
-          decoration: pageDecoration,
+          decoration: _getPageDecoration(),
         ),
         PageViewModel(
           title: "Fitur Lengkap",
           body: "Mulai dari kategori, pin, hingga pencarian yang cepat.",
           image: Lottie.asset('assets/animations/Black Cat Green Eyes Peeping.json', height: 200),
-          decoration: pageDecoration,
+          decoration: _getPageDecoration(),
         ),
         PageViewModel(
           title: "Tetap Produktif",
           body: "Jaga streak dan aktifkan reminder agar tidak lupa.",
           image: Lottie.asset('assets/animations/Fish_Jumping.json', height: 200),
-          decoration: pageDecoration,
+          decoration: _getPageDecoration(),
         ),
       ],
       onDone: () => _onIntroEnd(context),
