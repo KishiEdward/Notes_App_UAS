@@ -34,7 +34,6 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   String _selectedCategory = 'Semua';
   bool _isGridView = false;
-  bool _isGridView = false;
   final FirestoreService _firestoreService = FirestoreService();
   
   // Keys for Showcase
