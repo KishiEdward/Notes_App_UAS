@@ -50,6 +50,26 @@ class _HomePageState extends State<HomePage> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _checkTutorial());
+  }
+
+  Future<void> _checkTutorial() async {
+    final prefs = await SharedPreferences.getInstance();
+    final hasSeenTutorial = prefs.getBool('has_seen_home_tutorial') ?? false;
+
+    if (!hasSeenTutorial && mounted) {
+      ShowCaseWidget.of(context).startShowCase([
+        _addNoteKey,
+        _viewToggleKey,
+        _notificationKey,
+      ]);
+      await prefs.setBool('has_seen_home_tutorial', true);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
 
