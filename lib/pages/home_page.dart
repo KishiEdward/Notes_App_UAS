@@ -60,17 +60,22 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(child: _buildBodyContent(user)),
       floatingActionButton: _selectedIndex == 3
           ? null
-          : FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const NoteEditorPage(),
-                  ),
-                );
-              },
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              child: const Icon(Icons.add, color: Colors.white),
+          : Showcase(
+              key: _addNoteKey,
+              title: 'Buat Catatan',
+              description: 'Tap di sini untuk membuat catatan barumu!',
+              child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const NoteEditorPage(),
+                    ),
+                  );
+                },
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                child: const Icon(Icons.add, color: Colors.white),
+              ),
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
