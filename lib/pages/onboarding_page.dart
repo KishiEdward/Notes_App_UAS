@@ -18,6 +18,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
   Future<void> _onIntroEnd(context) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('is_first_time', false);
+
     if (context.mounted) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (_) => const HomePage()),
