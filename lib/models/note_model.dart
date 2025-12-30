@@ -11,6 +11,7 @@ class Note {
   final DateTime createdAt;
   final DateTime updatedAt;
   final DateTime? reminderDate;
+  final DateTime? TrashedAt;
 
   Note({
     required this.id,
@@ -23,11 +24,12 @@ class Note {
     required this.createdAt,
     required this.updatedAt,
     this.reminderDate,
+    this.TrashedAt,
   });
 
   factory Note.fromMap(Map<String, dynamic>? data, String documentId) {
     data = data ?? {};
-    
+
     DateTime toDateTime(dynamic value) {
       if (value is Timestamp) {
         return value.toDate();
@@ -45,7 +47,9 @@ class Note {
       isTrashed: data['isTrashed'] ?? false,
       createdAt: toDateTime(data['createdAt']),
       updatedAt: toDateTime(data['updatedAt']),
-      reminderDate: data['reminderDate'] != null ? toDateTime(data['reminderDate']) : null,
+      reminderDate: data['reminderDate'] != null
+          ? toDateTime(data['reminderDate'])
+          : null,
     );
   }
 
