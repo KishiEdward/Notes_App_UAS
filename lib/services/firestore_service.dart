@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notesapp/models/note_model.dart';
+import 'package:notesapp/services/streak_service.dart';
 
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final StreakService _streakService = StreakService();
 
   Stream<List<Note>> getNotesStream() {
     final user = _auth.currentUser;
