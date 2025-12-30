@@ -9,6 +9,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:notesapp/firebase_options.dart';
 import 'package:notesapp/widgets/auth_wrapper.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:showcaseview/showcaseview.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -116,11 +117,15 @@ class _MyAppState extends State<MyApp> {
       
       builder: (context, child) {
         final mediaQueryData = MediaQuery.of(context);
-        return MediaQuery(
-          data: mediaQueryData.copyWith(
-            textScaler: TextScaler.linear(_fontScale),
+        return ShowCaseWidget(
+          builder: Builder(
+            builder: (context) => MediaQuery(
+              data: mediaQueryData.copyWith(
+                textScaler: TextScaler.linear(_fontScale),
+              ),
+              child: child!,
+            ),
           ),
-          child: child!,
         );
       },
 
