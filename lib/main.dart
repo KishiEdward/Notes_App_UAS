@@ -12,8 +12,6 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:notesapp/pages/onboarding_page.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   bool isFirstTime = true;
