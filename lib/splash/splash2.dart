@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:notesapp/splash/splash3.dart';
 import 'package:notesapp/pages/login_page.dart';
 
