@@ -91,7 +91,15 @@ class _OnboardingPageState extends State<OnboardingPage> {
           color: Theme.of(context).primaryColor,
         ),
       ),
-      next: Icon(Icons.arrow_forward, color: Theme.of(context).primaryColor),
+      next: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor.withOpacity(0.1),
+          shape: BoxShape.circle,
+        ),
+        child: Icon(Icons.arrow_forward_rounded, color: Theme.of(context).primaryColor),
+      ),
       done: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         decoration: BoxDecoration(
