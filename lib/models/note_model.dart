@@ -67,6 +67,7 @@ class Note {
       'createdAt': createdAt,
       'updatedAt': updatedAt,
       'reminderDate': reminderDate,
+      'trashedAt': trashedAt,
     };
   }
 }
