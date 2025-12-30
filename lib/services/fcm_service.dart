@@ -5,4 +5,15 @@ class FCMService {
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin _localNotifications =
       FlutterLocalNotificationsPlugin();
+
+  Future<void> initialize() async {
+    await _initializeLocalNotifications();
+    await requestPermission();
+  }
+
+  Future<void> _initializeLocalNotifications() async {
+    const androidSettings = AndroidInitializationSettings('@mipmap/launcher_icon');
+    const initSettings = InitializationSettings(android: androidSettings);
+    await _localNotifications.initialize(initSettings);
+  }
 }
