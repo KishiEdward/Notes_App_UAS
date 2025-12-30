@@ -12,6 +12,8 @@ class NotificationSettingsPage extends StatefulWidget {
 class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
   final FCMService _fcmService = FCMService();
   bool _notificationsEnabled = true;
+  bool _dailyReminderEnabled = false;
+  bool _streakReminderEnabled = false;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,43 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
             value: _notificationsEnabled,
             onChanged: (value) {
               setState(() => _notificationsEnabled = value);
+            },
+          ),
+          const Divider(),
+          SwitchListTile(
+            title: Text('Daily Reminder (8 AM)', style: GoogleFonts.poppins()),
+            subtitle: Text('Ingetin bikin catatan tiap pagi', style: GoogleFonts.poppins(fontSize: 12)),
+            value: _dailyReminderEnabled,
+            onChanged: (value) async {
+              setState(() => _dailyReminderEnabled = value);
+              if (value) {
+                await _fcmService.scheduleDailyReminder();
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Daily reminder enabled! 🌅', style: GoogleFonts.poppins())),
+                  );
+                }
+              } else {
+                await _fcmService.cancelDailyReminder();
+              }
+            },
+          ),
+          SwitchListTile(
+            title: Text('Streak Reminder (8 PM)', style: GoogleFonts.poppins()),
+            subtitle: Text('Ingetin jaga streak kalau belum bikin catatan', style: GoogleFonts.poppins(fontSize: 12)),
+            value: _streakReminderEnabled,
+            onChanged: (value) async {
+              setState(() => _streakReminderEnabled = value);
+              if (value) {
+                await _fcmService.scheduleStreakReminder();
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Streak reminder enabled! 🔥', style: GoogleFonts.poppins())),
+                  );
+                }
+              } else {
+                await _fcmService.cancelStreakReminder();
+              }
             },
           ),
           const SizedBox(height: 20),
