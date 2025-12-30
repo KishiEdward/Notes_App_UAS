@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notesapp/services/fcm_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationSettingsPage extends StatefulWidget {
   const NotificationSettingsPage({super.key});
@@ -16,6 +17,28 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
   bool _streakReminderEnabled = false;
 
   @override
+  void initState() {
+    super.initState();
+    _loadSettings();
+  }
+
+  Future<void> _loadSettings() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _dailyReminderEnabled = prefs.getBool('dailyReminderEnabled') ?? false;
+      _streakReminderEnabled = prefs.getBool('streakReminderEnabled') ?? false;
+    });
+  }
+
+  Future<void> _saveDailyReminder(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('dailyReminderEnabled', value);
+  }
+
+  Future<void> _saveStreakReminder(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('streakReminderEnabled', value);
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -41,6 +64,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
             value: _dailyReminderEnabled,
             onChanged: (value) async {
               setState(() => _dailyReminderEnabled = value);
+              await _saveDailyReminder(value);
               if (value) {
                 await _fcmService.scheduleDailyReminder();
                 if (context.mounted) {
@@ -59,6 +83,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
             value: _streakReminderEnabled,
             onChanged: (value) async {
               setState(() => _streakReminderEnabled = value);
+              await _saveStreakReminder(value);
               if (value) {
                 await _fcmService.scheduleStreakReminder();
                 if (context.mounted) {
