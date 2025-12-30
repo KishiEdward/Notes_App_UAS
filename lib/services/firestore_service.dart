@@ -85,6 +85,7 @@ class FirestoreService {
   Future<void> restoreFromTrash(String id) async {
     await _db.collection('notes').doc(id).update({
       'isTrashed': false,
+      'trashedAt': null,
       'updatedAt': FieldValue.serverTimestamp(),
     });
   }
