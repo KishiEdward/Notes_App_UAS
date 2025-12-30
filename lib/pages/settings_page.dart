@@ -163,6 +163,19 @@ class _SettingsPageState extends State<SettingsPage> {
                 (value) => _changeDefaultCategory(value!),
               ),
               _buildActionTile(
+                'Reset Home Tutorial',
+                Icons.help_outline,
+                () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.setBool('has_seen_home_tutorial', false);
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Tutorial akan muncul kembali di Home.')),
+                    );
+                  }
+                },
+              ),
+              _buildActionTile(
                 'Notifications',
                 Icons.notifications_outlined,
                 () {
