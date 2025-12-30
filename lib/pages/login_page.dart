@@ -7,6 +7,8 @@ import 'package:notesapp/services/session_manager.dart';
 import 'package:notesapp/pages/forgot_password-e.dart';
 import 'package:notesapp/pages/home_page.dart';
 import 'package:notesapp/splash/splash_lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:notesapp/pages/onboarding_page.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
