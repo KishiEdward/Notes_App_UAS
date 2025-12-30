@@ -22,7 +22,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
     if (context.mounted) {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const LoginPage()),
+        MaterialPageRoute(builder: (_) => const Login()),
       );
     }
   }
