@@ -134,5 +134,14 @@ class FirestoreService {
 
     int deletedCount = 0;
     final now = DateTime.now();
+
+    for (var doc in snapshot.docs){
+      final data = doc.data();
+
+      if (data['trashedAt'] != null){
+        final Timestamp timestamp = data['trashedAt'];
+        final DateTime trashedAt = timestamp.toDate();
+      }
+    }
   }
 }
