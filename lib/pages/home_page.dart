@@ -618,19 +618,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildNavItem(IconData icon, int index) {
+  Widget _buildNavItem(IconData icon, int index, {GlobalKey? showcaseKey, String? description, String? title}) {
     final isSelected = _selectedIndex == index;
-    return InkWell(
-      onTap: () {
-        setState(() {
-          _selectedIndex = index;
-        });
-      },
-      borderRadius: BorderRadius.circular(30),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: index == 2
-            ? FutureBuilder<int>(
+    Widget child = index == 2
+        ? FutureBuilder<int>(
                 future: NotificationService().getNotificationCount(),
                 builder: (context, snapshot) {
                   final count = snapshot.data ?? 0;
@@ -671,7 +662,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   );
                 },
-              )
+                )
             : Icon(
                 icon,
                 color: isSelected
@@ -680,7 +671,27 @@ class _HomePageState extends State<HomePage> {
                         : Colors.black87)
                     : Colors.grey.shade400,
                 size: 28,
-              ),
+              );
+
+    if (showcaseKey != null) {
+      child = Showcase(
+        key: showcaseKey,
+        title: title,
+        description: description,
+        child: child,
+      );
+    }
+
+    return InkWell(
+      onTap: () {
+        setState(() {
+          _selectedIndex = index;
+        });
+      },
+      borderRadius: BorderRadius.circular(30),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: child,
       ),
     );
   }
