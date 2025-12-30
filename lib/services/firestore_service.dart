@@ -77,6 +77,7 @@ class FirestoreService {
     await _db.collection('notes').doc(id).update({
       'isTrashed': true,
       'isPinned': false,
+      'trashedAt': FieldValue.serverTimestamp(),
       'updatedAt': FieldValue.serverTimestamp(),
     });
   }
