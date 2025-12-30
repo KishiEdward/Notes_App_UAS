@@ -53,8 +53,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
 
-    return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+    return ShowCaseWidget(
+      builder: Builder(
+        builder: (context) => Scaffold(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(child: _buildBodyContent(user)),
       floatingActionButton: _selectedIndex == 3
           ? null
