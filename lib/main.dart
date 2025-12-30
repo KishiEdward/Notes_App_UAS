@@ -118,13 +118,11 @@ class _MyAppState extends State<MyApp> {
       builder: (context, child) {
         final mediaQueryData = MediaQuery.of(context);
         return ShowCaseWidget(
-          builder: Builder(
-            builder: (context) => MediaQuery(
-              data: mediaQueryData.copyWith(
-                textScaler: TextScaler.linear(_fontScale),
-              ),
-              child: child!,
+          builder: (context) => MediaQuery(
+            data: mediaQueryData.copyWith(
+              textScaler: TextScaler.linear(_fontScale),
             ),
+            child: child!,
           ),
         );
       },
