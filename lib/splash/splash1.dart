@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:notesapp/splash/splash2.dart';
 
 class Splash1 extends StatelessWidget {
