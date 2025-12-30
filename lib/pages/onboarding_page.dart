@@ -30,11 +30,21 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   PageDecoration _getPageDecoration() {
     return PageDecoration(
-      titleTextStyle: GoogleFonts.poppins(fontSize: 28.0, fontWeight: FontWeight.w700),
-      bodyTextStyle: GoogleFonts.poppins(fontSize: 19.0),
-      bodyPadding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+      titleTextStyle: GoogleFonts.poppins(
+        fontSize: 24.0, 
+        fontWeight: FontWeight.bold,
+        color: Theme.of(context).primaryColor,
+      ),
+      bodyTextStyle: GoogleFonts.poppins(
+        fontSize: 16.0,
+        color: Theme.of(context).brightness == Brightness.dark 
+            ? Colors.grey.shade300 
+            : Colors.grey.shade700,
+      ),
+      bodyPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       pageColor: Theme.of(context).scaffoldBackgroundColor,
-      imagePadding: EdgeInsets.zero,
+      imagePadding: const EdgeInsets.only(top: 40), 
+      imageFlex: 2, 
     );
   }
 
