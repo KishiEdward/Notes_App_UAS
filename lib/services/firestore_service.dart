@@ -8,6 +8,8 @@ class FirestoreService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final StreakService _streakService = StreakService();
 
+  CollectionReference get _notesCollection => _db.collection('notes');
+
   Stream<List<Note>> getNotesStream() {
     final user = _auth.currentUser;
     if (user == null) {
@@ -19,21 +21,27 @@ class FirestoreService {
         .where('userId', isEqualTo: user.uid)
         .snapshots()
         .map((snapshot) {
-      final notes = snapshot.docs.map((doc) {
-        return Note.fromMap(doc.data(), doc.id);
-      }).toList();
-      
-      notes.sort((a, b) {
-        if (a.isPinned != b.isPinned) {
-          return a.isPinned ? -1 : 1; 
-        }
-        return b.updatedAt.compareTo(a.updatedAt);
-      });
-      return notes;
-    });
+          final notes = snapshot.docs.map((doc) {
+            return Note.fromMap(doc.data(), doc.id);
+          }).toList();
+
+          notes.sort((a, b) {
+            if (a.isPinned != b.isPinned) {
+              return a.isPinned ? -1 : 1;
+            }
+            return b.updatedAt.compareTo(a.updatedAt);
+          });
+          return notes;
+        });
   }
 
-  Future<void> addNote(String title, String content, String category, bool isPinned, DateTime? reminderDate) async {
+  Future<void> addNote(
+    String title,
+    String content,
+    String category,
+    bool isPinned,
+    DateTime? reminderDate,
+  ) async {
     final user = _auth.currentUser;
     if (user == null) return;
 
@@ -43,16 +51,24 @@ class FirestoreService {
       'content': content,
       'category': category,
       'isPinned': isPinned,
-      'isTrashed': false, 
+      'isTrashed': false,
+      'trashedAt': null,
       'createdAt': FieldValue.serverTimestamp(),
       'updatedAt': FieldValue.serverTimestamp(),
       'reminderDate': reminderDate,
     });
-    
+
     await _streakService.updateStreak();
   }
 
-  Future<void> updateNote(String id, String title, String content, String category, bool isPinned, DateTime? reminderDate) async {
+  Future<void> updateNote(
+    String id,
+    String title,
+    String content,
+    String category,
+    bool isPinned,
+    DateTime? reminderDate,
+  ) async {
     await _db.collection('notes').doc(id).update({
       'title': title,
       'content': content,
@@ -74,6 +90,7 @@ class FirestoreService {
     await _db.collection('notes').doc(id).update({
       'isTrashed': true,
       'isPinned': false,
+      'trashedAt': FieldValue.serverTimestamp(),
       'updatedAt': FieldValue.serverTimestamp(),
     });
   }
@@ -81,6 +98,7 @@ class FirestoreService {
   Future<void> restoreFromTrash(String id) async {
     await _db.collection('notes').doc(id).update({
       'isTrashed': false,
+      'trashedAt': null,
       'updatedAt': FieldValue.serverTimestamp(),
     });
   }
@@ -102,5 +120,36 @@ class FirestoreService {
     return snapshot.docs.map((doc) {
       return Note.fromMap(doc.data(), doc.id);
     }).toList();
+  }
+
+  Future<int> cleanupOldTrashedNotes() async {
+    final user = _auth.currentUser;
+    if (user == null) return 0;
+
+    final snapshot = await _db
+        .collection('notes')
+        .where('userId', isEqualTo: user.uid)
+        .where('isTrashed', isEqualTo: true)
+        .get();
+
+    int deletedCount = 0;
+    final now = DateTime.now();
+
+    for (var doc in snapshot.docs) {
+      final data = doc.data();
+
+      if (data['trashedAt'] != null) {
+        final Timestamp timestamp = data['trashedAt'];
+        final DateTime trashedAt = timestamp.toDate();
+
+        final difference = now.difference(trashedAt).inDays;
+
+        if (difference >= 7) {
+          await doc.reference.delete();
+          deletedCount++;
+        }
+      }
+    }
+    return deletedCount;
   }
 }

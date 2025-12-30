@@ -19,6 +19,24 @@ class _TrashPageState extends State<TrashPage> {
   final Set<String> _selectedNoteIds = {};
   bool _isSelectionMode = false;
 
+  @override
+  void initState() {
+    super.initState();
+    _runAutoCleanup();
+  }
+
+  Future<void> _runAutoCleanup() async {
+    final int deletedCount = await _firestoreService.cleanupOldTrashedNotes();
+
+    if (deletedCount > 0 && mounted) {
+      showTopNotification(
+        context,
+        "$deletedCount catatan kadaluarsa dihapus otomatis",
+        color: Colors.red.shade600,
+      );
+    }
+  }
+
   void _toggleSelection(String id) {
     setState(() {
       if (_selectedNoteIds.contains(id)) {
@@ -318,6 +336,18 @@ class _TrashPageState extends State<TrashPage> {
   Widget _buildTrashItem(Note note) {
     final isSelected = _selectedNoteIds.contains(note.id);
 
+    String expirytext = "";
+    if (note.trashedAt != null) {
+      final daysInTrash = DateTime.now().difference(note.trashedAt!).inDays;
+      final daysLeft = 7 - daysInTrash;
+
+      if (daysLeft <= 0) {
+        expirytext = "Hapus otomatis hari ini";
+      } else {
+        expirytext = "$daysLeft hari lagi dihapus otomatis";
+      }
+    }
+
     return InkWell(
       onLongPress: () {
         if (!_isSelectionMode) {
@@ -384,9 +414,27 @@ class _TrashPageState extends State<TrashPage> {
                   ),
               ],
             ),
+
+            if (note.trashedAt != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Text(
+                  expirytext,
+                  style: GoogleFonts.poppins(
+                    fontSize: 12,
+                    color: Colors.red.shade400,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+
             if (note.content.isNotEmpty) ...[
               const SizedBox(height: 8),
-              MarkdownHelper.buildPreview(note.content, maxLines: 3, context: context),
+              MarkdownHelper.buildPreview(
+                note.content,
+                maxLines: 3,
+                context: context,
+              ),
             ],
 
             if (!_isSelectionMode) ...[
