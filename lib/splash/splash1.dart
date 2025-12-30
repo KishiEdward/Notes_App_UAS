@@ -1,34 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notesapp/splash/splash2.dart';
-import 'package:video_player/video_player.dart';
 
-class Splash1 extends StatefulWidget {
+class Splash1 extends StatelessWidget {
   const Splash1({super.key});
-
-  @override
-  State<Splash1> createState() => _Splash1State();
-}
-
-class _Splash1State extends State<Splash1> {
-  late VideoPlayerController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = VideoPlayerController.asset('assets/animations/animasi logo global.mp4')
-      ..initialize().then((_) {
-        setState(() {});
-        _controller.setLooping(true);
-        _controller.play();
-      });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,19 +17,10 @@ class _Splash1State extends State<Splash1> {
               width: 200,
               height: 200,
               child: ClipOval(
-                child: _controller.value.isInitialized
-                    ? AspectRatio(
-                        aspectRatio: 1,
-                        child: VideoPlayer(_controller),
-                      )
-                    : Container(
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/images/LOGO-GLOBAL.png"),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
+                child: Image.asset(
+                  'assets/animations/animasi logo global.gif',
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
 
