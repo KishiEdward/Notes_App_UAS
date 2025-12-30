@@ -135,13 +135,21 @@ class FirestoreService {
     int deletedCount = 0;
     final now = DateTime.now();
 
-    for (var doc in snapshot.docs){
+    for (var doc in snapshot.docs) {
       final data = doc.data();
 
-      if (data['trashedAt'] != null){
+      if (data['trashedAt'] != null) {
         final Timestamp timestamp = data['trashedAt'];
         final DateTime trashedAt = timestamp.toDate();
+
+        final difference = now.difference(trashedAt).inDays;
+
+        if (difference >= 7) {
+          await doc.reference.delete();
+          deletedCount++;
+        }
       }
     }
+    return deletedCount;
   }
 }
