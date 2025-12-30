@@ -115,7 +115,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
           ),
         ),
       ),
-      curve: Curves.fastLinearToSlowEaseIn,
+      curve: Curves.easeInOut,
       controlsMargin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       controlsPadding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
       dotsDecorator: DotsDecorator(
