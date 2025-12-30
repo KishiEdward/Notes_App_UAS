@@ -18,32 +18,32 @@ class Splash3 extends StatelessWidget {
               height: 200,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.blueAccent,
-                image: DecorationImage(
+                color: Theme.of(context).primaryColor,
+                image: const DecorationImage(
                   image: AssetImage("assets/images/splash3.jpeg"),
                   fit: BoxFit.cover,
                 ),
               ),
             ),
-            SizedBox(height: 30.0),
+            const SizedBox(height: 30.0),
             Text(
               "Ayo mulai!",
-              style: TextStyle(
-                fontSize: 24.0,
+              style: GoogleFonts.poppins(
+                fontSize: 26.0,
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).brightness == Brightness.dark
                     ? Colors.white
-                    : Colors.black,
+                    : Colors.black87,
               ),
             ),
-            SizedBox(height: 10.0),
+            const SizedBox(height: 10.0),
             Text(
               "Login/Register dan mulai jurnal anda",
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 fontSize: 16,
                 color: Theme.of(context).brightness == Brightness.dark
                     ? Colors.grey[400]
-                    : Colors.grey[700],
+                    : Colors.grey[600],
               ),
             ),
             SizedBox(height: 20),
