@@ -341,7 +341,7 @@ class _TrashPageState extends State<TrashPage> {
       final daysInTrash = DateTime.now().difference(note.trashedAt!).inDays;
       final daysLeft = 7 - daysInTrash;
 
-      if (daysLeft > 0) {
+      if (daysLeft <= 0) {
         expirytext = "Hapus otomatis hari ini";
       } else {
         expirytext = "$daysLeft hari lagi dihapus otomatis";
