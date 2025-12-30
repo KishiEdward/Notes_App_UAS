@@ -52,36 +52,35 @@ class Splash1 extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 30),
 
-            // row untuk indikator titik titik
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  width: 10,
-                  height: 10,
+                  width: 24,
+                  height: 8,
                   decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.blueAccent,
+                    borderRadius: BorderRadius.circular(4),
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Container(
-                  width: 10,
-                  height: 10,
+                  width: 8,
+                  height: 8,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.grey,
+                    color: Theme.of(context).disabledColor,
                   ),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Container(
-                  width: 10,
-                  height: 10,
+                  width: 8,
+                  height: 8,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.grey,
+                    color: Theme.of(context).disabledColor,
                   ),
                 ),
               ],
