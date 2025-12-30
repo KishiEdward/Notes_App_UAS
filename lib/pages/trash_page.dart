@@ -19,6 +19,24 @@ class _TrashPageState extends State<TrashPage> {
   final Set<String> _selectedNoteIds = {};
   bool _isSelectionMode = false;
 
+  @override
+  void initState() {
+    super.initState();
+    _runAutoCleanup();
+  }
+
+  Future<void> _runAutoCleanup() async {
+    final int deletedCount = await _firestoreService.cleanupOldTrashedNotes();
+
+    if (deletedCount > 0 && mounted) {
+      showTopNotification(
+        context,
+        "$deletedCount catatan sampah dihapus otomatis",
+        color: Colors.red.shade600,
+      );
+    }
+  }
+
   void _toggleSelection(String id) {
     setState(() {
       if (_selectedNoteIds.contains(id)) {
