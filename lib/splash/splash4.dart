@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notesapp/pages/login_page.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 class Splash4 extends StatefulWidget {
@@ -108,9 +109,10 @@ class _Splash4State extends State<Splash4>
                   // tombol
                   SizedBox(
                     width: double.infinity,
-                    height: 48,
+                    height: 52,
                     child: ElevatedButton(
                       onPressed: () {
+                        // splash4 → login page
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -119,15 +121,18 @@ class _Splash4State extends State<Splash4>
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blueAccent,
+                        backgroundColor: const Color(0xFFF06292),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(30),
                         ),
+                        elevation: 4,
                       ),
-                      child: const Text(
-                        'Mulai',
-                        style: TextStyle(
+                      child: Text(
+                        "mulai sekarang",
+                        style: GoogleFonts.poppins(
                           fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.5,
                           color: Colors.white,
                         ),
                       ),
