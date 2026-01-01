@@ -24,11 +24,14 @@ class Splash4 extends StatelessWidget {
                 children: [
                   //gambar bulat
                   Container(
-                    width: 160,
-                    height: 160,
+                    width: 200,
+                    height: 200,
                     decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.blueAccent,
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/loopy_lembur.jpg'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
 
