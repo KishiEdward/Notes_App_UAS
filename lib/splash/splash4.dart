@@ -17,7 +17,16 @@ class Splash4 extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Gambar Bulat'),
+                  //gambar bulat
+                  Container(
+                    width: 160,
+                    height: 160,
+                    decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.blueAccent,
+                    ),
+                  ),
+
                   SizedBox(height: 24),
                   Text('Judul'),
                   SizedBox(height: 12),
