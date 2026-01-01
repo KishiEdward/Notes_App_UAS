@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:notesapp/splash/splash1.dart';
 import 'package:notesapp/services/settings_service.dart';
+import 'package:notesapp/services/fcm_service.dart';
+import 'package:notesapp/utils/fcm_background_handler.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:notesapp/firebase_options.dart';
 import 'package:notesapp/widgets/auth_wrapper.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:showcaseview/showcaseview.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,19 +18,12 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+    
     if (kIsWeb) {
       await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
     }
   } catch (e) {
-    debugPrint("Firebase initialization failed: $e");
-    runApp(MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text("Firebase Init Failed: $e", textAlign: TextAlign.center),
-        ),
-      ),
-    ));
-    return;
   }
   runApp(const RestartWidget(child: MyApp()));
 }
@@ -76,11 +73,18 @@ class _MyAppState extends State<MyApp> {
   final SettingsService _settingsService = SettingsService();
   bool _darkMode = false;
   double _fontScale = 1.0;
+  final FCMService _fcmService = FCMService();
 
   @override
   void initState() {
     super.initState();
     _loadSettings();
+    _initializeFCM();
+  }
+
+  Future<void> _initializeFCM() async {
+    await _fcmService.initialize();
+    _fcmService.setupForegroundHandler();
   }
 
   Future<void> _loadSettings() async {
@@ -113,11 +117,13 @@ class _MyAppState extends State<MyApp> {
       
       builder: (context, child) {
         final mediaQueryData = MediaQuery.of(context);
-        return MediaQuery(
-          data: mediaQueryData.copyWith(
-            textScaler: TextScaler.linear(_fontScale),
+        return ShowCaseWidget(
+          builder: (context) => MediaQuery(
+            data: mediaQueryData.copyWith(
+              textScaler: TextScaler.linear(_fontScale),
+            ),
+            child: child!,
           ),
-          child: child!,
         );
       },
 

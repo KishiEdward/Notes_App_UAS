@@ -7,6 +7,8 @@ import 'package:notesapp/services/session_manager.dart';
 import 'package:notesapp/pages/forgot_password-e.dart';
 import 'package:notesapp/pages/home_page.dart';
 import 'package:notesapp/splash/splash_lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:notesapp/pages/onboarding_page.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -87,11 +89,17 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                 opacity: _fadeAnimation,
                 child: Text(
                   "NEKOMIND",
-                  style: GoogleFonts.poppins(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w800,
-                    color: Color(0xFFF06292), // Pink Soft
-                    letterSpacing: 1.5,
+                  style: GoogleFonts.pacifico(
+                    fontSize: 36,
+                    color: Color(0xFFF06292),
+                    letterSpacing: 0.5,
+                    shadows: [
+                      Shadow(
+                        color: Colors.black12,
+                        offset: Offset(2, 2),
+                        blurRadius: 4,
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -305,13 +313,26 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
 
                                       await SessionManager().saveLoginSession('email');
 
-                                      Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const MyLottie(),
-                                        ),
-                                        (route) => false,
-                                      );
+                                      final prefs = await SharedPreferences.getInstance();
+                                      final isFirstTime = prefs.getBool('is_first_time') ?? true;
+
+                                      if (isFirstTime) {
+                                        Navigator.of(context).pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const OnboardingPage(),
+                                          ),
+                                          (route) => false,
+                                        );
+                                      } else {
+                                        Navigator.of(context).pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const MyLottie(),
+                                          ),
+                                          (route) => false,
+                                        );
+                                      }
                                     }
                                   } catch (e) {
                                     setState(() => _isLoading = false);

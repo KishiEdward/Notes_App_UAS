@@ -8,6 +8,8 @@ import 'package:notesapp/services/firestore_service.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:notesapp/utils/notification_helper.dart';
 import 'package:notesapp/splash/toggle_theme.dart';
+import 'package:notesapp/pages/notification_settings_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class SettingsPage extends StatefulWidget {
@@ -160,6 +162,31 @@ class _SettingsPageState extends State<SettingsPage> {
                 _defaultCategory,
                 _categories,
                 (value) => _changeDefaultCategory(value!),
+              ),
+              _buildActionTile(
+                'Reset Home Tutorial',
+                Icons.help_outline,
+                () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.setBool('has_seen_home_tutorial', false);
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Tutorial akan muncul kembali di Home.')),
+                    );
+                  }
+                },
+              ),
+              _buildActionTile(
+                'Notifications',
+                Icons.notifications_outlined,
+                () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const NotificationSettingsPage(),
+                    ),
+                  );
+                },
               ),
             ],
           ),
