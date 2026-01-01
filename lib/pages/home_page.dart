@@ -227,6 +227,28 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                   ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).cardColor,
+                      border: Border.all(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.grey.shade700
+                            : Colors.grey.shade200,
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.archive_rounded,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white70
+                            : Colors.grey.shade700,
+                        size: 24,
+                      ),
+                      onPressed: () {},
+                    ),
+                  ),
+                  const SizedBox(width: 8),
                 ],
               ),
             ],
