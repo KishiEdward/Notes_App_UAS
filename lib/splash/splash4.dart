@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:notesapp/pages/login_page.dart';
+
 
 class Splash4 extends StatelessWidget {
   const Splash4({super.key});
@@ -57,7 +59,12 @@ class Splash4 extends StatelessWidget {
                     height: 48,
                     child: ElevatedButton(
                       onPressed: () {
-                        // navigasi nanti
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Login(),
+                          ),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blueAccent,
