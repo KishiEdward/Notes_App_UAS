@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notesapp/services/firestore_service.dart';
 
 class ArchivePage extends StatefulWidget {
   const ArchivePage({super.key});
@@ -8,6 +9,9 @@ class ArchivePage extends StatefulWidget {
 }
 
 class _ArchivePageState extends State<ArchivePage> {
+  final FirestoreService _firestoreService = FirestoreService();
+  bool _isGridView = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
