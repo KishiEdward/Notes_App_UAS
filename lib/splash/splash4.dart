@@ -2,8 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:notesapp/pages/login_page.dart';
 
 
-class Splash4 extends StatelessWidget {
+class Splash4 extends StatefulWidget {
   const Splash4({super.key});
+
+  @override
+  State<Splash4> createState() => _Splash4State();
+}
+
+class _Splash4State extends State<Splash4>
+    with SingleTickerProviderStateMixin {
+    late AnimationController _controller;
+    late Animation<double> _scaleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    );
+
+    _scaleAnimation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOutBack,
+    );
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +56,11 @@ class Splash4 extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   //gambar bulat
-                  Container(
-                    width: 200,
-                    height: 200,
+                  ScaleTransition(
+                    scale: _scaleAnimation,
+                    child: Container(
+                      width: 230,
+                      height: 230,
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
@@ -34,6 +69,7 @@ class Splash4 extends StatelessWidget {
                       ),
                     ),
                   ),
+                    ),
 
                   //judul dan sub-judul
                   const SizedBox(height: 24),
