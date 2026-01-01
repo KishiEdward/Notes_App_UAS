@@ -9,7 +9,10 @@ class Splash4 extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 32,
+              vertical: 32,
+            ),
             child: ConstrainedBox(
               constraints: BoxConstraints(
                 maxWidth: 420,
@@ -21,14 +24,14 @@ class Splash4 extends StatelessWidget {
                   Container(
                     width: 160,
                     height: 160,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.blueAccent,
                     ),
                   ),
 
                   //judul dan sub-judul
-                  SizedBox(height: 24),
+                  const SizedBox(height: 24),
                   Text(                
                     'siap mulai catat ide?',
                       style: TextStyle(
@@ -36,14 +39,41 @@ class Splash4 extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   Text(
                     'simpan ide, tugas, dan hal penting\nlangsung dari genggamanmu',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.grey,
-                    ),),
+                    ),
+                  ),
+
+                   const SizedBox(height: 32),
+
+                  // tombol
+                  SizedBox(
+                    width: double.infinity,
+                    height: 48,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // navigasi nanti
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueAccent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                      ),
+                      child: const Text(
+                        'Mulai',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
