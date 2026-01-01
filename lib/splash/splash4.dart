@@ -71,7 +71,7 @@ class _Splash4State extends State<Splash4>
                   ),
                     ),
 
-                  //judul dan sub-judul
+                  //TEKS judul dan sub-judul
                   const SizedBox(height: 24),
                   Text(                
                     'siap mulai catat ide?',
@@ -90,8 +90,21 @@ class _Splash4State extends State<Splash4>
                     ),
                   ),
 
-                   const SizedBox(height: 32),
+                  const SizedBox(height: 24),
 
+                  //indikator splash
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _indicator(false),
+                      _indicator(false),
+                      _indicator(false),
+                      _indicator(true),
+                    ],
+                  ),
+
+
+                   const SizedBox(height: 32),
                   // tombol
                   SizedBox(
                     width: double.infinity,
@@ -120,11 +133,28 @@ class _Splash4State extends State<Splash4>
                       ),
                     ),
                   ),
+
+                  const SizedBox(height: 12),
                 ],
               ),
             ),
           ),
         ),
+      ),
+    );
+  }
+  // indikator versi rounded pill
+  Widget _indicator(bool isActive) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      margin: const EdgeInsets.symmetric(horizontal: 4),
+      width: isActive ? 22 : 8,
+      height: 8,
+      decoration: BoxDecoration(
+        color: isActive
+            ? const Color(0xFFF06292)
+            : Colors.pink.shade100,
+        borderRadius: BorderRadius.circular(20),
       ),
     );
   }
