@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:notesapp/models/note_model.dart';
+import 'package:notesapp/pages/archive_page.dart';
 import 'package:notesapp/pages/login_page.dart';
 import 'package:notesapp/pages/note_editor_page.dart';
 import 'package:notesapp/pages/profile_page.dart';
@@ -245,7 +246,14 @@ class _HomePageState extends State<HomePage> {
                             : Colors.grey.shade700,
                         size: 24,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ArchivePage(),
+                          ),
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(width: 8),
