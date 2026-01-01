@@ -27,10 +27,23 @@ class Splash4 extends StatelessWidget {
                     ),
                   ),
 
+                  //judul dan sub-judul
                   SizedBox(height: 24),
-                  Text('Judul'),
+                  Text(                
+                    'siap mulai catat ide?',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                  ),
                   SizedBox(height: 12),
-                  Text('Subjudul'),
+                  Text(
+                    'simpan ide, tugas, dan hal penting\nlangsung dari genggamanmu',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                    ),),
                 ],
               ),
             ),
