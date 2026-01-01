@@ -74,13 +74,15 @@ class _Splash4State extends State<Splash4>
 
                   //TEKS judul dan sub-judul
                   const SizedBox(height: 24),
-                  Text(                
-                    'siap mulai catat ide?',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                    Text(
+                      "siap mulai catat ide?",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w700,
+                        color: const Color(0xFFF06292),
                       ),
-                  ),
+                    ),
                   const SizedBox(height: 12),
                   Text(
                     'simpan ide, tugas, dan hal penting\nlangsung dari genggamanmu',
