@@ -614,6 +614,33 @@ class _HomePageState extends State<HomePage> {
               children: [
                 ListTile(
                   leading: const Icon(
+                    Icons.archive_rounded,
+                    color: Colors.black,
+                  ),
+                  title: Text(
+                    'Arsipkan Note',
+                    style: GoogleFonts.poppins(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  onTap: () async {
+                    Navigator.pop(sheetContext);
+                    await _firestoreService.toggleArchive(
+                      note.id,
+                      note.isArchived,
+                    );
+                    if (parentContext.mounted) {
+                      showTopNotification(
+                        parentContext,
+                        "Catatan berhasil diarsipkan",
+                        color: Colors.green.shade600,
+                      );
+                    }
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(
                     Icons.delete_outline,
                     color: Colors.redAccent,
                   ),
