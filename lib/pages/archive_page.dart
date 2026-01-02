@@ -4,6 +4,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:notesapp/models/note_model.dart';
 import 'package:notesapp/services/firestore_service.dart';
 import 'package:notesapp/utils/markdown_helper.dart';
+import 'package:notesapp/utils/notification_helper.dart';
 
 class ArchivePage extends StatefulWidget {
   const ArchivePage({super.key});
@@ -15,14 +16,6 @@ class ArchivePage extends StatefulWidget {
 class _ArchivePageState extends State<ArchivePage> {
   final FirestoreService _firestoreService = FirestoreService();
   bool _isGridView = false;
-  String _selectedCategory = 'Semua';
-  final List<String> _categories = [
-    'Semua',
-    'Pribadi',
-    'Pekerjaan',
-    'Ide',
-    'Penting',
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -93,57 +86,6 @@ class _ArchivePageState extends State<ArchivePage> {
               ],
             ),
           ),
-          SizedBox(
-            height: 50,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: _categories.length,
-              itemBuilder: (context, index) {
-                final category = _categories[index];
-                final isSelected = _selectedCategory == category;
-                return Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: FilterChip(
-                    label: Text(category),
-                    labelStyle: GoogleFonts.poppins(
-                      color: isSelected
-                          ? Colors.white
-                          : (Theme.of(context).brightness == Brightness.dark
-                                ? Colors.white70
-                                : Colors.grey.shade700),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 13,
-                    ),
-                    selected: isSelected,
-                    onSelected: (bool selected) {
-                      setState(() {
-                        _selectedCategory = category;
-                      });
-                    },
-                    backgroundColor: Theme.of(context).cardColor,
-                    selectedColor: Theme.of(context).colorScheme.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      side: BorderSide(
-                        color: isSelected
-                            ? Colors.transparent
-                            : (Theme.of(context).brightness == Brightness.dark
-                                  ? Colors.grey.shade700
-                                  : Colors.grey.shade300),
-                      ),
-                    ),
-                    elevation: 0,
-                    pressElevation: 0,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 8,
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
           Expanded(
             child: StreamBuilder<List<Note>>(
               stream: _firestoreService.getArchivedNotesStream(),
@@ -158,14 +100,7 @@ class _ArchivePageState extends State<ArchivePage> {
 
                 final archivedNotes = snapshot.data ?? [];
 
-                final filteredNotes = archivedNotes.where((note) {
-                  final isCategoryMatch = _selectedCategory == 'Semua'
-                      ? true
-                      : note.category == _selectedCategory;
-                  return isCategoryMatch;
-                }).toList();
-
-                if (filteredNotes.isEmpty) {
+                if (archivedNotes.isEmpty) {
                   return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -177,9 +112,7 @@ class _ArchivePageState extends State<ArchivePage> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          _selectedCategory == 'Semua'
-                              ? "Belum ada catatan arsip"
-                              : "Tidak ada catatan arsip di '$_selectedCategory'",
+                          "Belum ada catatan arsip",
                           style: GoogleFonts.poppins(color: Colors.grey),
                         ),
                       ],
@@ -207,13 +140,13 @@ class _ArchivePageState extends State<ArchivePage> {
                         crossAxisCount: 2,
                         mainAxisSpacing: 12,
                         crossAxisSpacing: 12,
-                        itemCount: filteredNotes.length,
+                        itemCount: archivedNotes.length,
                         itemBuilder: (context, index) =>
-                            _buildNoteItem(filteredNotes[index]),
+                            _buildNoteItem(archivedNotes[index]),
                       )
                     else
                       Column(
-                        children: filteredNotes
+                        children: archivedNotes
                             .map((note) => _buildNoteItem(note))
                             .toList(),
                       ),
@@ -350,14 +283,10 @@ class _ArchivePageState extends State<ArchivePage> {
                       note.isArchived,
                     );
                     if (parentContext.mounted) {
-                      ScaffoldMessenger.of(parentContext).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'Catatan dikembalikan dari arsip',
-                            style: GoogleFonts.poppins(),
-                          ),
-                          backgroundColor: Colors.green.shade600,
-                        ),
+                      showTopNotification(
+                        parentContext,
+                        'Catatan dikembalikan dari arsip',
+                        color: Colors.green.shade600,
                       );
                     }
                   },
@@ -378,14 +307,10 @@ class _ArchivePageState extends State<ArchivePage> {
                     Navigator.pop(sheetContext);
                     await _firestoreService.moveToTrash(note.id);
                     if (parentContext.mounted) {
-                      ScaffoldMessenger.of(parentContext).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'Catatan dipindahkan ke sampah',
-                            style: GoogleFonts.poppins(),
-                          ),
-                          backgroundColor: Colors.red.shade600,
-                        ),
+                      showTopNotification(
+                        parentContext,
+                        'Catatan dipindahkan ke sampah',
+                        color: Colors.red.shade600,
                       );
                     }
                   },
