@@ -615,12 +615,12 @@ class _HomePageState extends State<HomePage> {
                 ListTile(
                   leading: const Icon(
                     Icons.archive_rounded,
-                    color: Colors.black,
+                    color: Colors.blueAccent,
                   ),
                   title: Text(
                     'Arsipkan Note',
                     style: GoogleFonts.poppins(
-                      color: Colors.black,
+                      color: Colors.blueAccent,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
