@@ -11,6 +11,14 @@ class ArchivePage extends StatefulWidget {
 class _ArchivePageState extends State<ArchivePage> {
   final FirestoreService _firestoreService = FirestoreService();
   bool _isGridView = false;
+  String _selectedCategory = 'Semua';
+  final List<String> _categories = [
+    'Semua',
+    'Pribadi',
+    'Pekerjaan',
+    'Ide',
+    'Penting',
+  ];
 
   @override
   Widget build(BuildContext context) {
