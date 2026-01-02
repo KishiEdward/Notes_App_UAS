@@ -325,8 +325,22 @@ class _ArchivePageState extends State<ArchivePage> {
         return SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
-                
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  leading: const Icon(
+                    Icons.unarchive_rounded,
+                    color: Colors.blueAccent,
+                  ),
+                  title: Text(
+                    'hapus dari Arsip',
+                    style: GoogleFonts.poppins(
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
