@@ -437,6 +437,9 @@ class _HomePageState extends State<HomePage> {
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(16),
         child: InkWell(
+          onLongPress: () {
+            _showNoteContextMenu(context, note);
+          },
           onTap: () {
             Navigator.push(
               context,
@@ -582,6 +585,54 @@ class _HomePageState extends State<HomePage> {
                       );
                     }
 
+                    await _firestoreService.moveToTrash(note.id);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showNoteContextMenu(BuildContext context, Note note) {
+    final parentContext = context;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Theme.of(context).cardColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext sheetContext) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  leading: const Icon(
+                    Icons.delete_outline,
+                    color: Colors.redAccent,
+                  ),
+                  title: Text(
+                    'Pindahkan ke Sampah',
+                    style: GoogleFonts.poppins(
+                      color: Colors.redAccent,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  onTap: () async {
+                    Navigator.pop(sheetContext);
+                    if (parentContext.mounted) {
+                      showTopNotification(
+                        parentContext,
+                        "Catatan dipindahkan ke sampah",
+                        color: Colors.red.shade600,
+                      );
+                    }
                     await _firestoreService.moveToTrash(note.id);
                   },
                 ),
