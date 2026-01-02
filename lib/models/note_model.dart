@@ -31,7 +31,7 @@ class Note {
 
   factory Note.fromMap(Map<String, dynamic>? data, String documentId) {
     data = data ?? {};
-    
+
     DateTime toDateTime(dynamic value) {
       if (value is Timestamp) {
         return value.toDate();
@@ -51,7 +51,9 @@ class Note {
       isHeld: data['isHeld'] ?? false,
       createdAt: toDateTime(data['createdAt']),
       updatedAt: toDateTime(data['updatedAt']),
-      reminderDate: data['reminderDate'] != null ? toDateTime(data['reminderDate']) : null,
+      reminderDate: data['reminderDate'] != null
+          ? toDateTime(data['reminderDate'])
+          : null,
     );
   }
 
