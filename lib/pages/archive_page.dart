@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:notesapp/models/note_model.dart';
@@ -17,6 +18,13 @@ class _ArchivePageState extends State<ArchivePage> {
   final FirestoreService _firestoreService = FirestoreService();
   bool _isGridView = false;
   String _selectedCategory = 'Semua';
+  final List<String> _categories = [
+    'Semua',
+    'Pribadi',
+    'Pekerjaan',
+    'Ide',
+    'Penting',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -92,16 +100,9 @@ class _ArchivePageState extends State<ArchivePage> {
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: 5,
+              itemCount: _categories.length,
               itemBuilder: (context, index) {
-                final categories = [
-                  'Semua',
-                  'Pribadi',
-                  'Pekerjaan',
-                  'Ide',
-                  'Penting',
-                ];
-                final category = categories[index];
+                final category = _categories[index];
                 final isSelected = _selectedCategory == category;
                 return Padding(
                   padding: const EdgeInsets.only(right: 8),

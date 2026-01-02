@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notesapp/models/note_model.dart';
+import 'package:notesapp/models/archive_category_model.dart';
 import 'package:notesapp/services/streak_service.dart';
 
 class FirestoreService {
@@ -179,5 +180,54 @@ class FirestoreService {
       }
     }
     return deletedCount;
+  }
+
+  // Archive Category Methods
+  Stream<List<ArchiveCategory>> getArchiveCategoriesStream() {
+    final user = _auth.currentUser;
+    if (user == null) {
+      return Stream.value([]);
+    }
+
+    return _db
+        .collection('archive_categories')
+        .where('userId', isEqualTo: user.uid)
+        .snapshots()
+        .map((snapshot) {
+          final categories = snapshot.docs.map((doc) {
+            return ArchiveCategory.fromMap(doc.data(), doc.id);
+          }).toList();
+
+          categories.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+          return categories;
+        });
+  }
+
+  Future<void> addArchiveCategory(String name) async {
+    final user = _auth.currentUser;
+    if (user == null) {
+      throw Exception('User tidak login');
+    }
+
+    try {
+      await _db.collection('archive_categories').add({
+        'userId': user.uid,
+        'name': name,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+    } catch (e) {
+      print('❌ Error menyimpan kategori: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> updateArchiveCategory(String categoryId, String newName) async {
+    await _db.collection('archive_categories').doc(categoryId).update({
+      'name': newName,
+    });
+  }
+
+  Future<void> deleteArchiveCategory(String categoryId) async {
+    await _db.collection('archive_categories').doc(categoryId).delete();
   }
 }

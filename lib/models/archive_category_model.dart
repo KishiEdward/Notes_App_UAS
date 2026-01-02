@@ -10,6 +10,7 @@ class ArchiveCategory {
     required this.name,
     required this.createdAt,
   });
+
   factory ArchiveCategory.fromMap(
     Map<String, dynamic>? data,
     String documentId,
@@ -21,9 +22,7 @@ class ArchiveCategory {
       userId: data['userId']?.toString() ?? '',
       name: data['name']?.toString() ?? '',
       createdAt: data['createdAt'] != null
-          ? (data['createdAt'] is DateTime
-                ? data['createdAt']
-                : DateTime.parse(data['createdAt'].toString()))
+          ? (data['createdAt'] is DateTime ? data['createdAt'] : DateTime.now())
           : DateTime.now(),
     );
   }
