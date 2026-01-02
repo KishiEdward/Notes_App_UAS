@@ -199,7 +199,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   const SizedBox(width: 8),
-
                   Container(
                     decoration: BoxDecoration(
                       color: Theme.of(context).cardColor,
@@ -210,6 +209,36 @@ class _HomePageState extends State<HomePage> {
                       ),
                       borderRadius: BorderRadius.circular(12),
                     ),
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.archive_rounded,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white70
+                            : Colors.grey.shade700,
+                        size: 24,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ArchivePage(),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).cardColor,
+                      border: Border.all(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.grey.shade700
+                            : Colors.grey.shade200,
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+
                     child: IconButton(
                       icon: Icon(
                         Icons.group_rounded,
@@ -237,23 +266,6 @@ class _HomePageState extends State<HomePage> {
                             : Colors.grey.shade200,
                       ),
                       borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.archive_rounded,
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white70
-                            : Colors.grey.shade700,
-                        size: 24,
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ArchivePage(),
-                          ),
-                        );
-                      },
                     ),
                   ),
                   const SizedBox(width: 8),
