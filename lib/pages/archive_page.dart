@@ -340,6 +340,24 @@ class _ArchivePageState extends State<ArchivePage> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
+                  onTap: () async {
+                    Navigator.pop(sheetContext);
+                    await _firestoreService.toggleArchive(
+                      note.id,
+                      note.isArchived,
+                    );
+                    if (parentContext.mounted) {
+                      ScaffoldMessenger.of(parentContext).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Catatan dikembalikan dari arsip',
+                            style: GoogleFonts.poppins(),
+                          ),
+                          backgroundColor: Colors.green.shade600,
+                        ),
+                      );
+                    }
+                  },
                 ),
               ],
             ),
