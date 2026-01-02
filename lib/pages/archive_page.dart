@@ -26,6 +26,10 @@ class _ArchivePageState extends State<ArchivePage> {
       appBar: AppBar(
         title: const Text("Catatan Arsip"),
         elevation: 0,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        foregroundColor: Theme.of(context).brightness == Brightness.dark
+            ? Colors.white
+            : Colors.black87,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_rounded),
           onPressed: () {
