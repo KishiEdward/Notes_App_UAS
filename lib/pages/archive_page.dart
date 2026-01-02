@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:notesapp/models/note_model.dart';
 import 'package:notesapp/services/firestore_service.dart';
+import 'package:notesapp/utils/markdown_helper.dart';
 
 class ArchivePage extends StatefulWidget {
   const ArchivePage({super.key});
@@ -41,7 +44,7 @@ class _ArchivePageState extends State<ArchivePage> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -136,6 +139,67 @@ class _ArchivePageState extends State<ArchivePage> {
                       vertical: 8,
                     ),
                   ),
+                );
+              },
+            ),
+          ),
+          Expanded(
+            child: StreamBuilder<List<Note>>(
+              stream: _firestoreService.getArchivedNotesStream(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                }
+
+                final archivedNotes = snapshot.data ?? [];
+
+                final filteredNotes = archivedNotes.where((note) {
+                  final isCategoryMatch = _selectedCategory == 'Semua'
+                      ? true
+                      : note.category == _selectedCategory;
+                  return isCategoryMatch;
+                }).toList();
+
+                if (filteredNotes.isEmpty) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.archive_rounded,
+                          size: 64,
+                          color: Colors.grey.shade300,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          _selectedCategory == 'Semua'
+                              ? "Belum ada catatan arsip"
+                              : "Tidak ada catatan arsip di '$_selectedCategory'",
+                          style: GoogleFonts.poppins(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+
+                return ListView(
+                  padding: const EdgeInsets.all(20),
+                  children: [
+                    Text(
+                      'Daftar Catatan Arsip',
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        color: Colors.grey.shade500,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                  ],
                 );
               },
             ),
