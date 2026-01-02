@@ -41,6 +41,7 @@ class _ArchivePageState extends State<ArchivePage> {
           },
         ),
       ),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Column(
         children: [
           Padding(
@@ -250,7 +251,9 @@ class _ArchivePageState extends State<ArchivePage> {
           onLongPress: () {
             _showNoteOptions(context, note);
           },
-          onTap: () {},
+          onTap: () {
+            // Navigate to note editor if needed
+          },
           borderRadius: BorderRadius.circular(16),
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -334,7 +337,7 @@ class _ArchivePageState extends State<ArchivePage> {
                     color: Colors.blueAccent,
                   ),
                   title: Text(
-                    'hapus dari Arsip',
+                    'Kembalikan dari Arsip',
                     style: GoogleFonts.poppins(
                       color: Colors.blueAccent,
                       fontWeight: FontWeight.w500,
