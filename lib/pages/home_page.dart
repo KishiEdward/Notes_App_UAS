@@ -624,20 +624,6 @@ class _HomePageState extends State<HomePage> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  onTap: () async {
-                    Navigator.pop(sheetContext);
-                    await _firestoreService.toggleArchive(
-                      note.id,
-                      note.isArchived,
-                    );
-                    if (parentContext.mounted) {
-                      showTopNotification(
-                        parentContext,
-                        "Catatan berhasil diarsipkan",
-                        color: Colors.green.shade600,
-                      );
-                    }
-                  },
                 ),
                 ListTile(
                   leading: const Icon(
