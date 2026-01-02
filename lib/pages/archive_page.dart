@@ -371,6 +371,21 @@ class _ArchivePageState extends State<ArchivePage> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
+                  onTap: () async {
+                    Navigator.pop(sheetContext);
+                    await _firestoreService.moveToTrash(note.id);
+                    if (parentContext.mounted) {
+                      ScaffoldMessenger.of(parentContext).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Catatan dipindahkan ke sampah',
+                            style: GoogleFonts.poppins(),
+                          ),
+                          backgroundColor: Colors.red.shade600,
+                        ),
+                      );
+                    }
+                  },
                 ),
               ],
             ),
