@@ -16,6 +16,7 @@ class ArchivePage extends StatefulWidget {
 class _ArchivePageState extends State<ArchivePage> {
   final FirestoreService _firestoreService = FirestoreService();
   bool _isGridView = false;
+  String _selectedCategory = 'Semua';
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +87,64 @@ class _ArchivePageState extends State<ArchivePage> {
               ],
             ),
           ),
+          SizedBox(
+            height: 50,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: 5,
+              itemBuilder: (context, index) {
+                final categories = [
+                  'Semua',
+                  'Pribadi',
+                  'Pekerjaan',
+                  'Ide',
+                  'Penting',
+                ];
+                final category = categories[index];
+                final isSelected = _selectedCategory == category;
+                return Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: FilterChip(
+                    label: Text(category),
+                    labelStyle: GoogleFonts.poppins(
+                      color: isSelected
+                          ? Colors.white
+                          : (Theme.of(context).brightness == Brightness.dark
+                                ? Colors.white70
+                                : Colors.grey.shade700),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 13,
+                    ),
+                    selected: isSelected,
+                    onSelected: (bool selected) {
+                      setState(() {
+                        _selectedCategory = category;
+                      });
+                    },
+                    backgroundColor: Theme.of(context).cardColor,
+                    selectedColor: Theme.of(context).colorScheme.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      side: BorderSide(
+                        color: isSelected
+                            ? Colors.transparent
+                            : (Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.grey.shade700
+                                  : Colors.grey.shade300),
+                      ),
+                    ),
+                    elevation: 0,
+                    pressElevation: 0,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
           Expanded(
             child: StreamBuilder<List<Note>>(
               stream: _firestoreService.getArchivedNotesStream(),
@@ -100,7 +159,14 @@ class _ArchivePageState extends State<ArchivePage> {
 
                 final archivedNotes = snapshot.data ?? [];
 
-                if (archivedNotes.isEmpty) {
+                final filteredNotes = archivedNotes.where((note) {
+                  final isCategoryMatch = _selectedCategory == 'Semua'
+                      ? true
+                      : note.category == _selectedCategory;
+                  return isCategoryMatch;
+                }).toList();
+
+                if (filteredNotes.isEmpty) {
                   return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -112,7 +178,9 @@ class _ArchivePageState extends State<ArchivePage> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          "Belum ada catatan arsip",
+                          _selectedCategory == 'Semua'
+                              ? "Belum ada catatan arsip"
+                              : "Tidak ada catatan arsip di '$_selectedCategory'",
                           style: GoogleFonts.poppins(color: Colors.grey),
                         ),
                       ],
@@ -140,13 +208,13 @@ class _ArchivePageState extends State<ArchivePage> {
                         crossAxisCount: 2,
                         mainAxisSpacing: 12,
                         crossAxisSpacing: 12,
-                        itemCount: archivedNotes.length,
+                        itemCount: filteredNotes.length,
                         itemBuilder: (context, index) =>
-                            _buildNoteItem(archivedNotes[index]),
+                            _buildNoteItem(filteredNotes[index]),
                       )
                     else
                       Column(
-                        children: archivedNotes
+                        children: filteredNotes
                             .map((note) => _buildNoteItem(note))
                             .toList(),
                       ),

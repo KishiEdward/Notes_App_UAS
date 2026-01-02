@@ -19,6 +19,8 @@ import 'package:notesapp/pages/notification_page.dart';
 import 'package:notesapp/services/notification_service.dart';
 import 'package:notesapp/widgets/auth_wrapper.dart';
 import 'package:notesapp/services/session_manager.dart';
+import 'package:showcaseview/showcaseview.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,8 +31,40 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  String _selectedCategory = 'Semua';
   bool _isGridView = false;
   final FirestoreService _firestoreService = FirestoreService();
+
+  // Keys for Showcase
+  final GlobalKey _addNoteKey = GlobalKey();
+  final GlobalKey _notificationKey = GlobalKey();
+  final GlobalKey _viewToggleKey = GlobalKey();
+
+  final List<String> _categories = [
+    'Semua',
+    'Pribadi',
+    'Pekerjaan',
+    'Ide',
+    'Penting',
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _checkTutorial());
+  }
+
+  Future<void> _checkTutorial() async {
+    final prefs = await SharedPreferences.getInstance();
+    final hasSeenTutorial = prefs.getBool('has_seen_home_tutorial') ?? false;
+
+    if (!hasSeenTutorial && mounted) {
+      ShowCaseWidget.of(
+        context,
+      ).startShowCase([_addNoteKey, _viewToggleKey, _notificationKey]);
+      await prefs.setBool('has_seen_home_tutorial', true);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,17 +75,22 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(child: _buildBodyContent(user)),
       floatingActionButton: _selectedIndex == 3
           ? null
-          : FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const NoteEditorPage(),
-                  ),
-                );
-              },
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              child: const Icon(Icons.add, color: Colors.white),
+          : Showcase(
+              key: _addNoteKey,
+              title: 'Buat Catatan',
+              description: 'Tap di sini untuk membuat catatan barumu!',
+              child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const NoteEditorPage(),
+                    ),
+                  );
+                },
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                child: const Icon(Icons.add, color: Colors.white),
+              ),
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
@@ -66,7 +105,13 @@ class _HomePageState extends State<HomePage> {
               _buildNavItem(Icons.home_rounded, 0),
               _buildNavItem(Icons.search_rounded, 1),
               const SizedBox(width: 40),
-              _buildNavItem(Icons.notifications_none_rounded, 2),
+              _buildNavItem(
+                Icons.notifications_none_rounded,
+                2,
+                showcaseKey: _notificationKey,
+                title: 'Notifikasi',
+                description: 'Cek pengingat dan info terbaru di sini.',
+              ),
               _buildNavItem(Icons.delete_outline_rounded, 3),
             ],
           ),
@@ -105,7 +150,9 @@ class _HomePageState extends State<HomePage> {
                   radius: 22,
                   backgroundColor: Colors.grey.shade200,
                   child: Text(
-                    user?.displayName?.substring(0, 1).toUpperCase() ?? 'U',
+                    (user?.displayName?.isNotEmpty == true)
+                        ? user!.displayName!.substring(0, 1).toUpperCase()
+                        : 'U',
                     style: GoogleFonts.poppins(
                       color: Colors.grey.shade700,
                       fontWeight: FontWeight.w600,
@@ -172,21 +219,27 @@ class _HomePageState extends State<HomePage> {
                       ),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: IconButton(
-                      icon: Icon(
-                        _isGridView
-                            ? Icons.view_agenda_outlined
-                            : Icons.grid_view_rounded,
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white70
-                            : Colors.grey.shade700,
-                        size: 24,
+                    child: Showcase(
+                      key: _viewToggleKey,
+                      title: 'Ubah Tampilan',
+                      description:
+                          'Ganti tampilan catatanmu jadi List atau Grid.',
+                      child: IconButton(
+                        icon: Icon(
+                          _isGridView
+                              ? Icons.view_agenda_outlined
+                              : Icons.grid_view_rounded,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white70
+                              : Colors.grey.shade700,
+                          size: 24,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _isGridView = !_isGridView;
+                          });
+                        },
                       ),
-                      onPressed: () {
-                        setState(() {
-                          _isGridView = !_isGridView;
-                        });
-                      },
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -202,7 +255,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     child: IconButton(
                       icon: Icon(
-                        Icons.archive_rounded,
+                        Icons.archive_outlined,
                         color: Theme.of(context).brightness == Brightness.dark
                             ? Colors.white70
                             : Colors.grey.shade700,
@@ -229,7 +282,6 @@ class _HomePageState extends State<HomePage> {
                       ),
                       borderRadius: BorderRadius.circular(12),
                     ),
-
                     child: IconButton(
                       icon: Icon(
                         Icons.group_rounded,
@@ -248,21 +300,60 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).cardColor,
-                      border: Border.all(
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.grey.shade700
-                            : Colors.grey.shade200,
-                      ),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
                 ],
               ),
             ],
+          ),
+        ),
+        SizedBox(
+          height: 50,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            itemCount: _categories.length,
+            itemBuilder: (context, index) {
+              final category = _categories[index];
+              final isSelected = _selectedCategory == category;
+              return Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: FilterChip(
+                  label: Text(category),
+                  labelStyle: GoogleFonts.poppins(
+                    color: isSelected
+                        ? Colors.white
+                        : (Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white70
+                              : Colors.grey.shade700),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13,
+                  ),
+                  selected: isSelected,
+                  onSelected: (bool selected) {
+                    setState(() {
+                      _selectedCategory = category;
+                    });
+                  },
+                  backgroundColor: Theme.of(context).cardColor,
+                  selectedColor: Theme.of(context).colorScheme.primary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    side: BorderSide(
+                      color: isSelected
+                          ? Colors.transparent
+                          : (Theme.of(context).brightness == Brightness.dark
+                                ? Colors.grey.shade700
+                                : Colors.grey.shade300),
+                    ),
+                  ),
+                  elevation: 0,
+                  pressElevation: 0,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
+                ),
+              );
+            },
           ),
         ),
         Expanded(
@@ -281,7 +372,12 @@ class _HomePageState extends State<HomePage> {
 
               final filteredNotes = allNotes.where((note) {
                 final isNotTrash = note.isTrashed == false;
-                return isNotTrash;
+                final isNotArchived = note.isArchived == false;
+                final isCategoryMatch = _selectedCategory == 'Semua'
+                    ? true
+                    : note.category == _selectedCategory;
+
+                return isNotTrash && isNotArchived && isCategoryMatch;
               }).toList();
 
               if (filteredNotes.isEmpty) {
@@ -296,7 +392,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        "Belum ada catatan",
+                        _selectedCategory == 'Semua'
+                            ? "Belum ada catatan"
+                            : "Tidak ada catatan di '$_selectedCategory'",
                         style: GoogleFonts.poppins(color: Colors.grey),
                       ),
                     ],
@@ -783,8 +881,76 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildNavItem(IconData icon, int index) {
+  Widget _buildNavItem(
+    IconData icon,
+    int index, {
+    GlobalKey? showcaseKey,
+    String? description,
+    String? title,
+  }) {
     final isSelected = _selectedIndex == index;
+    Widget child = index == 2
+        ? FutureBuilder<int>(
+            future: NotificationService().getNotificationCount(),
+            builder: (context, snapshot) {
+              final count = snapshot.data ?? 0;
+              return Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Icon(
+                    icon,
+                    color: isSelected ? Colors.black87 : Colors.grey.shade400,
+                    size: 28,
+                  ),
+                  if (count > 0)
+                    Positioned(
+                      right: -4,
+                      top: -4,
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 18,
+                          minHeight: 18,
+                        ),
+                        child: Center(
+                          child: Text(
+                            count > 9 ? '9+' : count.toString(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            },
+          )
+        : Icon(
+            icon,
+            color: isSelected
+                ? (Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black87)
+                : Colors.grey.shade400,
+            size: 28,
+          );
+
+    if (showcaseKey != null) {
+      child = Showcase(
+        key: showcaseKey,
+        title: title,
+        description: description,
+        child: child,
+      );
+    }
+
     return InkWell(
       onTap: () {
         setState(() {
@@ -792,63 +958,7 @@ class _HomePageState extends State<HomePage> {
         });
       },
       borderRadius: BorderRadius.circular(30),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: index == 2
-            ? FutureBuilder<int>(
-                future: NotificationService().getNotificationCount(),
-                builder: (context, snapshot) {
-                  final count = snapshot.data ?? 0;
-                  return Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      Icon(
-                        icon,
-                        color: isSelected
-                            ? Colors.black87
-                            : Colors.grey.shade400,
-                        size: 28,
-                      ),
-                      if (count > 0)
-                        Positioned(
-                          right: -4,
-                          top: -4,
-                          child: Container(
-                            padding: const EdgeInsets.all(4),
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                            constraints: const BoxConstraints(
-                              minWidth: 18,
-                              minHeight: 18,
-                            ),
-                            child: Center(
-                              child: Text(
-                                count > 9 ? '9+' : count.toString(),
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                    ],
-                  );
-                },
-              )
-            : Icon(
-                icon,
-                color: isSelected
-                    ? (Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : Colors.black87)
-                    : Colors.grey.shade400,
-                size: 28,
-              ),
-      ),
+      child: Padding(padding: const EdgeInsets.all(12), child: child),
     );
   }
 

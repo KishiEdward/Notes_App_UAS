@@ -84,11 +84,17 @@ class _RegisterState extends State<Register> with SingleTickerProviderStateMixin
                 opacity: _fadeAnimation,
                 child: Text(
                   "NEKOMIND",
-                  style: GoogleFonts.poppins(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w800,
-                    color: Color(0xFFF06292), // Pink Soft
-                    letterSpacing: 1.5,
+                  style: GoogleFonts.pacifico(
+                    fontSize: 36,
+                    color: Color(0xFFF06292),
+                    letterSpacing: 0.5,
+                    shadows: [
+                      Shadow(
+                        color: Colors.black12,
+                        offset: Offset(2, 2),
+                        blurRadius: 4,
+                      ),
+                    ],
                   ),
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:notesapp/splash/splash3.dart';
 import 'package:notesapp/pages/login_page.dart';
 
@@ -25,76 +26,76 @@ class Splash2 extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
 
             Text(
               "Organisir Ide Anda",
-              style: TextStyle(
-                fontSize: 24,
+              style: GoogleFonts.poppins(
+                fontSize: 26,
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).brightness == Brightness.dark
                     ? Colors.white
-                    : Colors.black,
+                    : Colors.black87,
               ),
             ),
 
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
 
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 40),
+              margin: const EdgeInsets.symmetric(horizontal: 40),
               child: Text(
                 "Tulis, edit, dan atur catatan Anda dengan mudah. Semua dalam satu tempat.",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: GoogleFonts.poppins(
                   fontSize: 16,
                   color: Theme.of(context).brightness == Brightness.dark
                       ? Colors.grey[400]
-                      : Colors.grey[700],
+                      : Colors.grey[600],
                   height: 1.5,
                 ),
               ),
             ),
 
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  width: 10,
-                  height: 10,
+                  width: 8,
+                  height: 8,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.grey,
+                    color: Theme.of(context).disabledColor,
                   ),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Container(
-                  width: 10,
-                  height: 10,
+                  width: 24,
+                  height: 8,
                   decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.blueAccent,
+                    borderRadius: BorderRadius.circular(4),
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Container(
-                  width: 10,
-                  height: 10,
+                  width: 8,
+                  height: 8,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.grey,
+                    color: Theme.of(context).disabledColor,
                   ),
                 ),
               ],
             ),
 
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
 
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 40),
+              margin: const EdgeInsets.symmetric(horizontal: 40),
               child: SizedBox(
-                height: 50,
+                height: 56,
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
@@ -104,20 +105,25 @@ class Splash2 extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueAccent,
+                    backgroundColor: Theme.of(context).primaryColor,
+                    foregroundColor: Colors.white,
+                    elevation: 3,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(28),
                     ),
                   ),
                   child: Text(
                     "Lanjutkan",
-                    style: TextStyle(fontSize: 18, color: Colors.white),
+                    style: GoogleFonts.poppins(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
             ),
 
-            SizedBox(height: 15),
+            const SizedBox(height: 16),
 
             TextButton(
               onPressed: () {
@@ -128,7 +134,11 @@ class Splash2 extends StatelessWidget {
               },
               child: Text(
                 "Lewati",
-                style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).primaryColor,
+                ),
               ),
             ),
           ],

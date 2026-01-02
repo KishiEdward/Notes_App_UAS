@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:notesapp/models/note_model.dart';
 import 'package:notesapp/services/firestore_service.dart';
 import 'package:notesapp/utils/notification_helper.dart';
@@ -26,8 +25,10 @@ class NoteEditorPage extends StatefulWidget {
 class _NoteEditorPageState extends State<NoteEditorPage> {
   late TextEditingController _titleController;
   late TextEditingController _contentController;
+  String _selectedCategory = 'Pribadi';
   bool _isPinned = false;
   DateTime? _reminderDate;
+  final List<String> _categories = ['Pribadi', 'Pekerjaan', 'Ide', 'Penting'];
   final FirestoreService _firestoreService = FirestoreService();
 
   @override
@@ -39,8 +40,13 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
     _contentController = TextEditingController(
       text: widget.note?.content ?? widget.initialContent ?? '',
     );
+    _selectedCategory =
+        widget.note?.category ?? widget.initialCategory ?? 'Pribadi';
     _isPinned = widget.note?.isPinned ?? false;
     _reminderDate = widget.note?.reminderDate;
+    if (!_categories.contains(_selectedCategory)) {
+      _selectedCategory = 'Pribadi';
+    }
   }
 
   @override
@@ -65,7 +71,7 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
       await _firestoreService.addNote(
         title,
         content,
-        'All',
+        _selectedCategory,
         _isPinned,
         _reminderDate,
       );
@@ -74,7 +80,7 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
         widget.note!.id,
         title,
         content,
-        'All',
+        _selectedCategory,
         _isPinned,
         _reminderDate,
       );
@@ -232,6 +238,37 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
                     ),
                   ),
                   maxLines: 1,
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: _categories.map((category) {
+                      final isSelected = _selectedCategory == category;
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 8.0, bottom: 8.0),
+                        child: ChoiceChip(
+                          label: Text(category),
+                          labelStyle: TextStyle(
+                            color: isSelected ? Colors.white : Colors.black87,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          selected: isSelected,
+                          onSelected: (selected) {
+                            setState(() {
+                              _selectedCategory = category;
+                            });
+                          },
+                          selectedColor: Colors.black87,
+                          backgroundColor: Colors.grey.shade100,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            side: BorderSide.none,
+                          ),
+                          showCheckmark: false,
+                        ),
+                      );
+                    }).toList(),
+                  ),
                 ),
                 Expanded(
                   child: TextField(

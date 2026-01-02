@@ -9,10 +9,10 @@ class Note {
   final bool isPinned;
   final bool isTrashed;
   final bool isArchived;
-  final bool isHeld;
   final DateTime createdAt;
   final DateTime updatedAt;
   final DateTime? reminderDate;
+  final DateTime? trashedAt;
 
   Note({
     required this.id,
@@ -23,10 +23,10 @@ class Note {
     this.isPinned = false,
     this.isTrashed = false,
     this.isArchived = false,
-    this.isHeld = false,
     required this.createdAt,
     required this.updatedAt,
     this.reminderDate,
+    this.trashedAt,
   });
 
   factory Note.fromMap(Map<String, dynamic>? data, String documentId) {
@@ -48,11 +48,13 @@ class Note {
       isPinned: data['isPinned'] ?? false,
       isTrashed: data['isTrashed'] ?? false,
       isArchived: data['isArchived'] ?? false,
-      isHeld: data['isHeld'] ?? false,
       createdAt: toDateTime(data['createdAt']),
       updatedAt: toDateTime(data['updatedAt']),
       reminderDate: data['reminderDate'] != null
           ? toDateTime(data['reminderDate'])
+          : null,
+      trashedAt: data['trashedAt'] != null
+          ? toDateTime(data['trashedAt'])
           : null,
     );
   }
@@ -66,10 +68,10 @@ class Note {
       'isPinned': isPinned,
       'isTrashed': isTrashed,
       'isArchived': isArchived,
-      'isHeld': isHeld,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
       'reminderDate': reminderDate,
+      'trashedAt': trashedAt,
     };
   }
 }
