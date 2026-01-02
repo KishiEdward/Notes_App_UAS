@@ -359,6 +359,19 @@ class _ArchivePageState extends State<ArchivePage> {
                     }
                   },
                 ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.delete_outline,
+                    color: Colors.redAccent,
+                  ),
+                  title: Text(
+                    'Pindahkan ke Sampah',
+                    style: GoogleFonts.poppins(
+                      color: Colors.redAccent,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
