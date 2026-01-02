@@ -199,6 +199,24 @@ class _ArchivePageState extends State<ArchivePage> {
                       ),
                     ),
                     const SizedBox(height: 12),
+                    if (_isGridView)
+                      MasonryGridView.count(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 12,
+                        crossAxisSpacing: 12,
+                        itemCount: filteredNotes.length,
+                        itemBuilder: (context, index) =>
+                            _buildNoteItem(filteredNotes[index]),
+                      )
+                    else
+                      Column(
+                        children: filteredNotes
+                            .map((note) => _buildNoteItem(note))
+                            .toList(),
+                      ),
+                    const SizedBox(height: 100),
                   ],
                 );
               },
@@ -206,6 +224,114 @@ class _ArchivePageState extends State<ArchivePage> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildNoteItem(Note note) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.black.withOpacity(0.3)
+                : Colors.black.withOpacity(0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(16),
+        child: InkWell(
+          onLongPress: () {
+            _showNoteOptions(context, note);
+          },
+          onTap: () {},
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        note.title.isNotEmpty ? note.title : 'Tanpa Judul',
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : const Color(0xFF2D3436),
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                if (note.content.isNotEmpty) ...[
+                  const SizedBox(height: 4),
+                  MarkdownHelper.buildPreview(
+                    note.content,
+                    maxLines: 2,
+                    context: context,
+                  ),
+                ],
+                const SizedBox(height: 8),
+                if (note.category != 'All' && note.category != 'General')
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.blueAccent.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      note.category,
+                      style: GoogleFonts.poppins(
+                        fontSize: 10,
+                        color: Colors.blueAccent,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showNoteOptions(BuildContext context, Note note) {
+    final parentContext = context;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Theme.of(context).cardColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext sheetContext) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
+                
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
