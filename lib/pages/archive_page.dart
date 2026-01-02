@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:notesapp/services/firestore_service.dart';
 
 class ArchivePage extends StatefulWidget {
@@ -44,6 +45,16 @@ class _ArchivePageState extends State<ArchivePage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Text(
+                  'Arsip Anda',
+                  style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black87,
+                  ),
+                ),
                 DropdownButton<String>(
                   value: _selectedCategory,
                   items: _categories
