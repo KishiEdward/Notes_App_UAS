@@ -29,16 +29,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  String _selectedCategory = 'Semua';
   bool _isGridView = false;
   final FirestoreService _firestoreService = FirestoreService();
-  final List<String> _categories = [
-    'Semua',
-    'Pribadi',
-    'Pekerjaan',
-    'Ide',
-    'Penting',
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -273,57 +265,6 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-        SizedBox(
-          height: 50,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: _categories.length,
-            itemBuilder: (context, index) {
-              final category = _categories[index];
-              final isSelected = _selectedCategory == category;
-              return Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: FilterChip(
-                  label: Text(category),
-                  labelStyle: GoogleFonts.poppins(
-                    color: isSelected
-                        ? Colors.white
-                        : (Theme.of(context).brightness == Brightness.dark
-                              ? Colors.white70
-                              : Colors.grey.shade700),
-                    fontWeight: FontWeight.w500,
-                    fontSize: 13,
-                  ),
-                  selected: isSelected,
-                  onSelected: (bool selected) {
-                    setState(() {
-                      _selectedCategory = category;
-                    });
-                  },
-                  backgroundColor: Theme.of(context).cardColor,
-                  selectedColor: Theme.of(context).colorScheme.primary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    side: BorderSide(
-                      color: isSelected
-                          ? Colors.transparent
-                          : (Theme.of(context).brightness == Brightness.dark
-                                ? Colors.grey.shade700
-                                : Colors.grey.shade300),
-                    ),
-                  ),
-                  elevation: 0,
-                  pressElevation: 0,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
         Expanded(
           child: StreamBuilder<List<Note>>(
             stream: _firestoreService.getNotesStream(),
@@ -340,11 +281,7 @@ class _HomePageState extends State<HomePage> {
 
               final filteredNotes = allNotes.where((note) {
                 final isNotTrash = note.isTrashed == false;
-                final isCategoryMatch = _selectedCategory == 'Semua'
-                    ? true
-                    : note.category == _selectedCategory;
-
-                return isNotTrash && isCategoryMatch;
+                return isNotTrash;
               }).toList();
 
               if (filteredNotes.isEmpty) {
@@ -359,9 +296,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        _selectedCategory == 'Semua'
-                            ? "Belum ada catatan"
-                            : "Tidak ada catatan di '$_selectedCategory'",
+                        "Belum ada catatan",
                         style: GoogleFonts.poppins(color: Colors.grey),
                       ),
                     ],
