@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:notesapp/models/note_model.dart';
+import 'package:notesapp/models/archive_category_model.dart';
 import 'package:notesapp/services/firestore_service.dart';
 import 'package:notesapp/utils/markdown_helper.dart';
 import 'package:notesapp/utils/notification_helper.dart';
@@ -17,14 +17,7 @@ class ArchivePage extends StatefulWidget {
 class _ArchivePageState extends State<ArchivePage> {
   final FirestoreService _firestoreService = FirestoreService();
   bool _isGridView = false;
-  String _selectedCategory = 'Semua';
-  final List<String> _categories = [
-    'Semua',
-    'Pribadi',
-    'Pekerjaan',
-    'Ide',
-    'Penting',
-  ];
+  String _selectedCategory = '';
 
   @override
   Widget build(BuildContext context) {
@@ -61,87 +54,91 @@ class _ArchivePageState extends State<ArchivePage> {
                         : Colors.black87,
                   ),
                 ),
-                Row(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).cardColor,
-                        border: Border.all(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? Colors.grey.shade700
-                              : Colors.grey.shade200,
-                        ),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: IconButton(
-                        icon: Icon(
-                          _isGridView
-                              ? Icons.view_agenda_outlined
-                              : Icons.grid_view_rounded,
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? Colors.white70
-                              : Colors.grey.shade700,
-                          size: 24,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _isGridView = !_isGridView;
-                          });
-                        },
-                      ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    border: Border.all(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.grey.shade700
+                          : Colors.grey.shade200,
                     ),
-                  ],
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: IconButton(
+                    icon: Icon(
+                      _isGridView
+                          ? Icons.view_agenda_outlined
+                          : Icons.grid_view_rounded,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white70
+                          : Colors.grey.shade700,
+                      size: 24,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isGridView = !_isGridView;
+                      });
+                    },
+                  ),
                 ),
               ],
             ),
           ),
           SizedBox(
             height: 50,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: _categories.length,
-              itemBuilder: (context, index) {
-                final category = _categories[index];
-                final isSelected = _selectedCategory == category;
-                return Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: FilterChip(
-                    label: Text(category),
-                    labelStyle: GoogleFonts.poppins(
-                      color: isSelected
-                          ? Colors.white
-                          : (Theme.of(context).brightness == Brightness.dark
-                                ? Colors.white70
-                                : Colors.grey.shade700),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 13,
-                    ),
-                    selected: isSelected,
-                    onSelected: (bool selected) {
-                      setState(() {
-                        _selectedCategory = category;
-                      });
-                    },
-                    backgroundColor: Theme.of(context).cardColor,
-                    selectedColor: Theme.of(context).colorScheme.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      side: BorderSide(
-                        color: isSelected
-                            ? Colors.transparent
-                            : (Theme.of(context).brightness == Brightness.dark
-                                  ? Colors.grey.shade700
-                                  : Colors.grey.shade300),
+            child: StreamBuilder<List<ArchiveCategory>>(
+              stream: _firestoreService.getArchiveCategoriesStream(),
+              builder: (context, snapshot) {
+                final categories = snapshot.data ?? [];
+
+                return ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  itemCount: categories.length,
+                  itemBuilder: (context, index) {
+                    final category = categories[index];
+                    final isSelected = _selectedCategory == category.name;
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: FilterChip(
+                        label: Text(category.name),
+                        labelStyle: GoogleFonts.poppins(
+                          color: isSelected
+                              ? Colors.white
+                              : (Theme.of(context).brightness == Brightness.dark
+                                    ? Colors.white70
+                                    : Colors.grey.shade700),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 13,
+                        ),
+                        selected: isSelected,
+                        onSelected: (bool selected) {
+                          setState(() {
+                            _selectedCategory =
+                                selected ? category.name : '';
+                          });
+                        },
+                        backgroundColor: Theme.of(context).cardColor,
+                        selectedColor: Theme.of(context).colorScheme.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          side: BorderSide(
+                            color: isSelected
+                                ? Colors.transparent
+                                : (Theme.of(context).brightness == Brightness.dark
+                                      ? Colors.grey.shade700
+                                      : Colors.grey.shade300),
+                          ),
+                        ),
+                        elevation: 0,
+                        pressElevation: 0,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
                       ),
-                    ),
-                    elevation: 0,
-                    pressElevation: 0,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 8,
-                    ),
-                  ),
+                    );
+                  },
                 );
               },
             ),
@@ -161,10 +158,8 @@ class _ArchivePageState extends State<ArchivePage> {
                 final archivedNotes = snapshot.data ?? [];
 
                 final filteredNotes = archivedNotes.where((note) {
-                  final isCategoryMatch = _selectedCategory == 'Semua'
-                      ? true
-                      : note.category == _selectedCategory;
-                  return isCategoryMatch;
+                  if (_selectedCategory.isEmpty) return true;
+                  return note.category == _selectedCategory;
                 }).toList();
 
                 if (filteredNotes.isEmpty) {
@@ -179,7 +174,7 @@ class _ArchivePageState extends State<ArchivePage> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          _selectedCategory == 'Semua'
+                          _selectedCategory.isEmpty
                               ? "Belum ada catatan arsip"
                               : "Tidak ada catatan arsip di '$_selectedCategory'",
                           style: GoogleFonts.poppins(color: Colors.grey),
@@ -290,7 +285,7 @@ class _ArchivePageState extends State<ArchivePage> {
                   ),
                 ],
                 const SizedBox(height: 8),
-                if (note.category != 'All' && note.category != 'General')
+                if (note.category.isNotEmpty)
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 8,
