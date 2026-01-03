@@ -114,8 +114,7 @@ class _ArchivePageState extends State<ArchivePage> {
                         selected: isSelected,
                         onSelected: (bool selected) {
                           setState(() {
-                            _selectedCategory =
-                                selected ? category.name : '';
+                            _selectedCategory = selected ? category.name : '';
                           });
                         },
                         backgroundColor: Theme.of(context).cardColor,
@@ -125,7 +124,8 @@ class _ArchivePageState extends State<ArchivePage> {
                           side: BorderSide(
                             color: isSelected
                                 ? Colors.transparent
-                                : (Theme.of(context).brightness == Brightness.dark
+                                : (Theme.of(context).brightness ==
+                                          Brightness.dark
                                       ? Colors.grey.shade700
                                       : Colors.grey.shade300),
                           ),
