@@ -658,7 +658,17 @@ class _HomePageState extends State<HomePage> {
                   ),
                   onTap: () async {
                     Navigator.pop(sheetContext);
-                    _showArchiveCategoryDialog(parentContext, note);
+                    await _firestoreService.toggleArchive(
+                      note.id,
+                      note.isArchived,
+                    );
+                    if (parentContext.mounted) {
+                      showTopNotification(
+                        parentContext,
+                        'File berhasil dimasukkan ke arsip',
+                        color: Colors.green.shade600,
+                      );
+                    }
                   },
                 ),
                 ListTile(
@@ -684,135 +694,6 @@ class _HomePageState extends State<HomePage> {
                     }
                     await _firestoreService.moveToTrash(note.id);
                   },
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  void _showArchiveCategoryDialog(BuildContext context, Note note) {
-    final categories = ['Pribadi', 'Pekerjaan', 'Ide', 'Penting'];
-
-    showDialog(
-      context: context,
-      builder: (BuildContext dialogContext) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          backgroundColor: Theme.of(context).cardColor,
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Pilih Arsip',
-                  style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.white
-                        : Colors.black87,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                ...categories.map((category) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () async {
-                          Navigator.pop(dialogContext);
-                          await _firestoreService.toggleArchive(
-                            note.id,
-                            note.isArchived,
-                          );
-                          if (context.mounted) {
-                            showTopNotification(
-                              context,
-                              "Catatan berhasil diarsipkan ke '$category'",
-                              color: Colors.green.shade600,
-                            );
-                          }
-                        },
-                        borderRadius: BorderRadius.circular(12),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 14,
-                          ),
-                          decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).brightness == Brightness.dark
-                                ? Colors.grey.shade800
-                                : Colors.grey.shade100,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.folder_rounded,
-                                color: Colors.blueAccent,
-                                size: 20,
-                              ),
-                              const SizedBox(width: 12),
-                              Text(
-                                category,
-                                style: GoogleFonts.poppins(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color:
-                                      Theme.of(context).brightness ==
-                                          Brightness.dark
-                                      ? Colors.white
-                                      : Colors.black87,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                }).toList(),
-                const SizedBox(height: 8),
-                SizedBox(
-                  width: double.infinity,
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pop(dialogContext);
-                      },
-                      borderRadius: BorderRadius.circular(12),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 14,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade300,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Batal',
-                            style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.grey.shade700,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
                 ),
               ],
             ),
