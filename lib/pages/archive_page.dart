@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:notesapp/models/note_model.dart';
+import 'package:notesapp/pages/note_editor_page.dart';
 import 'package:notesapp/services/firestore_service.dart';
 import 'package:notesapp/utils/markdown_helper.dart';
 import 'package:notesapp/utils/notification_helper.dart';
@@ -241,7 +242,12 @@ class _ArchivePageState extends State<ArchivePage> {
             _showNoteOptions(context, note);
           },
           onTap: () {
-            // Navigate to note editor if needed
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NoteEditorPage(note: note),
+              ),
+            );
           },
           borderRadius: BorderRadius.circular(16),
           child: Padding(
