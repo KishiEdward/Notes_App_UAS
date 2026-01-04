@@ -98,6 +98,33 @@ class DzidanPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
+                  RichText(
+                    text: TextSpan(
+                      style: GoogleFonts.poppins(
+                        color: Colors.black,
+                        fontSize: 13,
+                      ),
+                      children: [
+                        const TextSpan(
+                          text: "Mobile developer dan laravel enthusiast \n",
+                        ),
+                        const TextSpan(text: "Cogito Ergo Sum"),
+                        TextSpan(
+                          text: "#Flutter #Laravel #VibeCodeKeknya",
+                          style: TextStyle(color: primaryGreen),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    "https://github.com/KishiEdward",
+                    style: GoogleFonts.poppins(
+                      color: const Color(0xFF1B5E20),
+                      fontSize: 13,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
                 ],
               ),
             ),
