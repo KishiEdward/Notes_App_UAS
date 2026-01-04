@@ -11,7 +11,6 @@ import 'package:notesapp/splash/toggle_theme.dart';
 import 'package:notesapp/pages/notification_settings_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
@@ -53,7 +52,7 @@ class _SettingsPageState extends State<SettingsPage> {
     setState(() {
       _darkMode = value;
     });
-    
+
     MyApp.of(context).changeTheme(value);
   }
 
@@ -62,9 +61,9 @@ class _SettingsPageState extends State<SettingsPage> {
     setState(() {
       _fontSize = value;
     });
-    
+
     double scaleValue = _settingsService.getFontSizeValue(value);
-    
+
     MyApp.of(context).changeFontSize(scaleValue);
   }
 
@@ -77,8 +76,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Future<void> _exportNotes() async {
     try {
-      final notes = await _firestoreService.getAllNotes();
-      final jsonData = notes.map((note) => note.toMap()).toList();
+      final notesSnapshot = await _firestoreService.getNotesStream().first;
+      final jsonData = notesSnapshot.map((note) => note.toMap()).toList();
       final jsonString = const JsonEncoder.withIndent('  ').convert(jsonData);
 
       final directory = await getApplicationDocumentsDirectory();
@@ -106,12 +105,15 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor, 
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor, 
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: _darkMode ? Colors.white : Colors.black87),
+          icon: Icon(
+            Icons.arrow_back,
+            color: _darkMode ? Colors.white : Colors.black87,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -125,95 +127,71 @@ class _SettingsPageState extends State<SettingsPage> {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          _buildSection(
-            'Appearance',
-            [
-              _buildSwitchTile(
-                'Dark Mode',
-                Icons.dark_mode_outlined,
-                _darkMode,
-                (value) async {
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const ToggleThemePage(),
+          _buildSection('Appearance', [
+            _buildSwitchTile('Dark Mode', Icons.dark_mode_outlined, _darkMode, (
+              value,
+            ) async {
+              await _toggleDarkMode(value);
+            }),
+            _buildDropdownTile(
+              'Font Size',
+              Icons.text_fields,
+              _fontSize,
+              _fontSizes,
+              (value) => _changeFontSize(value!),
+            ),
+          ]),
+          const SizedBox(height: 20),
+          _buildSection('Preferences', [
+            _buildDropdownTile(
+              'Default Category',
+              Icons.category_outlined,
+              _defaultCategory,
+              _categories,
+              (value) => _changeDefaultCategory(value!),
+            ),
+            _buildActionTile(
+              'Reset Home Tutorial',
+              Icons.help_outline,
+              () async {
+                final prefs = await SharedPreferences.getInstance();
+                await prefs.setBool('has_seen_home_tutorial', false);
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Tutorial akan muncul kembali di Home.'),
                     ),
                   );
-                  _loadSettings();
-                },
-
-              ),
-              _buildDropdownTile(
-                'Font Size',
-                Icons.text_fields,
-                _fontSize,
-                _fontSizes,
-                (value) => _changeFontSize(value!),
-              ),
-            ],
-          ),
+                }
+              },
+            ),
+            _buildActionTile('Notifications', Icons.notifications_outlined, () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotificationSettingsPage(),
+                ),
+              );
+            }),
+          ]),
           const SizedBox(height: 20),
-          _buildSection(
-            'Preferences',
-            [
-              _buildDropdownTile(
-                'Default Category',
-                Icons.category_outlined,
-                _defaultCategory,
-                _categories,
-                (value) => _changeDefaultCategory(value!),
-              ),
-              _buildActionTile(
-                'Reset Home Tutorial',
-                Icons.help_outline,
-                () async {
-                  final prefs = await SharedPreferences.getInstance();
-                  await prefs.setBool('has_seen_home_tutorial', false);
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Tutorial akan muncul kembali di Home.')),
-                    );
-                  }
-                },
-              ),
-              _buildActionTile(
-                'Notifications',
-                Icons.notifications_outlined,
-                () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const NotificationSettingsPage(),
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
+          _buildSection('Data', [
+            _buildActionTile(
+              'Export Notes',
+              Icons.download_outlined,
+              _exportNotes,
+            ),
+          ]),
           const SizedBox(height: 20),
-          _buildSection(
-            'Data',
-            [
-              _buildActionTile(
-                'Export Notes',
-                Icons.download_outlined,
-                _exportNotes,
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          _buildSection(
-            'About',
-            [
-              _buildInfoTile('Version', '1.0.0'),
-              _buildInfoTile('Developer', 'Notes App Team'),
-            ],
-          ),
+          _buildSection('About', [
+            _buildInfoTile('Version', '1.0.0'),
+            _buildInfoTile('Developer', 'Notes App Team'),
+          ]),
         ],
       ),
     );
   }
-  
+
   Widget _buildSection(String title, List<Widget> children) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -248,10 +226,18 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildSwitchTile(String title, IconData icon, bool value, Function(bool) onChanged) {
+  Widget _buildSwitchTile(
+    String title,
+    IconData icon,
+    bool value,
+    Function(bool) onChanged,
+  ) {
     return ListTile(
       leading: Icon(icon, color: Colors.blue.shade600),
-      title: Text(title, style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+      title: Text(
+        title,
+        style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+      ),
       trailing: Switch(
         value: value,
         onChanged: onChanged,
@@ -260,10 +246,19 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildDropdownTile(String title, IconData icon, String value, List<String> items, Function(String?) onChanged) {
+  Widget _buildDropdownTile(
+    String title,
+    IconData icon,
+    String value,
+    List<String> items,
+    Function(String?) onChanged,
+  ) {
     return ListTile(
       leading: Icon(icon, color: Colors.blue.shade600),
-      title: Text(title, style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+      title: Text(
+        title,
+        style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+      ),
       trailing: DropdownButton<String>(
         value: value,
         dropdownColor: _darkMode ? Colors.grey.shade800 : Colors.white,
@@ -282,7 +277,10 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget _buildActionTile(String title, IconData icon, VoidCallback onTap) {
     return ListTile(
       leading: Icon(icon, color: Colors.blue.shade600),
-      title: Text(title, style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+      title: Text(
+        title,
+        style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+      ),
       trailing: const Icon(Icons.chevron_right, color: Colors.grey),
       onTap: onTap,
     );
@@ -291,8 +289,14 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget _buildInfoTile(String title, String value) {
     return ListTile(
       leading: Icon(Icons.info_outline, color: Colors.blue.shade600),
-      title: Text(title, style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
-      trailing: Text(value, style: GoogleFonts.poppins(color: Colors.grey.shade600, fontSize: 14)),
+      title: Text(
+        title,
+        style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+      ),
+      trailing: Text(
+        value,
+        style: GoogleFonts.poppins(color: Colors.grey.shade600, fontSize: 14),
+      ),
     );
   }
 }

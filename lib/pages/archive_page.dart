@@ -18,7 +18,12 @@ class _ArchivePageState extends State<ArchivePage> {
   final FirestoreService _firestoreService = FirestoreService();
   bool _isGridView = false;
   String _selectedCategory = '';
-  final List<String> _categories = ['Pribadi', 'Pekerjaan', 'Ide', 'Penting'];
+  static const List<String> _categories = [
+    'Pribadi',
+    'Pekerjaan',
+    'Ide',
+    'Penting',
+  ];
 
   @override
   Widget build(BuildContext context) {
