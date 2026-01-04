@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:notesapp/models/note_model.dart';
-import 'package:notesapp/pages/login_page.dart';
+import 'package:notesapp/pages/archive_page.dart';
 import 'package:notesapp/pages/note_editor_page.dart';
 import 'package:notesapp/pages/profile_page.dart';
 import 'package:notesapp/pages/profile_team_page.dart';
@@ -19,7 +19,10 @@ import 'package:notesapp/pages/notification_page.dart';
 import 'package:notesapp/services/notification_service.dart';
 import 'package:notesapp/widgets/auth_wrapper.dart';
 import 'package:notesapp/services/session_manager.dart';
+<<<<<<< HEAD
 import 'package:notesapp/services/streak_service.dart';
+=======
+>>>>>>> feature/archive
 import 'package:showcaseview/showcaseview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -35,13 +38,21 @@ class _HomePageState extends State<HomePage> {
   String _selectedCategory = 'Semua';
   bool _isGridView = false;
   final FirestoreService _firestoreService = FirestoreService();
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> feature/archive
   // Keys for Showcase
   final GlobalKey _addNoteKey = GlobalKey();
   final GlobalKey _notificationKey = GlobalKey();
   final GlobalKey _viewToggleKey = GlobalKey();
 
+<<<<<<< HEAD
   final List<String> _categories = [
+=======
+  static const List<String> _categories = [
+>>>>>>> feature/archive
     'Semua',
     'Pribadi',
     'Pekerjaan',
@@ -60,11 +71,17 @@ class _HomePageState extends State<HomePage> {
     final hasSeenTutorial = prefs.getBool('has_seen_home_tutorial') ?? false;
 
     if (!hasSeenTutorial && mounted) {
+<<<<<<< HEAD
       ShowCaseWidget.of(context).startShowCase([
         _addNoteKey,
         _viewToggleKey,
         _notificationKey,
       ]);
+=======
+      ShowCaseWidget.of(
+        context,
+      ).startShowCase([_addNoteKey, _viewToggleKey, _notificationKey]);
+>>>>>>> feature/archive
       await prefs.setBool('has_seen_home_tutorial', true);
     }
   }
@@ -109,7 +126,11 @@ class _HomePageState extends State<HomePage> {
               _buildNavItem(Icons.search_rounded, 1),
               const SizedBox(width: 40),
               _buildNavItem(
+<<<<<<< HEAD
                 Icons.notifications_none_rounded, 
+=======
+                Icons.notifications_none_rounded,
+>>>>>>> feature/archive
                 2,
                 showcaseKey: _notificationKey,
                 title: 'Notifikasi',
@@ -153,8 +174,13 @@ class _HomePageState extends State<HomePage> {
                   radius: 22,
                   backgroundColor: Colors.grey.shade200,
                   child: Text(
+<<<<<<< HEAD
                     (user?.displayName?.isNotEmpty == true) 
                         ? user!.displayName!.substring(0, 1).toUpperCase() 
+=======
+                    (user?.displayName?.isNotEmpty == true)
+                        ? user!.displayName!.substring(0, 1).toUpperCase()
+>>>>>>> feature/archive
                         : 'U',
                     style: GoogleFonts.poppins(
                       color: Colors.grey.shade700,
@@ -188,7 +214,9 @@ class _HomePageState extends State<HomePage> {
                               style: GoogleFonts.poppins(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
-                                color: Theme.of(context).brightness == Brightness.dark
+                                color:
+                                    Theme.of(context).brightness ==
+                                        Brightness.dark
                                     ? Colors.white
                                     : Colors.black87,
                               ),
@@ -223,7 +251,12 @@ class _HomePageState extends State<HomePage> {
                     child: Showcase(
                       key: _viewToggleKey,
                       title: 'Ubah Tampilan',
+<<<<<<< HEAD
                       description: 'Ganti tampilan catatanmu jadi List atau Grid.',
+=======
+                      description:
+                          'Ganti tampilan catatanmu jadi List atau Grid.',
+>>>>>>> feature/archive
                       child: IconButton(
                         icon: Icon(
                           _isGridView
@@ -239,11 +272,43 @@ class _HomePageState extends State<HomePage> {
                             _isGridView = !_isGridView;
                           });
                         },
+<<<<<<< HEAD
+                      ),
+=======
                       ),
                     ),
                   ),
                   const SizedBox(width: 8),
-
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).cardColor,
+                      border: Border.all(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.grey.shade700
+                            : Colors.grey.shade200,
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.archive_outlined,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white70
+                            : Colors.grey.shade700,
+                        size: 24,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ArchivePage(),
+                          ),
+                        );
+                      },
+>>>>>>> feature/archive
+                    ),
+                  ),
+                  const SizedBox(width: 8),
                   Container(
                     decoration: BoxDecoration(
                       color: Theme.of(context).cardColor,
@@ -294,8 +359,8 @@ class _HomePageState extends State<HomePage> {
                     color: isSelected
                         ? Colors.white
                         : (Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white70
-                            : Colors.grey.shade700),
+                              ? Colors.white70
+                              : Colors.grey.shade700),
                     fontWeight: FontWeight.w500,
                     fontSize: 13,
                   ),
@@ -313,8 +378,8 @@ class _HomePageState extends State<HomePage> {
                       color: isSelected
                           ? Colors.transparent
                           : (Theme.of(context).brightness == Brightness.dark
-                              ? Colors.grey.shade700
-                              : Colors.grey.shade300),
+                                ? Colors.grey.shade700
+                                : Colors.grey.shade300),
                     ),
                   ),
                   elevation: 0,
@@ -344,11 +409,12 @@ class _HomePageState extends State<HomePage> {
 
               final filteredNotes = allNotes.where((note) {
                 final isNotTrash = note.isTrashed == false;
+                final isNotArchived = note.isArchived == false;
                 final isCategoryMatch = _selectedCategory == 'Semua'
                     ? true
                     : note.category == _selectedCategory;
 
-                return isNotTrash && isCategoryMatch;
+                return isNotTrash && isNotArchived && isCategoryMatch;
               }).toList();
 
               if (filteredNotes.isEmpty) {
@@ -440,6 +506,9 @@ class _HomePageState extends State<HomePage> {
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(16),
         child: InkWell(
+          onLongPress: () {
+            _showNoteOptions(context, note);
+          },
           onTap: () {
             Navigator.push(
               context,
@@ -468,7 +537,9 @@ class _HomePageState extends State<HomePage> {
                               style: GoogleFonts.poppins(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                color: Theme.of(context).brightness == Brightness.dark
+                                color:
+                                    Theme.of(context).brightness ==
+                                        Brightness.dark
                                     ? Colors.white
                                     : const Color(0xFF2D3436),
                               ),
@@ -482,7 +553,9 @@ class _HomePageState extends State<HomePage> {
                               child: Icon(
                                 Icons.push_pin,
                                 size: 16,
-                                color: Theme.of(context).brightness == Brightness.dark
+                                color:
+                                    Theme.of(context).brightness ==
+                                        Brightness.dark
                                     ? Colors.white70
                                     : Colors.black87,
                               ),
@@ -492,7 +565,11 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(height: 6),
                       if (note.content.isNotEmpty) ...[
                         const SizedBox(height: 4),
-                        MarkdownHelper.buildPreview(note.content, maxLines: 2, context: context),
+                        MarkdownHelper.buildPreview(
+                          note.content,
+                          maxLines: 2,
+                          context: context,
+                        ),
                       ],
                       const SizedBox(height: 8),
                       if (note.category != 'All' && note.category != 'General')
@@ -543,7 +620,7 @@ class _HomePageState extends State<HomePage> {
 
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).cardColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -554,6 +631,33 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                ListTile(
+                  leading: const Icon(
+                    Icons.archive_rounded,
+                    color: Colors.blueAccent,
+                  ),
+                  title: Text(
+                    'Arsipkan Note',
+                    style: GoogleFonts.poppins(
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  onTap: () async {
+                    Navigator.pop(sheetContext);
+                    await _firestoreService.toggleArchive(
+                      note.id,
+                      note.isArchived,
+                    );
+                    if (parentContext.mounted) {
+                      showTopNotification(
+                        parentContext,
+                        'File berhasil dimasukkan ke arsip',
+                        color: Colors.green.shade600,
+                      );
+                    }
+                  },
+                ),
                 ListTile(
                   leading: const Icon(
                     Icons.delete_outline,
@@ -568,7 +672,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                   onTap: () async {
                     Navigator.pop(sheetContext);
-
                     if (parentContext.mounted) {
                       showTopNotification(
                         parentContext,
@@ -576,7 +679,6 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.red.shade600,
                       );
                     }
-
                     await _firestoreService.moveToTrash(note.id);
                   },
                 ),
@@ -644,6 +746,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+<<<<<<< HEAD
   Widget _buildNavItem(IconData icon, int index, {GlobalKey? showcaseKey, String? description, String? title}) {
     final isSelected = _selectedIndex == index;
     Widget child = index == 2
@@ -698,6 +801,68 @@ class _HomePageState extends State<HomePage> {
                     : Colors.grey.shade400,
                 size: 28,
               );
+=======
+  Widget _buildNavItem(
+    IconData icon,
+    int index, {
+    GlobalKey? showcaseKey,
+    String? description,
+    String? title,
+  }) {
+    final isSelected = _selectedIndex == index;
+    Widget child = index == 2
+        ? FutureBuilder<int>(
+            future: NotificationService().getNotificationCount(),
+            builder: (context, snapshot) {
+              final count = snapshot.data ?? 0;
+              return Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Icon(
+                    icon,
+                    color: isSelected ? Colors.black87 : Colors.grey.shade400,
+                    size: 28,
+                  ),
+                  if (count > 0)
+                    Positioned(
+                      right: -4,
+                      top: -4,
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 18,
+                          minHeight: 18,
+                        ),
+                        child: Center(
+                          child: Text(
+                            count > 9 ? '9+' : count.toString(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            },
+          )
+        : Icon(
+            icon,
+            color: isSelected
+                ? (Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black87)
+                : Colors.grey.shade400,
+            size: 28,
+          );
+>>>>>>> feature/archive
 
     if (showcaseKey != null) {
       child = Showcase(
@@ -715,10 +880,14 @@ class _HomePageState extends State<HomePage> {
         });
       },
       borderRadius: BorderRadius.circular(30),
+<<<<<<< HEAD
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: child,
       ),
+=======
+      child: Padding(padding: const EdgeInsets.all(12), child: child),
+>>>>>>> feature/archive
     );
   }
 
@@ -789,7 +958,9 @@ class _HomePageState extends State<HomePage> {
                 await AuthService().signOut();
                 if (context.mounted) {
                   Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => const AuthWrapper()),
+                    MaterialPageRoute(
+                      builder: (context) => const AuthWrapper(),
+                    ),
                     (route) => false,
                   );
                 }

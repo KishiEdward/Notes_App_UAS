@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:notesapp/models/note_model.dart';
 import 'package:notesapp/services/firestore_service.dart';
 import 'package:notesapp/utils/notification_helper.dart';
@@ -41,7 +40,8 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
     _contentController = TextEditingController(
       text: widget.note?.content ?? widget.initialContent ?? '',
     );
-    _selectedCategory = widget.note?.category ?? widget.initialCategory ?? 'Pribadi';
+    _selectedCategory =
+        widget.note?.category ?? widget.initialCategory ?? 'Pribadi';
     _isPinned = widget.note?.isPinned ?? false;
     _reminderDate = widget.note?.reminderDate;
     if (!_categories.contains(_selectedCategory)) {
