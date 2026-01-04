@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notesapp/models/note_model.dart';
-import 'package:notesapp/models/archive_category_model.dart';
 import 'package:notesapp/services/streak_service.dart';
 
 class FirestoreService {
@@ -180,75 +179,5 @@ class FirestoreService {
       }
     }
     return deletedCount;
-  }
-
-  // Archive Category Methods
-  Stream<List<ArchiveCategory>> getArchiveCategoriesStream() {
-    final user = _auth.currentUser;
-    if (user == null) {
-      print('⚠️ User tidak login, mengembalikan stream kosong');
-      return Stream.value([]);
-    }
-
-    print('📖 Mengambil kategori archive untuk user: ${user.uid}');
-
-    return _db
-        .collection('archive_categories')
-        .where('userId', isEqualTo: user.uid)
-        .snapshots()
-        .map((snapshot) {
-          print('📊 Ditemukan ${snapshot.docs.length} kategori');
-          final categories = snapshot.docs.map((doc) {
-            return ArchiveCategory.fromMap(doc.data(), doc.id);
-          }).toList();
-
-          categories.sort((a, b) => a.createdAt.compareTo(b.createdAt));
-          return categories;
-        })
-        .handleError((error) {
-          print('❌ Error mengambil kategori: $error');
-          return <ArchiveCategory>[];
-        });
-  }
-
-  Future<void> addArchiveCategory(String name) async {
-    final user = _auth.currentUser;
-    if (user == null) {
-      print('❌ Error: User tidak login');
-      throw Exception('User tidak login. Silakan login terlebih dahulu.');
-    }
-
-    try {
-      print('📝 Menyimpan kategori "$name" untuk user: ${user.uid}');
-
-      await _db.collection('archive_categories').add({
-        'userId': user.uid,
-        'name': name,
-        'createdAt': FieldValue.serverTimestamp(),
-      });
-
-      print('✅ Kategori "$name" berhasil disimpan');
-    } on FirebaseException catch (e) {
-      print('❌ Firebase Error: ${e.code} - ${e.message}');
-      if (e.code == 'permission-denied') {
-        throw Exception(
-          'Permission denied. Pastikan Firestore Rules sudah diupdate.',
-        );
-      }
-      rethrow;
-    } catch (e) {
-      print('❌ Error menyimpan kategori: $e');
-      rethrow;
-    }
-  }
-
-  Future<void> updateArchiveCategory(String categoryId, String newName) async {
-    await _db.collection('archive_categories').doc(categoryId).update({
-      'name': newName,
-    });
-  }
-
-  Future<void> deleteArchiveCategory(String categoryId) async {
-    await _db.collection('archive_categories').doc(categoryId).delete();
   }
 }

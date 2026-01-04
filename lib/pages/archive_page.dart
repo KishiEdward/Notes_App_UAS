@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:notesapp/models/note_model.dart';
-import 'package:notesapp/models/archive_category_model.dart';
 import 'package:notesapp/services/firestore_service.dart';
 import 'package:notesapp/utils/markdown_helper.dart';
 import 'package:notesapp/utils/notification_helper.dart';
@@ -18,6 +17,7 @@ class _ArchivePageState extends State<ArchivePage> {
   final FirestoreService _firestoreService = FirestoreService();
   bool _isGridView = false;
   String _selectedCategory = '';
+  final List<String> _categories = ['Pribadi', 'Pekerjaan', 'Ide', 'Penting'];
 
   @override
   Widget build(BuildContext context) {
@@ -86,59 +86,51 @@ class _ArchivePageState extends State<ArchivePage> {
           ),
           SizedBox(
             height: 50,
-            child: StreamBuilder<List<ArchiveCategory>>(
-              stream: _firestoreService.getArchiveCategoriesStream(),
-              builder: (context, snapshot) {
-                final categories = snapshot.data ?? [];
-
-                return ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  itemCount: categories.length,
-                  itemBuilder: (context, index) {
-                    final category = categories[index];
-                    final isSelected = _selectedCategory == category.name;
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: FilterChip(
-                        label: Text(category.name),
-                        labelStyle: GoogleFonts.poppins(
-                          color: isSelected
-                              ? Colors.white
-                              : (Theme.of(context).brightness == Brightness.dark
-                                    ? Colors.white70
-                                    : Colors.grey.shade700),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 13,
-                        ),
-                        selected: isSelected,
-                        onSelected: (bool selected) {
-                          setState(() {
-                            _selectedCategory = selected ? category.name : '';
-                          });
-                        },
-                        backgroundColor: Theme.of(context).cardColor,
-                        selectedColor: Theme.of(context).colorScheme.primary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          side: BorderSide(
-                            color: isSelected
-                                ? Colors.transparent
-                                : (Theme.of(context).brightness ==
-                                          Brightness.dark
-                                      ? Colors.grey.shade700
-                                      : Colors.grey.shade300),
-                          ),
-                        ),
-                        elevation: 0,
-                        pressElevation: 0,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 8,
-                        ),
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: _categories.length,
+              itemBuilder: (context, index) {
+                final category = _categories[index];
+                final isSelected = _selectedCategory == category;
+                return Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: FilterChip(
+                    label: Text(category),
+                    labelStyle: GoogleFonts.poppins(
+                      color: isSelected
+                          ? Colors.white
+                          : (Theme.of(context).brightness == Brightness.dark
+                                ? Colors.white70
+                                : Colors.grey.shade700),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 13,
+                    ),
+                    selected: isSelected,
+                    onSelected: (bool selected) {
+                      setState(() {
+                        _selectedCategory = selected ? category : '';
+                      });
+                    },
+                    backgroundColor: Theme.of(context).cardColor,
+                    selectedColor: Theme.of(context).colorScheme.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      side: BorderSide(
+                        color: isSelected
+                            ? Colors.transparent
+                            : (Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.grey.shade700
+                                  : Colors.grey.shade300),
                       ),
-                    );
-                  },
+                    ),
+                    elevation: 0,
+                    pressElevation: 0,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                  ),
                 );
               },
             ),
