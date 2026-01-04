@@ -170,8 +170,7 @@ class FCMService {
         tz.TZDateTime.from(scheduledDate, tz.local),
         details,
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
+
         matchDateTimeComponents: DateTimeComponents.time,
       );
       print('Streak reminder scheduled for $hour:$minute');
