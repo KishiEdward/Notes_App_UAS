@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:ui';
 
 class DzidanPage extends StatelessWidget {
   const DzidanPage({super.key});
@@ -190,19 +191,47 @@ class DzidanPage extends StatelessWidget {
                 mainAxisSpacing: 2,
               ),
               itemBuilder: (context, index) {
-                return Container(
-                  color: Colors.grey[200],
-                  child: Image.asset(
-                    "assets/images/dzidan/dzidan_img${index + 1}.jpg",
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Center(
-                        child: Icon(
-                          Icons.broken_image,
-                          color: Colors.grey[400],
-                        ),
-                      );
-                    },
+                final String imagePath =
+                    "assets/images/dzidan/dzidan_img${index + 2}.jpg";
+
+                return InkWell(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      barrierColor: Colors.black.withOpacity(0.2),
+                      builder: (context) {
+                        return BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                          child: Dialog(
+                            backgroundColor: Colors.transparent,
+                            elevation: 0,
+                            insetPadding: const EdgeInsets.all(10),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(
+                                imagePath,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: Container(
+                    color: Colors.grey[200],
+                    child: Image.asset(
+                      imagePath,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Center(
+                          child: Icon(
+                            Icons.broken_image,
+                            color: Colors.grey[400],
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 );
               },
