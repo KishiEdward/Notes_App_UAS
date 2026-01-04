@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 //import halaman masing masing
+// import 'package:notes_app/pages/dzidan_page.dart';
+
 class ProfileTeamPage extends StatelessWidget {
   const ProfileTeamPage({super.key});
 
@@ -9,9 +11,10 @@ class ProfileTeamPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Map<String, String>> members = [
       {
-        "name": "Nama Mahasiswa 1",
-        "role": "Role 1",
-        "image": "https://i.pravatar.cc/400?img=11", //nanti ganti foto masing masing
+        "name": "Dzidan Rafi Habibie",
+        "role": "Project Manager",
+        "image":
+            "https://i.pravatar.cc/400?img=11", //nanti ganti foto masing masing
       },
       {
         "name": "Nama Mahasiswa 2",
@@ -75,7 +78,10 @@ class ProfileTeamPage extends StatelessWidget {
       onTap: () {
         //navigasi di sini untuk ke halaman profil masing masing
         if (index == 0) {
-          //Navigator.push(context, MaterialPageRoute(builder: (context) => const ));
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => const DzidanPage()),
+          // );
         } else if (index == 1) {
           //Navigator.push(context, MaterialPageRoute(builder: (context) => const ));
         } else if (index == 2) {
