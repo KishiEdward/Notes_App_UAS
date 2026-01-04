@@ -7,8 +7,7 @@ class DzidanPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color primaryGreen = const Color(0xFF2E7D32);
-    final Color accentGreen = const Color(0xFF81C784);
-
+    final Color accentGreen = const Color(0xFF66BB6A);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -17,25 +16,25 @@ class DzidanPage extends StatelessWidget {
         title: Text(
           "Dzidan Rafi Habibie",
           style: GoogleFonts.poppins(
-            color: Colors.black87,
+            color: Colors.black,
             fontWeight: FontWeight.bold,
-            fontSize: 20,
+            fontSize: 18,
           ),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black87),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.home, color: Colors.black87),
+            icon: const Icon(Icons.menu, color: Colors.black),
             onPressed: () {},
           ),
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -50,26 +49,26 @@ class DzidanPage extends StatelessWidget {
                           accentGreen,
                           Colors.yellow[700]!,
                         ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
                       ),
                     ),
-                    padding: const EdgeInsets.all(4.0),
+                    padding: const EdgeInsets.all(3),
                     child: Container(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white, width: 2),
+                        border: Border.all(color: Colors.white, width: 3),
                       ),
                       child: const CircleAvatar(
-                        radius: 50,
+                        radius: 40,
                         backgroundColor: Colors.grey,
                         backgroundImage: AssetImage(
-                          'assets/images/dzidan/dzidan_img1.jpg',
+                          "assets/images/dzidan/dzidan_img1.jpg",
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: 20),
                   Expanded(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -82,10 +81,11 @@ class DzidanPage extends StatelessWidget {
                 ],
               ),
             ),
+
             Padding(
-              padding: const EdgeInsetsGeometry.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 16.0,
-                vertical: 12.0,
+                vertical: 12,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,30 +106,146 @@ class DzidanPage extends StatelessWidget {
                       ),
                       children: [
                         const TextSpan(
-                          text: "Mobile developer dan laravel enthusiast \n",
+                          text: "Mobile Developer & Laravel Enthusiast 👨‍💻\n",
                         ),
-                        const TextSpan(text: "Cogito Ergo Sum"),
+                        const TextSpan(
+                          text: "Membangun masa depan dengan kode.\n",
+                        ),
                         TextSpan(
-                          text: "#Flutter #Laravel #VibeCodeKeknya",
+                          text: "#Flutter #Laravel12 #Dart",
                           style: TextStyle(color: primaryGreen),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 4),
                   Text(
                     "https://github.com/KishiEdward",
                     style: GoogleFonts.poppins(
                       color: const Color(0xFF1B5E20),
+                      fontWeight: FontWeight.w600,
                       fontSize: 13,
-                      decoration: TextDecoration.underline,
                     ),
                   ),
                 ],
               ),
             ),
+            const SizedBox(height: 16),
+            SizedBox(
+              height: 100,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.only(left: 16),
+                children: [
+                  _buildHighlight("Flutter", Icons.flutter_dash, primaryGreen),
+                  _buildHighlight("Laravel", Icons.php, Colors.indigo),
+                  _buildHighlight("Git", Icons.code, Colors.orange),
+                  _buildHighlight("Dart", Icons.data_object, Colors.blue),
+                  _buildHighlight("MySQL", Icons.storage, Colors.blueGrey),
+                ],
+              ),
+            ),
+
+            Column(
+              children: [
+                const Divider(height: 1, color: Colors.grey),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(color: primaryGreen, width: 2),
+                          ),
+                        ),
+                        child: Icon(Icons.grid_on, color: primaryGreen),
+                      ),
+                    ),
+                    const Expanded(
+                      child: Icon(
+                        Icons.person_pin_outlined,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: 2,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 2,
+                mainAxisSpacing: 2,
+              ),
+              itemBuilder: (context, index) {
+                return Container(
+                  color: Colors.grey[200],
+                  child: Image.asset(
+                    "assets/images/dzidan/${index + 1}.jpg",
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Center(
+                        child: Icon(
+                          Icons.broken_image,
+                          color: Colors.grey[400],
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildStatColumn(String count, String label) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          count,
+          style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          label,
+          style: GoogleFonts.poppins(fontSize: 13, color: Colors.black54),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildHighlight(String title, IconData icon, Color color) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 16.0),
+      child: Column(
+        children: [
+          Container(
+            width: 65,
+            height: 65,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.grey[300]!, width: 1),
+            ),
+            padding: const EdgeInsets.all(3),
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.grey[50],
+              ),
+              child: Icon(icon, size: 30, color: color),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(title, style: GoogleFonts.poppins(fontSize: 11)),
+        ],
       ),
     );
   }

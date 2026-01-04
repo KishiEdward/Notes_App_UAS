@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:notes_app/pages/dzidan_page.dart';
+import 'dzidan_page.dart';
 //import halaman masing masing
 
 class ProfileTeamPage extends StatelessWidget {
@@ -13,7 +13,7 @@ class ProfileTeamPage extends StatelessWidget {
         "name": "Dzidan Rafi Habibie",
         "role": "Project Manager",
         "image":
-            "https://i.pravatar.cc/400?img=11", //nanti ganti foto masing masing
+            "assets/images/dzidan/dzidan_img1.jpg", //nanti ganti foto masing masing
       },
       {
         "name": "Nama Mahasiswa 2",
