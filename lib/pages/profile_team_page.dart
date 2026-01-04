@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:notes_app/pages/dzidan_page.dart';
 //import halaman masing masing
-// import 'package:notes_app/pages/dzidan_page.dart';
 
 class ProfileTeamPage extends StatelessWidget {
   const ProfileTeamPage({super.key});
@@ -78,10 +77,10 @@ class ProfileTeamPage extends StatelessWidget {
       onTap: () {
         //navigasi di sini untuk ke halaman profil masing masing
         if (index == 0) {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => const DzidanPage()),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const DzidanPage()),
+          );
         } else if (index == 1) {
           //Navigator.push(context, MaterialPageRoute(builder: (context) => const ));
         } else if (index == 2) {
