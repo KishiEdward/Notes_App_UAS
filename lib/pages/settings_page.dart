@@ -276,7 +276,7 @@ class _SettingsPageState extends State<SettingsPage> {
       trailing: Switch(
         value: value,
         onChanged: onChanged,
-        activeColor: Colors.blue.shade600,
+        activeThumbColor: Colors.blue.shade600,
       ),
     );
   }

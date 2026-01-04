@@ -20,18 +20,16 @@ class FCMService {
   }
 
   Future<void> _initializeLocalNotifications() async {
-    const androidSettings = AndroidInitializationSettings('@mipmap/launcher_icon');
+    const androidSettings = AndroidInitializationSettings(
+      '@mipmap/launcher_icon',
+    );
     const initSettings = InitializationSettings(android: androidSettings);
     await _localNotifications.initialize(initSettings);
   }
 
   Future<void> requestPermission() async {
     try {
-      await _fcm.requestPermission(
-        alert: true,
-        badge: true,
-        sound: true,
-      );
+      await _fcm.requestPermission(alert: true, badge: true, sound: true);
       print('FCM permission granted');
     } catch (e) {
       print('Error requesting FCM permission: $e');
@@ -47,10 +45,9 @@ class FCMService {
       final token = await getToken();
       if (token != null) {
         print('Saving FCM token for user: $userId');
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(userId)
-            .update({'fcmToken': token});
+        await FirebaseFirestore.instance.collection('users').doc(userId).update(
+          {'fcmToken': token},
+        );
         print('FCM token saved successfully');
       }
     } catch (e) {
@@ -76,7 +73,7 @@ class FCMService {
         priority: Priority.high,
       );
       const details = NotificationDetails(android: androidDetails);
-      
+
       await _localNotifications.show(
         message.hashCode,
         message.notification?.title,
@@ -118,7 +115,7 @@ class FCMService {
     try {
       final now = DateTime.now();
       var scheduledDate = DateTime(now.year, now.month, now.day, hour, minute);
-      
+
       if (scheduledDate.isBefore(now)) {
         scheduledDate = scheduledDate.add(const Duration(days: 1));
       }
@@ -139,8 +136,7 @@ class FCMService {
         tz.TZDateTime.from(scheduledDate, tz.local),
         details,
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
+
         matchDateTimeComponents: DateTimeComponents.time,
       );
       print('Daily reminder scheduled for $hour:$minute');
@@ -153,7 +149,7 @@ class FCMService {
     try {
       final now = DateTime.now();
       var scheduledDate = DateTime(now.year, now.month, now.day, hour, minute);
-      
+
       if (scheduledDate.isBefore(now)) {
         scheduledDate = scheduledDate.add(const Duration(days: 1));
       }

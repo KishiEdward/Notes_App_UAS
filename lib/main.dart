@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:notesapp/splash/splash1.dart';
 import 'package:notesapp/services/settings_service.dart';
 import 'package:notesapp/services/fcm_service.dart';
 import 'package:notesapp/utils/fcm_background_handler.dart';
