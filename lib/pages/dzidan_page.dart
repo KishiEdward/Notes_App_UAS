@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DzidanPage extends StatelessWidget {
   const DzidanPage({super.key});
+
+  Future<void> _launchURL() async {
+    final Uri url = Uri.parse('https://github.com/KishiEdward');
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final Color primaryGreen = const Color(0xFF2E7D32);
     final Color accentGreen = const Color(0xFF66BB6A);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -81,7 +90,6 @@ class DzidanPage extends StatelessWidget {
                 ],
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 16.0,
@@ -119,18 +127,23 @@ class DzidanPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text(
-                    "https://github.com/KishiEdward",
-                    style: GoogleFonts.poppins(
-                      color: const Color(0xFF1B5E20),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13,
+                  InkWell(
+                    onTap: _launchURL,
+                    child: Text(
+                      "https://github.com/KishiEdward",
+                      style: GoogleFonts.poppins(
+                        color: const Color(0xFF1B5E20),
+                        fontWeight: FontWeight.w600,
+                        fontSize: 13,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 16),
+
             SizedBox(
               height: 100,
               child: ListView(
@@ -162,12 +175,6 @@ class DzidanPage extends StatelessWidget {
                         child: Icon(Icons.grid_on, color: primaryGreen),
                       ),
                     ),
-                    const Expanded(
-                      child: Icon(
-                        Icons.person_pin_outlined,
-                        color: Colors.grey,
-                      ),
-                    ),
                   ],
                 ),
               ],
@@ -186,7 +193,7 @@ class DzidanPage extends StatelessWidget {
                 return Container(
                   color: Colors.grey[200],
                   child: Image.asset(
-                    "assets/images/dzidan/${index + 1}.jpg",
+                    "assets/images/dzidan/dzidan_img${index + 1}.jpg",
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return Center(
