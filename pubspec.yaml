@@ -36,18 +36,18 @@ dependencies:
   cupertino_icons: ^1.0.8
   firebase_core: ^4.2.1
   firebase_auth: ^6.1.2
-  google_sign_in: ^6.2.1
+  google_sign_in: ^7.2.0
   google_fonts: ^6.3.3
   cloud_firestore: ^6.1.0
-  intl: ^0.19.0
+  intl: ^0.20.2
   flutter_staggered_grid_view: ^0.7.0
   lottie: ^3.3.2
   shared_preferences: ^2.2.0
   path_provider: ^2.1.0
   firebase_messaging: ^16.0.4
-  flutter_local_notifications: ^17.2.3
-  timezone: ^0.9.4
-  introduction_screen: ^3.1.14
+  flutter_local_notifications: ^19.5.0
+  timezone: ^0.10.1
+  introduction_screen: ^4.0.0
   showcaseview: ^5.0.1
   video_player: ^2.8.1
 
