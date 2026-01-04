@@ -50,6 +50,7 @@ dependencies:
   introduction_screen: ^4.0.0
   showcaseview: ^5.0.1
   video_player: ^2.8.1
+  url_launcher: ^6.2.0
 
 dev_dependencies:
   flutter_test:
@@ -81,6 +82,7 @@ flutter:
   assets:
     - assets/images/
     - assets/animations/
+    - assets/images/dzidan/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
