@@ -44,7 +44,7 @@ class NitaProfilePage extends StatelessWidget {
                         },
                       ),
                       Text(
-                        'profile nita',
+                        'CARD PROFILE',
                         style: GoogleFonts.poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
