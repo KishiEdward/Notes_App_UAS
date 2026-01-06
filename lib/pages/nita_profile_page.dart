@@ -157,17 +157,17 @@ class NitaProfilePage extends StatelessWidget {
                             children: [
                               _socialMiniAvatar(
                                 assetPath: 'assets/images/icon_ig.png',
-                                url: 'https://instagram.com/',
+                                url: 'https://instagram.com/nitastlrrr',
                               ),
                               const SizedBox(width: 18),
                               _socialMiniAvatar(
                                 assetPath: 'assets/images/icon_git.png',
-                                url: 'https://github.com/',
+                                url: 'https://github.com/rismanitalst',
                               ),
                               const SizedBox(width: 18),
                               _socialMiniAvatar(
                                 assetPath: 'assets/images/icon_link.png',
-                                url: 'https://linkedin.com/',
+                                url: 'https://linkedin.com/in/rismanita-lestari',
                               ),
                             ],
                           ),
