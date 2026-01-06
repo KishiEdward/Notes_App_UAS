@@ -75,8 +75,26 @@ class NitaProfilePage extends StatelessWidget {
                         ],
                       ),
                       child: Column(
-                        children: const [
-                          Text('konten profile disini'),
+                        children: [
+                          const SizedBox(height: 8),
+
+                          // avatar profile
+                          Container(
+                            padding: const EdgeInsets.all(3), // border tipis
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: blush,
+                                width: 1.5,
+                              ),
+                            ),
+                            child: const CircleAvatar(
+                              radius: 48,
+                              backgroundImage: AssetImage(
+                                'assets/images/loopy_lembur.jpg',
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
