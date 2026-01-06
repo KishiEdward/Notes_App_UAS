@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:notesapp/pages/nita_profile_page.dart';
+
 
 //import halaman masing masing
 class ProfileTeamPage extends StatelessWidget {
