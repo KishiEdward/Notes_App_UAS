@@ -118,6 +118,17 @@ class NitaProfilePage extends StatelessWidget {
                               color: Colors.grey[600],
                             ),
                           ),
+                          const SizedBox(height: 20),
+
+                          // statistik profile
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: const [
+                              _StatItem(title: 'Following', value: '120'),
+                              _StatItem(title: 'Followers', value: '340'),
+                              _StatItem(title: 'Projects', value: '8'),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -161,3 +172,36 @@ Widget _circleButton({
   );
 }
 
+class _StatItem extends StatelessWidget {
+  final String title;
+  final String value;
+
+  const _StatItem({
+    required this.title,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          value,
+          style: GoogleFonts.poppins(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: NitaProfilePage.redWine,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          title,
+          style: GoogleFonts.poppins(
+            fontSize: 11,
+            color: Colors.grey[600],
+          ),
+        ),
+      ],
+    );
+  }
+}
