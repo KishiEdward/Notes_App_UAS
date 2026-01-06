@@ -28,7 +28,7 @@ class Splash3 extends StatelessWidget {
             ),
             const SizedBox(height: 30.0),
             Text(
-              "Ayo mulai!",
+              "Lupa bikin catatan dimana?",
               style: GoogleFonts.poppins(
                 fontSize: 26.0,
                 fontWeight: FontWeight.bold,
@@ -39,7 +39,7 @@ class Splash3 extends StatelessWidget {
             ),
             const SizedBox(height: 10.0),
             Text(
-              "Login/Register dan mulai jurnal anda",
+              "Semuanya disimpan dalam satu genggaman.",
               style: GoogleFonts.poppins(
                 fontSize: 16,
                 color: Theme.of(context).brightness == Brightness.dark
@@ -110,12 +110,30 @@ class Splash3 extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    "Login",
+                    "Lanjutkan",
                     style: GoogleFonts.poppins(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Login()),
+                );
+              },
+              child: Text(
+                "Lewati",
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).primaryColor,
                 ),
               ),
             ),

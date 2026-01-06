@@ -44,7 +44,7 @@ class Splash2 extends StatelessWidget {
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 40),
               child: Text(
-                "Tulis, edit, dan atur catatan Anda dengan mudah. Semua dalam satu tempat.",
+                "Tulis, edit, dan atur catatan Anda dengan mudah.",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(
                   fontSize: 16,
