@@ -149,6 +149,28 @@ class NitaProfilePage extends StatelessWidget {
                               ),
                             ),
                           ),
+                           const SizedBox(height: 28),
+
+                          //icon ig + github + linkedin
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _socialMiniAvatar(
+                                assetPath: 'assets/images/icon_ig.png',
+                                url: 'https://instagram.com/',
+                              ),
+                              const SizedBox(width: 18),
+                              _socialMiniAvatar(
+                                assetPath: 'assets/images/icon_git.png',
+                                url: 'https://github.com/',
+                              ),
+                              const SizedBox(width: 18),
+                              _socialMiniAvatar(
+                                assetPath: 'assets/images/icon_link.png',
+                                url: 'https://linkedin.com/',
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -192,40 +214,40 @@ Widget _circleButton({
   );
 }
 
-//sosmed icon
+//sosmed mini icon
     Widget _socialMiniAvatar({
-    required String assetPath,
-    required String url,
-  }) {
-    return InkWell(
-      onTap: () async {
-        final uri = Uri.parse(url);
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri, mode: LaunchMode.externalApplication);
-        }
-      },
-      child: Container(
-        width: 64,
-        height: 64,
-        padding: const EdgeInsets.all(1.5), // 👈 border tipis
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: blush,
-            width: 1.5,
-          ),
-        ),
-        child: ClipOval(
-          child: Image.asset(
-            assetPath,
-            fit: BoxFit.cover,
-          ),
+  required String assetPath,
+  required String url,
+}) {
+  return InkWell(
+    onTap: () async {
+      final uri = Uri.parse(url);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      }
+    },
+    child: Container(
+      width: 64,
+      height: 64,
+      padding: const EdgeInsets.all(1.5),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: NitaProfilePage.blush,
+          width: 1.5,
         ),
       ),
-    );
-  }
+      child: ClipOval(
+        child: Image.asset(
+          assetPath,
+          fit: BoxFit.cover,
+        ),
+      ),
+    ),
+  );
+}
 
-
+//item
 class _StatItem extends StatelessWidget {
   final String title;
   final String value;
