@@ -26,7 +26,7 @@ class ProfileTeamPage extends StatelessWidget {
         "image": "https://i.pravatar.cc/400?img=33",
       },
       {
-        "name": "Nama Mahasiswa 4",
+        "name": "Rismanita Lestari",
         "role": "Role 4",
         "image": "https://i.pravatar.cc/400?img=9",
       },
