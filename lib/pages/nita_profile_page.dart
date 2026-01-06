@@ -129,6 +129,24 @@ class NitaProfilePage extends StatelessWidget {
                               _StatItem(title: 'Projects', value: '8'),
                             ],
                           ),
+                          const SizedBox(height: 20),
+
+                          Container(
+                            padding: const EdgeInsets.all(14),
+                            decoration: BoxDecoration(
+                              color: oatMilk.withOpacity(0.6),
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Text(
+                              'halaman profil ini dibuat oleh Rismanita Lestari (1123150058) kelas TI 23 M SE sebagai bagian dari project uas mata kuliah mobile development menggunakan flutter. aplikasi notes ini dibuat fokus pada tampilan sederhana, konsisten, dan mudah digunakan.',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                fontSize: 12,
+                                height: 1.5,
+                                color: Colors.grey[800],
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
