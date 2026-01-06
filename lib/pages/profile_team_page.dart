@@ -83,7 +83,12 @@ class ProfileTeamPage extends StatelessWidget {
         } else if (index == 2) {
           //Navigator.push(context, MaterialPageRoute(builder: (context) => const ));
         } else if (index == 3) {
-          //Navigator.push(context, MaterialPageRoute(builder: (context) => const ));
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const NitaProfilePage(),
+            ),
+          );
         }
       },
       borderRadius: BorderRadius.circular(12),
