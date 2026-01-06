@@ -26,9 +26,10 @@ class NitaProfilePage extends StatelessWidget {
               color: Colors.white.withOpacity(0.65),
             ),
           ),
-         SafeArea(
+          SafeArea(
             child: Column(
               children: [
+                // top bar
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   child: Row(
@@ -53,6 +54,32 @@ class NitaProfilePage extends StatelessWidget {
                         onTap: () {},
                       ),
                     ],
+                  ),
+                ),
+
+                // card utama
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(20),
+                    child: Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(24),
+                        boxShadow: [
+                          BoxShadow(
+                            color: blush.withOpacity(0.3),
+                            blurRadius: 18,
+                            offset: const Offset(0, 8),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: const [
+                          Text('konten profile disini'),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ],
