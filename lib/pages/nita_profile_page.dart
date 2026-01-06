@@ -26,16 +26,33 @@ class NitaProfilePage extends StatelessWidget {
               color: Colors.white.withOpacity(0.65),
             ),
           ),
-          SafeArea(
+         SafeArea(
             child: Column(
               children: [
-                const SizedBox(height: 12),
-                Text(
-                  'profile nita',
-                  style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: redWine,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _circleButton(
+                        icon: Icons.arrow_back_ios_new,
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      Text(
+                        'profile nita',
+                        style: GoogleFonts.poppins(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: redWine,
+                        ),
+                      ),
+                      _circleButton(
+                        icon: Icons.edit_outlined,
+                        onTap: () {},
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -46,3 +63,33 @@ class NitaProfilePage extends StatelessWidget {
     );
   }
 }
+
+//widget
+Widget _circleButton({
+  required IconData icon,
+  required VoidCallback onTap,
+}) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: NitaProfilePage.blush.withOpacity(0.4),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Icon(
+        icon,
+        size: 18,
+        color: NitaProfilePage.redWine,
+      ),
+    ),
+  );
+}
+
