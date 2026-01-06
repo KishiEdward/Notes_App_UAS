@@ -190,6 +190,40 @@ Widget _circleButton({
   );
 }
 
+//sosmed icon
+    Widget _socialMiniAvatar({
+    required String assetPath,
+    required String url,
+  }) {
+    return InkWell(
+      onTap: () async {
+        final uri = Uri.parse(url);
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(uri, mode: LaunchMode.externalApplication);
+        }
+      },
+      child: Container(
+        width: 64,
+        height: 64,
+        padding: const EdgeInsets.all(1.5), // 👈 border tipis
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(
+            color: blush,
+            width: 1.5,
+          ),
+        ),
+        child: ClipOval(
+          child: Image.asset(
+            assetPath,
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
+
+
 class _StatItem extends StatelessWidget {
   final String title;
   final String value;
@@ -198,6 +232,7 @@ class _StatItem extends StatelessWidget {
     required this.title,
     required this.value,
   });
+
 
   @override
   Widget build(BuildContext context) {
