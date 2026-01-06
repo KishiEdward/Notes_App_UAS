@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class NitaProfilePage extends StatelessWidget {
   const NitaProfilePage({super.key});
@@ -11,9 +12,17 @@ class NitaProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      backgroundColor: oatMilk,
       body: Center(
-        child: Text('profile nita'),
+        child: Text(
+          'Profile Nita',
+          style: GoogleFonts.poppins(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: redWine,
+          ),
+        ),
       ),
     );
   }
