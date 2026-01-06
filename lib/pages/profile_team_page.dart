@@ -28,7 +28,7 @@ class ProfileTeamPage extends StatelessWidget {
       {
         "name": "Rismanita Lestari",
         "role": "UI/UX Enthusiast",
-        "image": "https://i.pravatar.cc/400?img=9",
+        "image": "assets/images/loopy_lembur.jpg",
       },
     ];
 
