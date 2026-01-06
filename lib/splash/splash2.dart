@@ -87,6 +87,15 @@ class Splash2 extends StatelessWidget {
                     color: Theme.of(context).disabledColor,
                   ),
                 ),
+                const SizedBox(width: 8),
+                Container(
+                  width: 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).disabledColor,
+                  ),
+                ),
               ],
             ),
 

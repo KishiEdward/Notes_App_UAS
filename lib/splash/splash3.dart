@@ -77,6 +77,15 @@ class Splash3 extends StatelessWidget {
                     color: Theme.of(context).primaryColor,
                   ),
                 ),
+                const SizedBox(width: 8),
+                Container(
+                  width: 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).disabledColor,
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 40.0),
