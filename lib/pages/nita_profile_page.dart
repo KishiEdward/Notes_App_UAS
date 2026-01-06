@@ -80,7 +80,7 @@ class NitaProfilePage extends StatelessWidget {
 
                           // avatar profile
                           Container(
-                            padding: const EdgeInsets.all(3), // border tipis
+                            padding: const EdgeInsets.all(3),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               border: Border.all(
@@ -93,6 +93,29 @@ class NitaProfilePage extends StatelessWidget {
                               backgroundImage: AssetImage(
                                 'assets/images/loopy_lembur.jpg',
                               ),
+                            ),
+                          ),
+
+                          const SizedBox(height: 12),
+
+                          // nama
+                          Text(
+                            'Rismanita Lestari',
+                            style: GoogleFonts.poppins(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: redWine,
+                            ),
+                          ),
+
+                          const SizedBox(height: 4),
+
+                          // role
+                          Text(
+                            'Mobile Developer • UI/UX Enthusiast',
+                            style: GoogleFonts.poppins(
+                              fontSize: 12,
+                              color: Colors.grey[600],
                             ),
                           ),
                         ],
