@@ -27,14 +27,18 @@ class NitaProfilePage extends StatelessWidget {
             ),
           ),
           SafeArea(
-            child: Center(
-              child: Text(
-                'profile nita',
-                style: GoogleFonts.poppins(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+            child: Column(
+              children: [
+                const SizedBox(height: 12),
+                Text(
+                  'profile nita',
+                  style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: redWine,
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ],
