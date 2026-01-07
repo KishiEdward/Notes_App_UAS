@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:notesapp/pages/ivan_page.dart';
 import 'dzidan_page.dart';
 //import halaman masing masing
 
@@ -81,6 +82,12 @@ class ProfileTeamPage extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const DzidanPage()),
+          );
+        } else if (index == 1) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const IvanPage()),
+            // Ganti 'NamaHalamanAnda' dengan nama class halaman profile Anda
           );
         }
       },
