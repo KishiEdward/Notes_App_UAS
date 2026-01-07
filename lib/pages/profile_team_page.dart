@@ -3,7 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:notesapp/pages/nita_profile_page.dart';
 
 
+import 'dzidan_page.dart';
 //import halaman masing masing
+
 class ProfileTeamPage extends StatelessWidget {
   const ProfileTeamPage({super.key});
 
@@ -11,9 +13,9 @@ class ProfileTeamPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Map<String, String>> members = [
       {
-        "name": "Nama Mahasiswa 1",
-        "role": "Role 1",
-        "image": "https://i.pravatar.cc/400?img=11", //nanti ganti foto masing masing
+        "name": "Dzidan Rafi Habibie",
+        "role": "Project Manager",
+        "image": "assets/images/dzidan/dzidan_img1.jpg",
       },
       {
         "name": "Nama Mahasiswa 2",
@@ -73,9 +75,11 @@ class ProfileTeamPage extends StatelessWidget {
     Map<String, String> member,
     int index,
   ) {
+    String imagePath = member["image"]!;
+    bool isNetworkImage = imagePath.startsWith('http');
+
     return InkWell(
       onTap: () {
-        //navigasi di sini untuk ke halaman profil masing masing
         if (index == 0) {
           //Navigator.push(context, MaterialPageRoute(builder: (context) => const ));
         } else if (index == 1) {
@@ -88,6 +92,9 @@ class ProfileTeamPage extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) => const NitaProfilePage(),
             ),
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const DzidanPage()),
           );
         }
       },
@@ -108,42 +115,57 @@ class ProfileTeamPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Expanded(
-              child: Image.network(
-                member["image"]!,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) =>
-                    const Center(child: Icon(Icons.person, color: Colors.grey)),
-              ),
+            AspectRatio(
+              aspectRatio: 1,
+              child: isNetworkImage
+                  ? Image.network(
+                      imagePath,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) =>
+                          const Center(
+                            child: Icon(Icons.person, color: Colors.grey),
+                          ),
+                    )
+                  : Image.asset(
+                      imagePath,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) =>
+                          const Center(
+                            child: Icon(Icons.person, color: Colors.grey),
+                          ),
+                    ),
             ),
-            Container(
-              color: const Color(0xFF29B6F6),
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
-              child: Column(
-                children: [
-                  Text(
-                    member["name"]!,
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
+            Expanded(
+              child: Container(
+                color: const Color(0xFF29B6F6),
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      member["name"]!,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    member["role"]!,
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
-                      color: Colors.white.withOpacity(0.9),
-                      fontSize: 10,
-                      fontWeight: FontWeight.w400,
+                    Text(
+                      member["role"]!,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
+                        color: Colors.white.withOpacity(0.9),
+                        fontSize: 10,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],

@@ -8,8 +8,6 @@ class FirestoreService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final StreakService _streakService = StreakService();
 
-  CollectionReference get _notesCollection => _db.collection('notes');
-
   Stream<List<Note>> getNotesStream() {
     final user = _auth.currentUser;
     if (user == null) {
@@ -35,6 +33,28 @@ class FirestoreService {
         });
   }
 
+  Stream<List<Note>> getArchivedNotesStream() {
+    final user = _auth.currentUser;
+    if (user == null) {
+      return Stream.value([]);
+    }
+
+    return _db
+        .collection('notes')
+        .where('userId', isEqualTo: user.uid)
+        .where('isArchived', isEqualTo: true)
+        .where('isTrashed', isEqualTo: false)
+        .snapshots()
+        .map((snapshot) {
+          final notes = snapshot.docs.map((doc) {
+            return Note.fromMap(doc.data(), doc.id);
+          }).toList();
+
+          notes.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+          return notes;
+        });
+  }
+
   Future<void> addNote(
     String title,
     String content,
@@ -52,6 +72,7 @@ class FirestoreService {
       'category': category,
       'isPinned': isPinned,
       'isTrashed': false,
+      'isArchived': false,
       'trashedAt': null,
       'createdAt': FieldValue.serverTimestamp(),
       'updatedAt': FieldValue.serverTimestamp(),
@@ -86,6 +107,13 @@ class FirestoreService {
     });
   }
 
+  Future<void> toggleArchive(String id, bool currentStatus) async {
+    await _db.collection('notes').doc(id).update({
+      'isArchived': !currentStatus,
+      'updatedAt': FieldValue.serverTimestamp(),
+    });
+  }
+
   Future<void> moveToTrash(String id) async {
     await _db.collection('notes').doc(id).update({
       'isTrashed': true,
@@ -105,21 +133,6 @@ class FirestoreService {
 
   Future<void> deleteNote(String id) async {
     await _db.collection('notes').doc(id).delete();
-  }
-
-  Future<List<Note>> getAllNotes() async {
-    final user = _auth.currentUser;
-    if (user == null) return [];
-
-    final snapshot = await _db
-        .collection('notes')
-        .where('userId', isEqualTo: user.uid)
-        .where('isTrashed', isEqualTo: false)
-        .get();
-
-    return snapshot.docs.map((doc) {
-      return Note.fromMap(doc.data(), doc.id);
-    }).toList();
   }
 
   Future<int> cleanupOldTrashedNotes() async {

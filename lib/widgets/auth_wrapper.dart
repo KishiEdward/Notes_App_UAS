@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notesapp/splash/splash1.dart';
-import 'package:notesapp/pages/home_page.dart';
 import 'package:notesapp/services/auth_service.dart';
-import 'package:flutter/foundation.dart';
 import 'package:notesapp/splash/splash_lottie.dart';
 
 class AuthWrapper extends StatefulWidget {
@@ -25,12 +23,12 @@ class _AuthWrapperState extends State<AuthWrapper> {
   Future<void> _checkAuth() async {
     try {
       await Future.delayed(const Duration(milliseconds: 500));
-      
+
       final user = FirebaseAuth.instance.currentUser;
       if (user == null) {
         final authService = AuthService();
         final isGoogleSignedIn = await authService.isGoogleSignedIn();
-        
+
         if (isGoogleSignedIn) {
           await authService.silentGoogleSignIn();
         }
@@ -71,9 +69,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
+            body: Center(child: CircularProgressIndicator()),
           );
         }
 

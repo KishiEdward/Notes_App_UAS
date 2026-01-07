@@ -7,7 +7,8 @@ class NotificationSettingsPage extends StatefulWidget {
   const NotificationSettingsPage({super.key});
 
   @override
-  State<NotificationSettingsPage> createState() => _NotificationSettingsPageState();
+  State<NotificationSettingsPage> createState() =>
+      _NotificationSettingsPageState();
 }
 
 class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
@@ -39,6 +40,8 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('streakReminderEnabled', value);
   }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -60,7 +63,10 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
           const Divider(),
           SwitchListTile(
             title: Text('Daily Reminder (8 AM)', style: GoogleFonts.poppins()),
-            subtitle: Text('Ingetin bikin catatan tiap pagi', style: GoogleFonts.poppins(fontSize: 12)),
+            subtitle: Text(
+              'Ingetin bikin catatan tiap pagi',
+              style: GoogleFonts.poppins(fontSize: 12),
+            ),
             value: _dailyReminderEnabled,
             onChanged: (value) async {
               setState(() => _dailyReminderEnabled = value);
@@ -69,7 +75,12 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
                 await _fcmService.scheduleDailyReminder();
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Daily reminder enabled! 🌅', style: GoogleFonts.poppins())),
+                    SnackBar(
+                      content: Text(
+                        'Daily reminder enabled! 🌅',
+                        style: GoogleFonts.poppins(),
+                      ),
+                    ),
                   );
                 }
               } else {
@@ -79,7 +90,10 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
           ),
           SwitchListTile(
             title: Text('Streak Reminder (8 PM)', style: GoogleFonts.poppins()),
-            subtitle: Text('Ingetin jaga streak kalau belum bikin catatan', style: GoogleFonts.poppins(fontSize: 12)),
+            subtitle: Text(
+              'Ingetin jaga streak kalau belum bikin catatan',
+              style: GoogleFonts.poppins(fontSize: 12),
+            ),
             value: _streakReminderEnabled,
             onChanged: (value) async {
               setState(() => _streakReminderEnabled = value);
@@ -88,7 +102,12 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
                 await _fcmService.scheduleStreakReminder();
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Streak reminder enabled! 🔥', style: GoogleFonts.poppins())),
+                    SnackBar(
+                      content: Text(
+                        'Streak reminder enabled! 🔥',
+                        style: GoogleFonts.poppins(),
+                      ),
+                    ),
                   );
                 }
               } else {
@@ -97,7 +116,13 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
             },
           ),
           const SizedBox(height: 20),
-          Text('Debug Tools', style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold)),
+          Text(
+            'Debug Tools',
+            style: GoogleFonts.poppins(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(height: 10),
           ElevatedButton.icon(
             onPressed: () async {
@@ -129,7 +154,9 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      enabled ? 'Notifications ENABLED ✅' : 'Notifications DISABLED ❌',
+                      enabled
+                          ? 'Notifications ENABLED ✅'
+                          : 'Notifications DISABLED ❌',
                       style: GoogleFonts.poppins(),
                     ),
                   ),
@@ -146,7 +173,10 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
               if (context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('Permission requested!', style: GoogleFonts.poppins()),
+                    content: Text(
+                      'Permission requested!',
+                      style: GoogleFonts.poppins(),
+                    ),
                   ),
                 );
               }

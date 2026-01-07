@@ -5,7 +5,6 @@ import 'package:notesapp/services/auth_service.dart';
 import 'package:notesapp/services/session_manager.dart';
 
 import 'package:notesapp/pages/forgot_password-e.dart';
-import 'package:notesapp/pages/home_page.dart';
 import 'package:notesapp/splash/splash_lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:notesapp/pages/onboarding_page.dart';
@@ -311,13 +310,20 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                                         ),
                                       );
 
-                                      await SessionManager().saveLoginSession('email');
+                                      await SessionManager().saveLoginSession(
+                                        'email',
+                                      );
 
-                                      final prefs = await SharedPreferences.getInstance();
-                                      final isFirstTime = prefs.getBool('is_first_time') ?? true;
+                                      final prefs =
+                                          await SharedPreferences.getInstance();
+                                      final isFirstTime =
+                                          prefs.getBool('is_first_time') ??
+                                          true;
 
                                       if (isFirstTime) {
-                                        Navigator.of(context).pushAndRemoveUntil(
+                                        Navigator.of(
+                                          context,
+                                        ).pushAndRemoveUntil(
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 const OnboardingPage(),
@@ -325,7 +331,9 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                                           (route) => false,
                                         );
                                       } else {
-                                        Navigator.of(context).pushAndRemoveUntil(
+                                        Navigator.of(
+                                          context,
+                                        ).pushAndRemoveUntil(
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 const MyLottie(),
@@ -432,7 +440,9 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                                   ),
                                 );
 
-                                await SessionManager().saveLoginSession('google');
+                                await SessionManager().saveLoginSession(
+                                  'google',
+                                );
 
                                 Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(

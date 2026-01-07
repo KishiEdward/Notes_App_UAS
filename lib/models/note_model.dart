@@ -8,6 +8,7 @@ class Note {
   final String category;
   final bool isPinned;
   final bool isTrashed;
+  final bool isArchived;
   final DateTime createdAt;
   final DateTime updatedAt;
   final DateTime? reminderDate;
@@ -21,6 +22,7 @@ class Note {
     this.category = 'All',
     this.isPinned = false,
     this.isTrashed = false,
+    this.isArchived = false,
     required this.createdAt,
     required this.updatedAt,
     this.reminderDate,
@@ -45,6 +47,7 @@ class Note {
       category: data['category']?.toString() ?? 'All',
       isPinned: data['isPinned'] ?? false,
       isTrashed: data['isTrashed'] ?? false,
+      isArchived: data['isArchived'] ?? false,
       createdAt: toDateTime(data['createdAt']),
       updatedAt: toDateTime(data['updatedAt']),
       reminderDate: data['reminderDate'] != null
@@ -64,6 +67,7 @@ class Note {
       'category': category,
       'isPinned': isPinned,
       'isTrashed': isTrashed,
+      'isArchived': isArchived,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
       'reminderDate': reminderDate,

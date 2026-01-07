@@ -5,25 +5,23 @@ class NotificationService {
   final FirestoreService _firestoreService = FirestoreService();
 
   Future<List<Note>> getUpcomingReminders() async {
-    final notes = await _firestoreService.getAllNotes();
+    final notes = await _firestoreService.getNotesStream().first;
     final now = DateTime.now();
-    
+
     return notes.where((note) {
       if (note.reminderDate == null) return false;
       return note.reminderDate!.isAfter(now);
-    }).toList()
-      ..sort((a, b) => a.reminderDate!.compareTo(b.reminderDate!));
+    }).toList()..sort((a, b) => a.reminderDate!.compareTo(b.reminderDate!));
   }
 
   Future<List<Note>> getOverdueReminders() async {
-    final notes = await _firestoreService.getAllNotes();
+    final notes = await _firestoreService.getNotesStream().first;
     final now = DateTime.now();
-    
+
     return notes.where((note) {
       if (note.reminderDate == null) return false;
       return note.reminderDate!.isBefore(now);
-    }).toList()
-      ..sort((a, b) => b.reminderDate!.compareTo(a.reminderDate!));
+    }).toList()..sort((a, b) => b.reminderDate!.compareTo(a.reminderDate!));
   }
 
   Future<int> getNotificationCount() async {

@@ -5,77 +5,106 @@ import 'package:notesapp/services/fcm_service.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
+
   final FCMService _fcmService = FCMService();
 
-  // Sign in with Google
+  // =========================
+  // SIGN IN WITH GOOGLE
+  // =========================
   Future<UserCredential?> signInWithGoogle() async {
     try {
-      // Trigger the authentication flow
+      // Trigger Google sign-in flow
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
       if (googleUser == null) {
-        return null; // The user canceled the sign-in
+        // User cancel login
+        return null;
       }
 
-      // Obtain the auth details from the request
+      // 🔴 FIX UTAMA: authentication adalah Future
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
 
-
-      final OAuthCredential oauthCred = GoogleAuthProvider.credential(
+      final OAuthCredential oauthCredential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      final credential = await _auth.signInWithCredential(oauthCred);
-      
+      final UserCredential credential = await _auth.signInWithCredential(
+        oauthCredential,
+      );
+
       if (credential.user != null) {
         await _fcmService.saveTokenToFirestore(credential.user!.uid);
       }
-      
+
       return credential;
     } catch (e) {
       debugPrint("Error signing in with Google: $e");
-      rethrow; // Rethrow to let UI handle the error message
+      rethrow;
     }
   }
 
+  // =========================
+  // CHECK GOOGLE SIGN-IN
+  // =========================
   Future<bool> isGoogleSignedIn() async {
     return await _googleSignIn.isSignedIn();
   }
 
+  // =========================
+  // SILENT GOOGLE SIGN-IN
+  // =========================
   Future<UserCredential?> silentGoogleSignIn() async {
     try {
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signInSilently();
-      
+      final GoogleSignInAccount? googleUser = await _googleSignIn
+          .signInSilently();
+
       if (googleUser == null) {
         return null;
       }
 
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      // 🔴 FIX UTAMA DI SINI JUGA
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
       final OAuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      return await _auth.signInWithCredential(credential);
+      final UserCredential userCredential = await _auth.signInWithCredential(
+        credential,
+      );
+
+      if (userCredential.user != null) {
+        await _fcmService.saveTokenToFirestore(userCredential.user!.uid);
+      }
+
+      return userCredential;
     } catch (e) {
       debugPrint("Silent sign in failed: $e");
       return null;
     }
   }
 
-  // Register with Email and Password
+  // =========================
+  // REGISTER EMAIL & PASSWORD
+  // =========================
   Future<UserCredential?> registerWithEmail(
     String email,
     String password,
   ) async {
     try {
-      final credential = await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      final UserCredential credential = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      if (credential.user != null) {
+        await _fcmService.saveTokenToFirestore(credential.user!.uid);
+      }
+
       return credential;
     } catch (e) {
       debugPrint("Error registering with email: $e");
@@ -83,35 +112,48 @@ class AuthService {
     }
   }
 
-  // Sign in with Email and Password
+  // =========================
+  // SIGN IN EMAIL & PASSWORD
+  // =========================
   Future<User?> signInWithEmail(String email, String password) async {
     try {
-      final credential = await _auth.signInWithEmailAndPassword(
+      final UserCredential credential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      
+
       if (credential.user != null) {
         await _fcmService.saveTokenToFirestore(credential.user!.uid);
       }
-      
+
       return credential.user;
     } catch (e) {
-      throw Exception(e.toString());
+      debugPrint("Error signing in with email: $e");
+      rethrow;
     }
   }
 
-  // Sign out
+  // =========================
+  // SIGN OUT
+  // =========================
   Future<void> signOut() async {
-    await _fcmService.deleteToken();
-    await _googleSignIn.signOut();
-    await _auth.signOut();
+    try {
+      await _fcmService.deleteToken();
+      await _googleSignIn.signOut();
+      await _auth.signOut();
+    } catch (e) {
+      debugPrint("Error signing out: $e");
+    }
   }
 
+  // =========================
+  // RESET PASSWORD
+  // =========================
   Future<void> resetPassword(String email) async {
     if (email.isEmpty) {
       throw Exception("Email tidak boleh kosong");
     }
+
     await _auth.sendPasswordResetEmail(email: email);
   }
 }

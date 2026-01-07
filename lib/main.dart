@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:notesapp/splash/splash1.dart';
 import 'package:notesapp/services/settings_service.dart';
 import 'package:notesapp/services/fcm_service.dart';
 import 'package:notesapp/utils/fcm_background_handler.dart';
@@ -17,14 +16,13 @@ void main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    
+
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
-    
+
     if (kIsWeb) {
       await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
     }
-  } catch (e) {
-  }
+  } catch (e) {}
   runApp(const RestartWidget(child: MyApp()));
 }
 
@@ -52,10 +50,7 @@ class _RestartWidgetState extends State<RestartWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return KeyedSubtree(
-      key: key,
-      child: widget.child,
-    );
+    return KeyedSubtree(key: key, child: widget.child);
   }
 }
 
@@ -114,7 +109,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: "NekoMind",
       themeMode: _darkMode ? ThemeMode.dark : ThemeMode.light,
-      
+
       builder: (context, child) {
         final mediaQueryData = MediaQuery.of(context);
         return ShowCaseWidget(
@@ -142,7 +137,7 @@ class _MyAppState extends State<MyApp> {
           iconTheme: IconThemeData(color: Colors.black),
         ),
       ),
-      
+
       darkTheme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
@@ -158,7 +153,7 @@ class _MyAppState extends State<MyApp> {
           iconTheme: IconThemeData(color: Colors.white),
         ),
       ),
-      
+
       home: const AuthWrapper(),
     );
   }

@@ -1,9 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
-import 'package:notesapp/pages/login_page.dart';
 import 'package:notesapp/pages/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,30 +20,30 @@ class _OnboardingPageState extends State<OnboardingPage> {
     await prefs.setBool('is_first_time', false);
 
     if (context.mounted) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const HomePage()),
-      );
+      Navigator.of(
+        context,
+      ).pushReplacement(MaterialPageRoute(builder: (_) => const HomePage()));
     }
   }
 
   PageDecoration _getPageDecoration() {
     return PageDecoration(
       titleTextStyle: GoogleFonts.poppins(
-        fontSize: 24.0, 
+        fontSize: 24.0,
         fontWeight: FontWeight.bold,
         color: Theme.of(context).primaryColor,
       ),
       bodyTextStyle: GoogleFonts.poppins(
         fontSize: 16.0,
         height: 1.5,
-        color: Theme.of(context).brightness == Brightness.dark 
-            ? Colors.grey.shade300 
+        color: Theme.of(context).brightness == Brightness.dark
+            ? Colors.grey.shade300
             : Colors.grey.shade700,
       ),
       bodyPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       pageColor: Theme.of(context).scaffoldBackgroundColor,
-      imagePadding: const EdgeInsets.only(top: 80), 
-      imageFlex: 2, 
+      imagePadding: const EdgeInsets.only(top: 80),
+      imageFlex: 2,
     );
   }
 
@@ -61,19 +59,28 @@ class _OnboardingPageState extends State<OnboardingPage> {
         PageViewModel(
           title: "Selamat Datang",
           body: "Catat ide, tugas, dan hal penting lainnya dengan NekoMind.",
-          image: Lottie.asset('assets/animations/White Cat Peeping.json', height: 200),
+          image: Lottie.asset(
+            'assets/animations/White Cat Peeping.json',
+            height: 200,
+          ),
           decoration: _getPageDecoration(),
         ),
         PageViewModel(
           title: "Fitur Lengkap",
           body: "Mulai dari kategori, pin, hingga pencarian yang cepat.",
-          image: Lottie.asset('assets/animations/Black Cat Green Eyes Peeping.json', height: 200),
+          image: Lottie.asset(
+            'assets/animations/Black Cat Green Eyes Peeping.json',
+            height: 200,
+          ),
           decoration: _getPageDecoration(),
         ),
         PageViewModel(
           title: "Tetap Produktif",
           body: "Jaga streak dan aktifkan reminder agar tidak lupa.",
-          image: Lottie.asset('assets/animations/Fish_Jumping.json', height: 200),
+          image: Lottie.asset(
+            'assets/animations/Fish_Jumping.json',
+            height: 200,
+          ),
           decoration: _getPageDecoration(),
         ),
       ],
@@ -85,9 +92,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
       showBackButton: false,
       back: const Icon(Icons.arrow_back),
       skip: Text(
-        'Lewati', 
+        'Lewati',
         style: TextStyle(
-          fontWeight: FontWeight.bold, 
+          fontWeight: FontWeight.bold,
           fontSize: 16,
           color: Theme.of(context).primaryColor,
         ),
@@ -99,7 +106,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
           color: Theme.of(context).primaryColor.withOpacity(0.1),
           shape: BoxShape.circle,
         ),
-        child: Icon(Icons.arrow_forward_rounded, color: Theme.of(context).primaryColor),
+        child: Icon(
+          Icons.arrow_forward_rounded,
+          color: Theme.of(context).primaryColor,
+        ),
       ),
       done: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -109,10 +119,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
         ),
         child: const Text(
           'Mulai',
-          style: TextStyle(
-            fontWeight: FontWeight.w600, 
-            color: Colors.white,
-          ),
+          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
         ),
       ),
       curve: Curves.easeInOut,
