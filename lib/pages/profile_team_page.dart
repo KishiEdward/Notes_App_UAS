@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notesapp/pages/nita_profile_page.dart';
-
-
 import 'dzidan_page.dart';
 //import halaman masing masing
 
@@ -81,22 +79,19 @@ class ProfileTeamPage extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (index == 0) {
-          //Navigator.push(context, MaterialPageRoute(builder: (context) => const ));
-        } else if (index == 1) {
-          //Navigator.push(context, MaterialPageRoute(builder: (context) => const ));
-        } else if (index == 2) {
-          //Navigator.push(context, MaterialPageRoute(builder: (context) => const ));
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const DzidanPage()),
+          );
         } else if (index == 3) {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => const NitaProfilePage(),
             ),
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const DzidanPage()),
           );
         }
+        // Tambahkan navigasi untuk anggota lain jika sudah ada halamannya
       },
       borderRadius: BorderRadius.circular(12),
       child: Container(

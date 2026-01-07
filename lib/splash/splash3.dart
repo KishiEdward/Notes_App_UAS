@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notesapp/splash/splash4.dart';
+import 'package:notesapp/pages/login_page.dart';
 
 class Splash3 extends StatelessWidget {
   const Splash3({super.key});
