@@ -44,7 +44,7 @@ class Splash2 extends StatelessWidget {
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 40),
               child: Text(
-                "Tulis, edit, dan atur catatan Anda dengan mudah. Semua dalam satu tempat.",
+                "Tulis, edit, dan atur catatan Anda dengan mudah.",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(
                   fontSize: 16,
@@ -76,6 +76,15 @@ class Splash2 extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(4),
                     color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Container(
+                  width: 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).disabledColor,
                   ),
                 ),
                 const SizedBox(width: 8),
