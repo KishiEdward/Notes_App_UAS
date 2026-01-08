@@ -248,7 +248,7 @@ class DavidProfilePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Skills & Expertise",
+            "Keahlian",
             style: GoogleFonts.poppins(
               color: Colors.white,
               fontSize: 18,
