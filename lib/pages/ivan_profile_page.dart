@@ -19,9 +19,7 @@ class IvanPage extends StatelessWidget {
                   width: double.infinity,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: NetworkImage(
-                        'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
-                      ),
+                      image: AssetImage('assets/images/ivan/splash.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -66,7 +64,7 @@ class IvanPage extends StatelessWidget {
                       ),
                     ),
                     const Text(
-                      "Tangerag,Indonesia",
+                      "Tangerang,Indonesia",
                       style: TextStyle(color: Colors.white70, fontSize: 16),
                     ),
                     const SizedBox(height: 40),
@@ -87,9 +85,9 @@ class IvanPage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        _buildStat("1,250", "Activities"),
-                        _buildStat("239", "Experiences"),
-                        _buildStat("125", "Followers"),
+                        _buildStat("15", "Flutter Apps"),
+                        _buildStat("7", "website developed"),
+                        _buildStat("1", "experience"),
                       ],
                     ),
                   ),
@@ -113,16 +111,19 @@ class IvanPage extends StatelessWidget {
                     "Valley of the king & beyond",
                     "Giza",
                     "17/08/2019",
+                    "assets/images/ivan/gambar1.jpg",
                   ),
                   _buildActivityCard(
                     "Beaches of carribean",
                     "Bahamas",
                     "17/08/2019",
+                    "assets/images/ivan/gambar2.jpg",
                   ),
                   _buildActivityCard(
-                    "Killing the mountain",
+                    "Killington mountain",
                     "Nepal",
                     "17/08/2019",
+                    "assets/images/ivan/gambar3.jpg",
                   ),
                 ],
               ),
@@ -149,7 +150,12 @@ class IvanPage extends StatelessWidget {
     );
   }
 
-  Widget _buildActivityCard(String title, String location, String date) {
+  Widget _buildActivityCard(
+    String title,
+    String location,
+    String date,
+    String imagePath,
+  ) {
     return Container(
       margin: const EdgeInsets.only(bottom: 15),
       padding: const EdgeInsets.all(10),
@@ -165,8 +171,18 @@ class IvanPage extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.blue[100],
               borderRadius: BorderRadius.circular(8),
+              image: DecorationImage(
+                image: AssetImage(imagePath),
+                fit: BoxFit.cover,
+              ),
             ),
-            child: const Icon(Icons.image, color: Colors.blue),
+            child: Image.asset(
+              imagePath,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return const Icon(Icons.image, color: Colors.blue);
+              },
+            ),
           ),
           const SizedBox(width: 15),
           Column(
