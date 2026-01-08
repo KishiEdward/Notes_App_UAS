@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notesapp/pages/nita_profile_page.dart';
 import 'package:notesapp/pages/david_profile_page.dart';
-import 'dzidan_page.dart';
+import 'package:notesapp/pages/dzidan_profile_page.dart';
 
 class ProfileTeamPage extends StatelessWidget {
   const ProfileTeamPage({super.key});
@@ -91,9 +91,7 @@ class ProfileTeamPage extends StatelessWidget {
         } else if (index == 3) {
           Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (context) => const NitaProfilePage(),
-            ),
+            MaterialPageRoute(builder: (context) => const NitaProfilePage()),
           );
         }
       },
