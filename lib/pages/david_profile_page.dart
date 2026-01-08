@@ -101,7 +101,7 @@ class DavidProfilePage extends StatelessWidget {
           child: ElevatedButton.icon(
             onPressed: () {},
             icon: const Icon(Icons.add, size: 18),
-            label: const Text("Add to Story"),
+            label: const Text("Tambah Story"),
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF1877F2),
               foregroundColor: Colors.white,
