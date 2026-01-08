@@ -71,7 +71,7 @@ class DavidProfilePage extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            "Building the future with code 💻",
+            "TECHNOLOGY ENTHUSIAST🧑‍💻 . coding itu susah, yang mudah niat",
             style: GoogleFonts.poppins(
               color: Colors.grey[300],
               fontSize: 14,
