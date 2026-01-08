@@ -108,18 +108,21 @@ class IvanPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 15),
                   _buildActivityCard(
+                    context,
                     "Valley of the king & beyond",
                     "Giza",
                     "17/08/2019",
                     "assets/images/ivan/gambar1.jpg",
                   ),
                   _buildActivityCard(
+                    context,
                     "Beaches of carribean",
                     "Bahamas",
                     "17/08/2019",
                     "assets/images/ivan/gambar2.jpg",
                   ),
                   _buildActivityCard(
+                    context,
                     "Killington mountain",
                     "Nepal",
                     "17/08/2019",
@@ -151,53 +154,152 @@ class IvanPage extends StatelessWidget {
   }
 
   Widget _buildActivityCard(
+    BuildContext context,
     String title,
     String location,
     String date,
     String imagePath,
   ) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 15),
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-              color: Colors.blue[100],
-              borderRadius: BorderRadius.circular(8),
-              image: DecorationImage(
-                image: AssetImage(imagePath),
+    return GestureDetector(
+      onTap: () {
+        _showActivityDetail(context, title, location, date, imagePath);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 15),
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                color: Colors.blue[100],
+                borderRadius: BorderRadius.circular(8),
+                image: DecorationImage(
+                  image: AssetImage(imagePath),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Image.asset(
+                imagePath,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Icon(Icons.image, color: Colors.blue);
+                },
               ),
             ),
-            child: Image.asset(
-              imagePath,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return const Icon(Icons.image, color: Colors.blue);
-              },
+            const SizedBox(width: 15),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
+                  Text(
+                    location,
+                    style: const TextStyle(color: Colors.grey),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    date,
+                    style: const TextStyle(color: Colors.grey, fontSize: 12),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(width: 15),
-          Column(
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showActivityDetail(
+    BuildContext context,
+    String title,
+    String location,
+    String date,
+    String imagePath,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(20),
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-              Text(location, style: const TextStyle(color: Colors.grey)),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  imagePath,
+                  height: 200,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      height: 200,
+                      color: Colors.grey[300],
+                      child: const Icon(Icons.image),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 20),
               Text(
-                date,
-                style: const TextStyle(color: Colors.grey, fontSize: 12),
+                title,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  const Icon(Icons.location_on, color: Colors.red, size: 20),
+                  const SizedBox(width: 8),
+                  Text(
+                    location,
+                    style: const TextStyle(fontSize: 16, color: Colors.grey),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  const Icon(
+                    Icons.calendar_today,
+                    color: Colors.blue,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    date,
+                    style: const TextStyle(fontSize: 16, color: Colors.grey),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 1),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Close'),
+                ),
               ),
             ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
