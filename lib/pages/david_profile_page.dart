@@ -65,6 +65,9 @@ class DavidProfilePage extends StatelessWidget {
           _buildIntroSection(),
           const SizedBox(height: 16),
           _buildSkillsSection(),
+          const SizedBox(height: 16),
+          _buildAboutSection(),
+          const SizedBox(height: 30),
         ],
       ),
     );
