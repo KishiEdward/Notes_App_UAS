@@ -212,7 +212,7 @@ class DavidProfilePage extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: const Color(0xFF242526), width: 4),
+              border: Border.all(color: const Color(0xFF1877F2), width: 4),
             ),
             child: const CircleAvatar(
               radius: 60,
