@@ -83,6 +83,7 @@ flutter:
     - assets/images/
     - assets/animations/
     - assets/images/dzidan/
+    - assets/images/david/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

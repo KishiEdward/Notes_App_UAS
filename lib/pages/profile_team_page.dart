@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:notesapp/pages/ivan_page.dart';
-import 'dzidan_page.dart';
-//import halaman masing masing
+import 'package:notesapp/pages/nita_profile_page.dart';
+import 'package:notesapp/pages/david_profile_page.dart';
+import 'package:notesapp/pages/dzidan_profile_page.dart';
 
 class ProfileTeamPage extends StatelessWidget {
   const ProfileTeamPage({super.key});
@@ -16,9 +16,9 @@ class ProfileTeamPage extends StatelessWidget {
         "image": "assets/images/dzidan/dzidan_img1.jpg",
       },
       {
-        "name": "Nama Mahasiswa 2",
-        "role": "Role 2",
-        "image": "https://i.pravatar.cc/400?img=5",
+        "name": "David Saputra",
+        "role": "Full Stack Developer",
+        "image": "assets/images/david/david_team.jpg",
       },
       {
         "name": "Nama Mahasiswa 3",
@@ -26,9 +26,9 @@ class ProfileTeamPage extends StatelessWidget {
         "image": "https://i.pravatar.cc/400?img=33",
       },
       {
-        "name": "Nama Mahasiswa 4",
-        "role": "Role 4",
-        "image": "https://i.pravatar.cc/400?img=9",
+        "name": "Rismanita Lestari",
+        "role": "UI/UX Enthusiast",
+        "image": "assets/images/loopy_lembur.jpg",
       },
     ];
 
@@ -86,8 +86,12 @@ class ProfileTeamPage extends StatelessWidget {
         } else if (index == 1) {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const IvanPage()),
-            // Ganti 'NamaHalamanAnda' dengan nama class halaman profile Anda
+            MaterialPageRoute(builder: (context) => const DavidProfilePage()),
+          );
+        } else if (index == 3) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const NitaProfilePage()),
           );
         }
       },
