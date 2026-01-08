@@ -341,9 +341,9 @@ class DavidProfilePage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          _buildSocialItem(Icons.code, "GitHub", "github.com/davidsaputra"),
-          _buildSocialItem(Icons.link, "LinkedIn", "linkedin.com/in/davidsaputra"),
-          _buildSocialItem(Icons.email, "Email", "davidsaputra@student.telkomuniversity.ac.id"),
+          _buildSocialItem(Icons.code, "GitHub", "github.com/DavidDSaputra"),
+          _buildSocialItem(Icons.link, "LinkedIn", "linkedin.com/in/david-saputra-98b4b823b"),
+          _buildSocialItem(Icons.email, "Email", "davidsaputra2704@gmail.com"),
         ],
       ),
     );
