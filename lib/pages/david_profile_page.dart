@@ -117,7 +117,7 @@ class DavidProfilePage extends StatelessWidget {
           child: OutlinedButton.icon(
             onPressed: () {},
             icon: const Icon(Icons.edit, size: 18),
-            label: const Text("Edit Profile"),
+            label: const Text("Edit Profil"),
             style: OutlinedButton.styleFrom(
               foregroundColor: Colors.white,
               side: const BorderSide(color: Colors.grey),
