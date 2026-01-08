@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notesapp/pages/nita_profile_page.dart';
+import 'package:notesapp/pages/david_profile_page.dart';
 import 'dzidan_page.dart';
-//import halaman masing masing
 
 class ProfileTeamPage extends StatelessWidget {
   const ProfileTeamPage({super.key});
@@ -16,9 +16,9 @@ class ProfileTeamPage extends StatelessWidget {
         "image": "assets/images/dzidan/dzidan_img1.jpg",
       },
       {
-        "name": "Nama Mahasiswa 2",
-        "role": "Role 2",
-        "image": "https://i.pravatar.cc/400?img=5",
+        "name": "David Saputra",
+        "role": "Full Stack Developer",
+        "image": "assets/images/david/david_team.jpg",
       },
       {
         "name": "Nama Mahasiswa 3",
@@ -83,6 +83,11 @@ class ProfileTeamPage extends StatelessWidget {
             context,
             MaterialPageRoute(builder: (context) => const DzidanPage()),
           );
+        } else if (index == 1) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const DavidProfilePage()),
+          );
         } else if (index == 3) {
           Navigator.push(
             context,
@@ -91,7 +96,6 @@ class ProfileTeamPage extends StatelessWidget {
             ),
           );
         }
-        // Tambahkan navigasi untuk anggota lain jika sudah ada halamannya
       },
       borderRadius: BorderRadius.circular(12),
       child: Container(
