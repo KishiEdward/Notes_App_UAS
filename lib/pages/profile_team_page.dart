@@ -16,9 +16,9 @@ class ProfileTeamPage extends StatelessWidget {
         "image": "assets/images/dzidan/dzidan_img1.jpg",
       },
       {
-        "name": "Nama Mahasiswa 2",
-        "role": "Role 2",
-        "image": "https://i.pravatar.cc/400?img=5",
+        "name": "David Saputra",
+        "role": "Full Stack Developer",
+        "image": "assets/images/david/david_profile.jpg",
       },
       {
         "name": "Nama Mahasiswa 3",
