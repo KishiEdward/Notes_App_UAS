@@ -69,6 +69,15 @@ class DavidProfilePage extends StatelessWidget {
               fontSize: 14,
             ),
           ),
+          const SizedBox(height: 8),
+          Text(
+            "Building the future with code 💻",
+            style: GoogleFonts.poppins(
+              color: Colors.grey[300],
+              fontSize: 14,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
           const SizedBox(height: 16),
           _buildActionButtons(),
           const SizedBox(height: 20),
