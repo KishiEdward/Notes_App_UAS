@@ -83,6 +83,11 @@ class ProfileTeamPage extends StatelessWidget {
             context,
             MaterialPageRoute(builder: (context) => const DzidanPage()),
           );
+        } else if (index == 1) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const DavidProfilePage()),
+          );
         } else if (index == 3) {
           Navigator.push(
             context,
@@ -91,7 +96,6 @@ class ProfileTeamPage extends StatelessWidget {
             ),
           );
         }
-        // Tambahkan navigasi untuk anggota lain jika sudah ada halamannya
       },
       borderRadius: BorderRadius.circular(12),
       child: Container(
