@@ -300,4 +300,73 @@ class DavidProfilePage extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildSocialLinks() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFF242526),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Social Links",
+            style: GoogleFonts.poppins(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 12),
+          _buildSocialItem(Icons.code, "GitHub", "github.com/davidsaputra"),
+          _buildSocialItem(Icons.link, "LinkedIn", "linkedin.com/in/davidsaputra"),
+          _buildSocialItem(Icons.email, "Email", "davidsaputra@student.telkomuniversity.ac.id"),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSocialItem(IconData icon, String platform, String link) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: const Color(0xFF1877F2).withOpacity(0.2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(icon, color: const Color(0xFF1877F2), size: 20),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  platform,
+                  style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                  ),
+                ),
+                Text(
+                  link,
+                  style: GoogleFonts.poppins(
+                    color: Colors.grey[400],
+                    fontSize: 12,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
