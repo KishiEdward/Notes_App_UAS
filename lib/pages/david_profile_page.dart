@@ -256,4 +256,36 @@ class DavidProfilePage extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildAboutSection() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFF242526),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "About",
+            style: GoogleFonts.poppins(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            "Halaman profil ini dibuat oleh David Saputra (1123150039) kelas TI 23 M SE sebagai bagian dari project UAS mata kuliah Mobile Development menggunakan Flutter.\n\nFokus pengembangan: Front-end development, API integration, dan UI/UX design.",
+            style: GoogleFonts.poppins(
+              color: Colors.grey[300],
+              fontSize: 14,
+              height: 1.6,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
