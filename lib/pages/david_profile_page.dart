@@ -186,6 +186,18 @@ class DavidProfilePage extends StatelessWidget {
           ),
         ),
         Positioned(
+          bottom: 10,
+          right: 10,
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: const Color(0xFF242526),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: const Icon(Icons.camera_alt, color: Colors.white, size: 22),
+          ),
+        ),
+        Positioned(
           bottom: -50,
           left: 16,
           child: Container(
