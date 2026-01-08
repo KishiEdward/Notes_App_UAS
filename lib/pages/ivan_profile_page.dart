@@ -31,10 +31,29 @@ class IvanPage extends StatelessWidget {
                 Column(
                   children: [
                     const SizedBox(height: 60),
-                    const CircleAvatar(
-                      radius: 50,
-                      backgroundImage: NetworkImage(
-                        'https://i.pravatar.cc/150?u=a042581f4e29026704d',
+                    SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: ClipOval(
+                        child: Image.asset(
+                          'assets/images/ivan/ivan_profile.jpg',
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              width: 100,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[400],
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(
+                                Icons.person,
+                                size: 50,
+                                color: Colors.white,
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                     const SizedBox(height: 10),

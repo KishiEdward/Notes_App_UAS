@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:notesapp/pages/nita_profile_page.dart';
 import 'package:notesapp/pages/david_profile_page.dart';
 import 'package:notesapp/pages/dzidan_profile_page.dart';
+import 'package:notesapp/pages/ivan_profile_page.dart';
 
 class ProfileTeamPage extends StatelessWidget {
   const ProfileTeamPage({super.key});
@@ -21,9 +22,9 @@ class ProfileTeamPage extends StatelessWidget {
         "image": "assets/images/david/david_team.jpg",
       },
       {
-        "name": "Nama Mahasiswa 3",
-        "role": "Role 3",
-        "image": "https://i.pravatar.cc/400?img=33",
+        "name": "Ivan Darma Saputra",
+        "role": "Mobile Developer",
+        "image": "assets/images/ivan/ivan_profile.jpg",
       },
       {
         "name": "Rismanita Lestari",
@@ -87,6 +88,11 @@ class ProfileTeamPage extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const DavidProfilePage()),
+          );
+        } else if (index == 2) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const IvanPage()),
           );
         } else if (index == 3) {
           Navigator.push(
