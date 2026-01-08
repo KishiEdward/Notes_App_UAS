@@ -151,10 +151,10 @@ class DavidProfilePage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          _buildIntroItem(Icons.code, "Full Stack Developer"),
-          _buildIntroItem(Icons.school, "Telkom University"),
+          _buildIntroItem(Icons.code, "Front End Developer"),
+          _buildIntroItem(Icons.school, "Global Institute Technology and Business"),
           _buildIntroItem(Icons.location_on, "Tangerang, Indonesia"),
-          _buildIntroItem(Icons.calendar_today, "Joined October 2023"),
+          _buildIntroItem(Icons.calendar_today, "Joined September 27, 1945"),
         ],
       ),
     );
