@@ -187,4 +187,70 @@ class DavidProfilePage extends StatelessWidget {
       ],
     );
   }
+
+  Widget _buildSkillsSection() {
+    final skills = [
+      {"name": "Laravel", "color": const Color(0xFFFF2D20)},
+      {"name": "Next.js", "color": const Color(0xFF000000)},
+      {"name": "PHP", "color": const Color(0xFF777BB4)},
+      {"name": "MySQL", "color": const Color(0xFF4479A1)},
+      {"name": "Node.js", "color": const Color(0xFF339933)},
+      {"name": "React.js", "color": const Color(0xFF61DAFB)},
+      {"name": "UI/UX", "color": const Color(0xFFFF7262)},
+      {"name": "Front End", "color": const Color(0xFF1877F2)},
+      {"name": "Tailwind", "color": const Color(0xFF06B6D4)},
+      {"name": "Bootstrap", "color": const Color(0xFF7952B3)},
+    ];
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFF242526),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Skills & Expertise",
+            style: GoogleFonts.poppins(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: skills.map((skill) {
+              return _buildSkillChip(
+                skill["name"] as String,
+                skill["color"] as Color,
+              );
+            }).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSkillChip(String name, Color color) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.15),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: color.withOpacity(0.5)),
+      ),
+      child: Text(
+        name,
+        style: GoogleFonts.poppins(
+          color: color,
+          fontWeight: FontWeight.w600,
+          fontSize: 12,
+        ),
+      ),
+    );
+  }
 }
