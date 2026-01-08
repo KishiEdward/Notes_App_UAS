@@ -18,7 +18,7 @@ class ProfileTeamPage extends StatelessWidget {
       {
         "name": "David Saputra",
         "role": "Full Stack Developer",
-        "image": "assets/images/david/david_profile.jpg",
+        "image": "assets/images/david/david_team.jpg",
       },
       {
         "name": "Nama Mahasiswa 3",
