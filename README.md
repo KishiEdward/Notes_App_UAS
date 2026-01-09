@@ -23,7 +23,7 @@ https://global.ac.id/
 
 Nekomind adalah aplikasi mobile modern yang dikembangkan menggunakan Flutter untuk membantu user mencatat ide ide brilian mereka yang menyediakan antarmuka yang intuitif, fitur sinkronisasi cloud menggunakan firebase authentication , dan firebase store
 
-Dengan .............. lain.
+Dengan fitur pencatatan dengan tampilan minimalis yang nikmat dipandang mata, fitur notifikasi pengingat untuk catatan, dan aplikasi yang sudah terintegrasi dengan akun google masing masing, serta fitur hapus yang masuk ke 'sampah' (Trash) dengan sistem delete otomatis setelah 7 hari, dan lain lain.
 
 ### Key Features
 
