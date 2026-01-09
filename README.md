@@ -249,12 +249,13 @@ lib/
 ### Notifications
 - FCM Service: Menangani push notification dari Firebase Cloud Messaging.
 - Local Notification: Reminder jadwal melalui notification_service.dart.
+
 ### Development Workflow
 
 1. Fork repository
-2. Create feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to branch (`git push origin feature/AmazingFeature`)
+2. Create feature branch (`git checkout -b feature/NewFeature`)
+3. Commit changes (`git commit -m 'Add some NewFeature'`)
+4. Push to branch (`git push origin feature/NewFeature`)
 5. Open Pull Request
 
 ## Team Members & Contributions
@@ -263,10 +264,10 @@ lib/
 
 | Name | Role | Contributions |
 |------|------|---------------|
-| **Asis** | Project Lead & Backend Developer | - Authentication system<br>- Firebase integration<br>- API development<br>- Database design |
-| **Helen** | Frontend Developer | - UI/UX Design<br>- Home screen implementation<br>- Profile screen<br>- State management |
-| **Rio** | Full Stack Developer | - Splash screen<br>- Register screen<br>- Notification system<br>- Push notifications (FCM) |
-| **Adit** | Mobile Developer | - Login screen<br>- Local database (SQLite)<br>- Offline sync logic<br>- Testing & QA |
+| **Dzidan Rafi Habibie** | Project Manager | - Project Coordination<br>- Core System Architecture<br>- Fullstack Development |
+| **Ivan Darma Saputra** | Mobile Developer | - UI/UX Implementation<br>- Feature Development<br>- App Integration & Testing |
+| **David Saputra** | Mobile Developer | - UI/UX Implementation<br>- Feature Development<br>- Quality Assurance |
+| **Rismanita Lestari** | Mobile Developer | - UI/UX Implementation<br>- Feature Development<br>- Documentation & Assets |
 
 
 ## 📄 License
@@ -287,6 +288,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 <div align="center">
-  <p>Made with by love of the Team</p>
+  <p>Made with love of the Team</p>
   <p>© 2026 Notes App. All rights reserved.</p>
 </div>
