@@ -116,7 +116,6 @@ Pastikan Anda sudah menginstall:
 1. Clone repository
 ```bash
 git clone https://github.com/KishiEdward/Notes_App_UAS.git
-cd notesapp
 ```
 
 2. Install dependencies
@@ -238,14 +237,18 @@ lib/
 ```
 
 
-## 📝 API Documentation
+## 📝 API & Services Integration
 
-### Authentication Endpoints
-- `POST /api/auth/register` - Register user baru
-- `POST /api/auth/login` - Login user
-- `POST /api/auth/logout` - Logout user
-- `GET /api/auth/verify` - Verify token
+### Firebase Authentication
+- Google Sign-In: Menggunakan firebase_auth dan auth_service.dart.
+- Session Manager: Mengelola sesi pengguna secara lokal.
 
+### Firebase Database
+- CRUD Operations: Mengakses notes dan archive_categories melalui firestore_service.dart.
+
+### Notifications
+- FCM Service: Menangani push notification dari Firebase Cloud Messaging.
+- Local Notification: Reminder jadwal melalui notification_service.dart.
 ### Development Workflow
 
 1. Fork repository
