@@ -38,19 +38,21 @@ Dengan fitur pencatatan dengan tampilan minimalis yang nikmat dipandang mata, fi
 ## Screenshots
 
 <div align="center">
-  <img src="screenshots/splash_login/splash1.jpg" alt="Splash Screen" width="200"/>
-  <img src="screenshots/splash_login/splash2.jpg" alt="Splash Screen" width="200"/>
-  <img src="screenshots/splash_login/splash3.jpg" alt="Splash Screen" width="200"/>
-  <img src="screenshots/splash_login/splash4.jpg" alt="Splash Screen" width="200"/>
-  <img src="screenshots/splash_login/login_page.jpg" alt="Login" width="200"/>
-  <img src="screenshots/splash_login/reg_page.jpg" alt="Home" width="200"/>
+  <img src="screenshots/splash_login/splash1.jpg" alt="Splash Screen 1" width="200"/>
+  <img src="screenshots/splash_login/splash2.jpg" alt="Splash Screen 2" width="200"/>
+  <img src="screenshots/splash_login/splash3.jpg" alt="Splash Screen 3" width="200"/>
+  <img src="screenshots/splash_login/splash4.jpg" alt="Splash Screen 4" width="200"/>
+  <img src="screenshots/splash_login/login_page.jpg" alt="Login page" width="200"/>
+  <img src="screenshots/splash_login/reg_page.jpg" alt="Register page" width="200"/>
 </div>
 
 <div align="center">
-  <img src="screenshots/note_detail.png" alt="Note Detail" width="200"/>
-  <img src="screenshots/search.png" alt="Search" width="200"/>
-  <img src="screenshots/category.png" alt="Category" width="200"/>
-  <img src="screenshots/settings.png" alt="Settings" width="200"/>
+  <img src="screenshots/home_other/home_page.jpg" alt="Home page" width="200"/>
+  <img src="screenshots/home_other/home_page2.jpg" alt="Home page" width="200"/>
+  <img src="screenshots/home_other/search_page.jpg" alt="Home page" width="200"/>
+  <img src="screenshots/home_other/notif_page.jpg" alt="Home page" width="200"/>
+  <img src="screenshots/home_other/trash_bin_page.jpg" alt="Home page" width="200"/>
+  
 </div>
 
 ## Demo Video
