@@ -37,7 +37,7 @@ Dengan fitur pencatatan dengan tampilan minimalis yang nikmat dipandang mata, fi
 
 ## Screenshots
 
-# Screenshots dari splash, login, dan register
+### Screenshots dari splash, login, dan register
 
 <div align="center">
   <img src="screenshots/splash_login/splash1.jpg" alt="Splash Screen 1" width="200"/>
