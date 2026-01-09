@@ -48,6 +48,9 @@ Dengan fitur pencatatan dengan tampilan minimalis yang nikmat dipandang mata, fi
   <img src="screenshots/splash_login/reg_page.jpg" alt="Register page" width="200"/>
 </div>
 
+
+### Screenshots dari tampilan utama aplikasi
+
 <div align="center">
   <img src="screenshots/home_other/home_page.jpg" alt="Home page" width="200"/>
   <img src="screenshots/home_other/home_page2.jpg" alt="Home page" width="200"/>
@@ -55,7 +58,18 @@ Dengan fitur pencatatan dengan tampilan minimalis yang nikmat dipandang mata, fi
   <img src="screenshots/home_other/notif_page.jpg" alt="Notif page" width="200"/>
   <img src="screenshots/home_other/trash_bin_page.jpg" alt="Trash page" width="200"/>
   <img src="screenshots/home_other/make_note.jpg" alt="Create Note page" width="200"/>
-  
+</div>
+
+### Screenshots team developer
+
+<div align="center">
+  <img src="screenshots/dev/dev_page.jpg" alt="Team dev" width="200"/>
+</div>
+<div align="center">
+  <img src="screenshots/dev/dzidan_page.jpg" alt="Dzidan dev" width="200"/>
+  <img src="screenshots/dev/david_page.jpg" alt="David dev" width="200"/>
+  <img src="screenshots/dev/ivan_page.jpg" alt="Ivan dev" width="200"/>
+  <img src="screenshots/dev/nita_page.jpg" alt="Nita dev" width="200"/>
 </div>
 
 ## Demo Video
