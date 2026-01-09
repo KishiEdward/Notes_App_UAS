@@ -30,6 +30,11 @@ class _SearchPageState extends State<SearchPage> {
       body: SafeArea(
         child: Column(
           children: [
+      backgroundColor: const Color(0xFFF8F9FA),
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Search Bar Header
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextField(
@@ -49,6 +54,11 @@ class _SearchPageState extends State<SearchPage> {
                         ? Colors.white70
                         : Colors.grey,
                   ),
+                style: GoogleFonts.poppins(color: Colors.black87),
+                decoration: InputDecoration(
+                  hintText: 'Cari catatan...',
+                  hintStyle: GoogleFonts.poppins(color: Colors.grey),
+                  prefixIcon: const Icon(Icons.search, color: Colors.grey),
                   suffixIcon: _searchQuery.isNotEmpty
                       ? IconButton(
                           icon: const Icon(Icons.clear, color: Colors.grey),
@@ -76,6 +86,7 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
 
+            // Results List
             Expanded(
               child: StreamBuilder<List<Note>>(
                 stream: _firestoreService.getNotesStream(),
@@ -92,6 +103,9 @@ class _SearchPageState extends State<SearchPage> {
                   final filteredNotes = allNotes.where((note) {
                     if (note.isTrashed == true) return false;
 
+                  
+                  // Client-side filtering
+                  final filteredNotes = allNotes.where((note) {
                     final title = note.title.toLowerCase();
                     final content = note.content.toLowerCase();
                     return title.contains(_searchQuery) || 
@@ -144,6 +158,11 @@ class _SearchPageState extends State<SearchPage> {
             color: Theme.of(context).brightness == Brightness.dark
                 ? Colors.black.withOpacity(0.3)
                 : Colors.black.withOpacity(0.05),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -172,6 +191,7 @@ class _SearchPageState extends State<SearchPage> {
                   color: Theme.of(context).brightness == Brightness.dark
                       ? Colors.white
                       : const Color(0xFF333333),
+                  color: const Color(0xFF333333),
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -179,6 +199,23 @@ class _SearchPageState extends State<SearchPage> {
               if (note.content.isNotEmpty) ...[
                 const SizedBox(height: 4),
                 MarkdownHelper.buildPreview(note.content, maxLines: 2, context: context),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+                Text(
+                  note.content.replaceAll('\n', ' '),
+                  style: GoogleFonts.poppins(
+                    fontSize: 14,
+                    color: const Color(0xFF666666),
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ],
             ],
           ),
