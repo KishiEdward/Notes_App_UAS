@@ -85,12 +85,12 @@ Alternative link: **[Google Drive Demo](https://drive.google.com/file/d/12345678
 Download versi terbaru aplikasi Notes App:
 
 ### Latest Release v1.0.0
-- [**Download APK (15.2 MB)**](https://github.com/yourusername/notes-app/releases/download/v1.0.0/notes-app-v1.0.0.apk)
+- [**Download APK (85.5 MB)**](https://github.com/KishiEdward/Notes_App_UAS/releases/download/v1.0.0/app-release.apk)
 
 
 **Minimum Requirements:**
 - Android 6.0 (API level 23) or higher
-- ~20MB free storage space
+- ~100MB free storage space
 
 ## Built With
 
