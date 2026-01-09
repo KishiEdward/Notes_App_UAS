@@ -31,10 +31,9 @@ Dengan fitur pencatatan dengan tampilan minimalis yang nikmat dipandang mata, fi
 - **Google Integration** - Login mudah dan sinkronisasi dengan Akun Google
 - **Pin Notes** - Sematkan catatan penting agar selalu di atas
 - **Category System** - Pengelompokan catatan berdasarkan kategori
-- **Trash & Auto Delete** - Fitur sampah dengan penghapusan otomatis 7 hari
+- **Trash & Auto Delete** - Fitur sampah dengan penghapusan otomatis setelah 7 hari
 - **Push Notifications** - Reminder untuk catatan penting
 - **Cloud Sync** - Sinkronisasi otomatis dengan Firebase
-- **Dark Mode** - Theme gelap untuk kenyamanan mata
 
 ## Screenshots
 
