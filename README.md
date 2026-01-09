@@ -115,8 +115,8 @@ Pastikan Anda sudah menginstall:
 
 1. Clone repository
 ```bash
-git clone https://github.com/yourusername/notes-app.git
-cd notes-app
+git clone https://github.com/KishiEdward/Notes_App_UAS.git
+cd notesapp
 ```
 
 2. Install dependencies
