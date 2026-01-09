@@ -159,25 +159,28 @@ lib/
 │   ├── note_model.dart
 │   └── template_model.dart
 ├── pages/                    # UI Pages (Screens)
-│   ├── auth/login_page.dart
-│   ├── auth/register_page.dart
-│   ├── auth/forgot_password.dart
-│   ├── home_page.dart
-│   ├── note_editor_page.dart
-│   ├── search_page.dart
-│   ├── trash_page.dart
-│   ├── settings_page.dart
+│   ├── archive_page.dart
+│   ├── david_profile_page.dart
+│   ├── dzidan_profile_page.dart
+│   ├── forgot_password-e.dart
 │   ├── help_page.dart
-│   ├── onboarding_page.dart
-│   ├── profile_page.dart
-│   ├── profile_edit_page.dart
-│   ├── profile_team_page.dart
-│   │   ├── david_profile_page.dart
-│   │   ├── dzidan_profile_page.dart
-│   │   ├── ivan_profile_page.dart
-│   │   └── nita_profile_page.dart
+│   ├── home_page.dart
+│   ├── ivan_profile_page.dart
+│   ├── login_page.dart
+│   ├── nita_profile_page.dart
+│   ├── note_editor_page.dart
 │   ├── notification_page.dart
-│   └── template_page.dart
+│   ├── notification_settings_page.dart
+│   ├── onboarding_page.dart
+│   ├── profile_edit_page.dart
+│   ├── profile_page.dart
+│   ├── profile_team_page.dart
+│   ├── register_page.dart
+│   ├── search_page.dart
+│   ├── settings_page.dart
+│   ├── template_page.dart
+│   ├── trash_note_view_page.dart
+│   └── trash_page.dart
 ├── services/                 # Business Logic & API Calls
 │   ├── auth_service.dart
 │   ├── firestore_service.dart
