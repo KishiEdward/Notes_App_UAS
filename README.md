@@ -38,7 +38,10 @@ Dengan fitur pencatatan dengan tampilan minimalis yang nikmat dipandang mata, fi
 ## Screenshots
 
 <div align="center">
-  <img src="screenshots/splash_screen.png" alt="Splash Screen" width="200"/>
+  <img src="screenshots/splash_login/splash1.jpg" alt="Splash Screen" width="200"/>
+  <img src="screenshots/splash_login/splash2.jpg" alt="Splash Screen" width="200"/>
+  <img src="screenshots/splash_login/splash3.jpg" alt="Splash Screen" width="200"/>
+  <img src="screenshots/splash_login/splash4.jpg" alt="Splash Screen" width="200"/>
   <img src="screenshots/login_screen.png" alt="Login" width="200"/>
   <img src="screenshots/home_screen.png" alt="Home" width="200"/>
   <img src="screenshots/profile_screen.png" alt="Profile" width="200"/>
