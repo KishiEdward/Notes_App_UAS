@@ -158,15 +158,13 @@ lib/
 
 ## Authentication Flow
 
-```
 1. Splash Screen (Auto-login check)
    ↓
-2. Login Screen / Register Screen
+2. Login with Google (Firebase Auth)
    ↓
-3. Home Screen (Dashboard)
+3. Home Screen (Dashboard with Cloud Sync)
    ↓
 4. Profile & Settings
-```
 
 ## 🗄️ Database Schema
 
