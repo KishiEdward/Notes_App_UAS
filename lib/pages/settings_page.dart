@@ -7,13 +7,8 @@ import 'package:notesapp/services/settings_service.dart';
 import 'package:notesapp/services/firestore_service.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:notesapp/utils/notification_helper.dart';
-import 'package:notesapp/splash/toggle_theme.dart';
 import 'package:notesapp/pages/notification_settings_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'package:notesapp/pages/notification_settings_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
