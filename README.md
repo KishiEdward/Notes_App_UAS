@@ -212,18 +212,29 @@ lib/
 
 ## 🗄️ Database Schema
 
-### Notes Table
-```sql
-CREATE TABLE tableABC (
-  id TEXT PRIMARY KEY,
-  user_id TEXT NOT NULL,
-  title TEXT NOT NULL,
-  content TEXT,
-  category_id TEXT,
-  created_at INTEGER,
-  updated_at INTEGER,
-  is_synced INTEGER DEFAULT 0
-);
+### Notes Collection
+```JSON
+{
+  "id": "string (UUID)",
+  "user_id": "string (auth_uid)",
+  "title": "string",
+  "content": "string",
+  "category_id": "string",
+  "is_pinned": "boolean",
+  "is_deleted": "boolean (for trash)",
+  "deleted_at": "timestamp",
+  "created_at": "timestamp",
+  "updated_at": "timestamp"
+}
+```
+### Archive categories
+```JSON
+{
+  "id": "string",
+  "user_id": "string",
+  "category_name": "string",
+  "color": "string (hex)"
+}
 ```
 
 
