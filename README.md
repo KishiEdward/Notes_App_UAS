@@ -49,9 +49,10 @@ Dengan fitur pencatatan dengan tampilan minimalis yang nikmat dipandang mata, fi
 <div align="center">
   <img src="screenshots/home_other/home_page.jpg" alt="Home page" width="200"/>
   <img src="screenshots/home_other/home_page2.jpg" alt="Home page" width="200"/>
-  <img src="screenshots/home_other/search_page.jpg" alt="Home page" width="200"/>
-  <img src="screenshots/home_other/notif_page.jpg" alt="Home page" width="200"/>
-  <img src="screenshots/home_other/trash_bin_page.jpg" alt="Home page" width="200"/>
+  <img src="screenshots/home_other/search_page.jpg" alt="Search page" width="200"/>
+  <img src="screenshots/home_other/notif_page.jpg" alt="Notif page" width="200"/>
+  <img src="screenshots/home_other/trash_bin_page.jpg" alt="Trash page" width="200"/>
+  <img src="screenshots/home_other/make_note.jpg" alt="Create Note page" width="200"/>
   
 </div>
 
