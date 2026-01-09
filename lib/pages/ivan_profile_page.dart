@@ -133,10 +133,6 @@ class IvanPage extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.calendar_today),
-      ),
     );
   }
 
