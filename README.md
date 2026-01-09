@@ -153,27 +153,48 @@ flutter build apk --split-per-abi
 
 ```
 lib/
+├── firebase_options.dart     # Firebase configuration
 ├── main.dart                 # Entry point
-├── app/
-│   ├── routes/              # App routing
-│   └── themes/              # App themes
 ├── models/                   # Data models
-│   ├── user.dart
-│   └── category.dart
-├── screens/                  # UI Screens
-│   ├── splash/
-│   ├── auth/
-│   │   ├── login_screen.dart
-│   │   └── register_screen.dart
-│   ├── home/
-│   ├── profile/
-│   └── settings/
-├── widgets/                  # Reusable widgets
-├── services/                 # Business logic
+│   ├── note_model.dart
+│   └── template_model.dart
+├── pages/                    # UI Pages (Screens)
+│   ├── auth/login_page.dart
+│   ├── auth/register_page.dart
+│   ├── auth/forgot_password.dart
+│   ├── home_page.dart
+│   ├── note_editor_page.dart
+│   ├── search_page.dart
+│   ├── trash_page.dart
+│   ├── settings_page.dart
+│   ├── help_page.dart
+│   ├── onboarding_page.dart
+│   ├── profile_page.dart
+│   ├── profile_edit_page.dart
+│   ├── profile_team_page.dart
+│   │   ├── david_profile_page.dart
+│   │   ├── dzidan_profile_page.dart
+│   │   ├── ivan_profile_page.dart
+│   │   └── nita_profile_page.dart
+│   ├── notification_page.dart
+│   └── template_page.dart
+├── services/                 # Business Logic & API Calls
 │   ├── auth_service.dart
-│   ├── database_service.dart
-│   └── notification_service.dart
-└── utils/                    # Utilities & helpers
+│   ├── firestore_service.dart
+│   ├── fcm_service.dart
+│   ├── notification_service.dart
+│   ├── session_manager.dart
+│   ├── settings_service.dart
+│   └── streak_service.dart
+├── splash/                   # Splash Screen Logic
+│   ├── splash_lottie.dart
+│   ├── toggle_theme.dart
+│   └── splash[1-4].dart
+├── utils/                    # Utilities & Helpers
+│   ├── fcm_background_handler.dart
+│   ├── markdown_helper.dart
+│   └── notification_helper.dart
+└── widgets/                  # Reusable Widgets
 ```
 
 ## Authentication Flow
