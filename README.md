@@ -13,7 +13,7 @@ https://global.ac.id/
 
   ##  Project UAS
   - Mata Kuliah : Aplikasi Mobile
-  - Kelas : KS1234 
+  - Kelas : TI SE 23 M
   - Semester : GANJIL 
   - Tahun Akademik: 2025 - 2026 
   
