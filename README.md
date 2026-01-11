@@ -212,9 +212,48 @@ lib/
 ## 🗄️ Database Schema
 Aplikasi ini menggunakan **Google Cloud Firestore** (NoSQL) untuk menyimpan data
 
-<div align="center">
-  <img src="screenshots/database schema.jpg" alt="Home page" width="200"/>
-</div>
+```mermaid
+erDiagram
+    USERS ||--o{ NOTES : "owns"
+    USERS ||--o{ TEMPLATES : "creates"
+    USERS ||--o{ NOTIFICATIONS : "receives"
+
+    USERS {
+        string uid PK "Primary Key"
+        string email
+        string displayName
+        string photoURL
+        timestamp createdAt
+        map settings
+    }
+
+    NOTES {
+        string id PK "Auto ID"
+        string ownerId FK "Ref: Users"
+        string title
+        string content
+        string status "active/archived/trashed"
+        boolean isPinned
+        array tags
+        timestamp createdAt
+        timestamp updatedAt
+    }
+
+    TEMPLATES {
+        string id PK "Auto ID"
+        string ownerId FK "Ref: Users"
+        string name
+        string defaultContent
+    }
+
+    NOTIFICATIONS {
+        string id PK "Auto ID"
+        string userId FK "Ref: Users"
+        string title
+        string body
+        boolean isRead
+    }
+```
 
 ### Notes Collection STructure
 ```text
