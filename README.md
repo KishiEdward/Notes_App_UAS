@@ -219,6 +219,7 @@ Aplikasi ini menggunakan **Google Cloud Firestore** (NoSQL) untuk menyimpan data
 │   └── 📂 notifications/{id}    # (Sub-collection) User notifications
 ├── 📂 notes/{noteId}            # All notes (active, archived, trash)
 └── 📂 templates/{templateId}    # Custom note templates
+```
 
 ** 1. Users Collection **
 | Field Name | Data Type | Description |
