@@ -1,4 +1,4 @@
-# Nama Aplikasi App - Flutter Application
+# Nekomind - Flutter Application
 
 <div align="center">
 <url>
