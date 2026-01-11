@@ -221,7 +221,7 @@ Aplikasi ini menggunakan **Google Cloud Firestore** (NoSQL) untuk menyimpan data
 └── 📂 templates/{templateId}    # Custom note templates
 ```
 
-** 1. Users Collection **
+**1. Users Collection**
 | Field Name | Data Type | Description |
 |------|------|---------------|
 | UID | String | Unique User ID (Primary Key) |
@@ -230,30 +230,18 @@ Aplikasi ini menggunakan **Google Cloud Firestore** (NoSQL) untuk menyimpan data
 | Created At | Timestamp | Waktu akun dibuat |
 | Settings | Map<String, Dynamic> | Preferensi user |
 
-```JSON
-{
-  "id": "string (UUID)",
-  "user_id": "string (auth_uid)",
-  "title": "string",
-  "content": "string",
-  "category_id": "string",
-  "is_pinned": "boolean",
-  "is_deleted": "boolean (for trash)",
-  "deleted_at": "timestamp",
-  "created_at": "timestamp",
-  "updated_at": "timestamp"
-}
-```
-### Archive categories
-```JSON
-{
-  "id": "string",
-  "user_id": "string",
-  "category_name": "string",
-  "color": "string (hex)"
-}
-```
-
+**2. Notes Collection**
+| Field Name | Data Type | Description |
+|------|------|---------------|
+| UID | String | Referensi ke UID User |
+| title | String | Judul catatan |
+| content | String | Isi konten catatan |
+| status | String | Status catatan (aktif, archived, trashed) |
+| isPinned | Boolean | True atau false |
+| tags | Array<String> | Tag pengkategori |
+| createdAt | Timestamp | Waktu dibuat |
+| updatedAt | Timestamp | Waktu diedit |
+| deletedAt | Timestamp | Waktu dihapus |
 
 ## 📝 API & Services Integration
 
