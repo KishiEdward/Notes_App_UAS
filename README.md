@@ -265,7 +265,7 @@ lib/
 | Name | Role | Contributions |
 |------|------|---------------|
 | **Dzidan Rafi Habibie** | Project Manager | - Project Coordination<br>- Fullstack Development<br>- App Integration & Testing<br>- Quality Assurance<br>- Documentation & Assets |
-| **Ivan Darma Saputra** | Mobile Developer | - UI/UX Implementation<br>- Feature Development<br>- App Integration & Testing |
+| **Ivan Darma Saputra** | Mobile Developer | - UI/UX Implementation<br>- Feature Development<br>- Core System Architecture |
 | **David Saputra** | Mobile Developer | - UI/UX Implementation<br>- Feature Development<br>- Core System Architecture |
 | **Rismanita Lestari** | Mobile Developer | - UI/UX Implementation<br>- Feature Development |
 
