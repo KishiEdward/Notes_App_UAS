@@ -213,7 +213,7 @@ lib/
 Aplikasi ini menggunakan **Google Cloud Firestore** (NoSQL) untuk menyimpan data
 
 <div align="center">
-  <img src="screenshots/database schema.puml" alt="Home page" width="200"/>
+  <img src="screenshots/database schema.jpg" alt="Home page" width="200"/>
 </div>
 
 ### Notes Collection STructure
