@@ -215,7 +215,6 @@ Aplikasi ini menggunakan **Google Cloud Firestore** (NoSQL) untuk menyimpan data
 ```mermaid
 erDiagram
     USERS ||--o{ NOTES : "owns"
-    USERS ||--o{ TEMPLATES : "creates"
     USERS ||--o{ NOTIFICATIONS : "receives"
 
     USERS {
@@ -237,13 +236,6 @@ erDiagram
         array tags
         timestamp createdAt
         timestamp updatedAt
-    }
-
-    TEMPLATES {
-        string id PK "Auto ID"
-        string ownerId FK "Ref: Users"
-        string name
-        string defaultContent
     }
 
     NOTIFICATIONS {
