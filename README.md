@@ -210,8 +210,25 @@ lib/
 4. Profile & Settings
 
 ## 🗄️ Database Schema
+Aplikasi ini menggunakan **Google Cloud Firestore** (NoSQL) untuk menyimpan data,
 
-### Notes Collection
+### Notes Collection STructure
+```text
+(root)
+├── 📂 users/{uid}               # User profiles & settings
+│   └── 📂 notifications/{id}    # (Sub-collection) User notifications
+├── 📂 notes/{noteId}            # All notes (active, archived, trash)
+└── 📂 templates/{templateId}    # Custom note templates
+
+** 1. Users Collection **
+| Field Name | Data Type | Description |
+|------|------|---------------|
+| UID | String | Unique User ID (Primary Key) |
+| Email | String | Alamat email user |
+| Name | String | Nama user |
+| Created At | Timestamp | Waktu akun dibuat |
+| Settings | Map<String, Dynamic> | Preferensi user |
+
 ```JSON
 {
   "id": "string (UUID)",
@@ -264,7 +281,7 @@ lib/
 
 | Name | Role | Contributions |
 |------|------|---------------|
-| **Dzidan Rafi Habibie** | Project Manager | - Project Coordination<br>- Fullstack Development<br>- App Integration & Testing<br>- Quality Assurance<br>- Documentation & Assets |
+| **Dzidan Rafi Habibie** | Project Manager | - Project Coordination<br>- App Integration & Testing<br>- Quality Assurance<br>- Documentation & Assets |
 | **Ivan Darma Saputra** | Mobile Developer | - UI/UX Implementation<br>- Feature Development<br>- Core System Architecture |
 | **David Saputra** | Mobile Developer | - UI/UX Implementation<br>- Feature Development<br>- Core System Architecture |
 | **Rismanita Lestari** | Mobile Developer | - UI/UX Implementation<br>- Feature Development |
