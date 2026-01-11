@@ -264,10 +264,10 @@ lib/
 
 | Name | Role | Contributions |
 |------|------|---------------|
-| **Dzidan Rafi Habibie** | Project Manager | - Project Coordination<br>- Core System Architecture<br>- Fullstack Development<br>- App Integration & Testing |
+| **Dzidan Rafi Habibie** | Project Manager | - Project Coordination<br>- Fullstack Development<br>- App Integration & Testing<br>- Quality Assurance<br>- Documentation & Assets |
 | **Ivan Darma Saputra** | Mobile Developer | - UI/UX Implementation<br>- Feature Development<br>- App Integration & Testing |
-| **David Saputra** | Mobile Developer | - UI/UX Implementation<br>- Feature Development<br>- Quality Assurance |
-| **Rismanita Lestari** | Mobile Developer | - UI/UX Implementation<br>- Feature Development<br>- Documentation & Assets |
+| **David Saputra** | Mobile Developer | - UI/UX Implementation<br>- Feature Development<br>- Core System Architecture |
+| **Rismanita Lestari** | Mobile Developer | - UI/UX Implementation<br>- Feature Development |
 
 
 ## 📄 License
