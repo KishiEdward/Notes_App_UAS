@@ -82,7 +82,7 @@ Alternative link: **[Google Drive Demo](https://drive.google.com/file/d/12345678
 
 ## Download APK
 
-Download versi terbaru aplikasi Notes App:
+Download versi terbaru aplikasi Nekomind:
 
 ### Latest Release v1.0.0
 - [**Download APK (85.5 MB)**](https://github.com/KishiEdward/Notes_App_UAS/releases/download/v1.0.0/app-release.apk)
@@ -289,5 +289,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
   <p>Made with love of the Team</p>
-  <p>© 2026 Notes App. All rights reserved.</p>
+  <p>© 2026 Nekomind. All rights reserved.</p>
 </div>
